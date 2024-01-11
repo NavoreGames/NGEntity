@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NGEntity\NGEntity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="NGConnection">
+      <HintPath>..\DLL\NGConnection.dll</HintPath>
+    </Reference>
+    <Reference Include="NGEnum">
+      <HintPath>..\DLL\NGEnum.dll</HintPath>
+    </Reference>
+    <Reference Include="NGNotification">
+      <HintPath>..\DLL\NGNotification.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
