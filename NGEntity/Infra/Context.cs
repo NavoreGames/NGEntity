@@ -44,11 +44,11 @@ namespace NGEntity
 		}
 		internal static bool ContainsKey(IConnectionAlias connectionName)
 		{
-			if (Connections.ContainsKey(connectionName.GetType()) == false)
-				return new Response(false, new NGMessage(Category.Warning, "Não existe uma conexão de nome: " + connectionName, "Configure a Conexão no contexto primeiramente usando Context.AddConnection(),  /r/n" +
-																																"ou use uma conexão diferente.")).Success;
+			//if (Connections.ContainsKey(connectionName.GetType()) == false)
+			//	return new Response(false, new NGMessage(Category.Warning, "Não existe uma conexão de nome: " + connectionName, "Configure a Conexão no contexto primeiramente usando Context.AddConnection(),  /r/n" +
+			//																													"ou use uma conexão diferente.")).Success;
 
-			return new Response(true).Success;
+			return true;
 		}
 
 		public static IConnection GetConnection<TConnectionAlias>() where TConnectionAlias : IConnectionAlias
@@ -62,19 +62,19 @@ namespace NGEntity
 		public static bool AddConnection<TConnectionAlias>(IConnection connection) where TConnectionAlias : IConnectionAlias
 		{
 			Type connectionType = typeof(TConnectionAlias);
-			if (Connections.ContainsKey(connectionType))
-			{
-				return new Response(false, new NGMessage(Category.Warning, @$"Já existe uma conexão de nome: {connectionType}, Você pode ter multiplas conexões do mesmo tipo, porém eles tem que conter chaves únicas. /r/n
-																																Para criar novas chaves, extenda o enum ConnectionName e crie suas chaves.")).Success;
-			}
+			//if (Connections.ContainsKey(connectionType))
+			//{
+			//	return new Response(false, new NGMessage(Category.Warning, @$"Já existe uma conexão de nome: {connectionType}, Você pode ter multiplas conexões do mesmo tipo, porém eles tem que conter chaves únicas. /r/n
+			//																													Para criar novas chaves, extenda o enum ConnectionName e crie suas chaves.")).Success;
+			//}
 			Connections.Add(connectionType, new ContextData(connection, GetConnection(connection)));
 
-			return new Response(true).Success;
+			return true;
 		}
 		public static bool Commit()
 		{
 
-			return new Response(true).Success;
+			return true;
 		}
 	}
 }

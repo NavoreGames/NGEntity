@@ -70,7 +70,6 @@ namespace Teste
 			Context.AddConnection<ConnectionSqlite>(new Sqlite("", "", "", ""));
 
 			Usuario User = new() { IdUser = 5, Email = "will@will.com", UserName = "willian", Flag = false };
-
 			Usuario.Update<ConnectionSqlite>(new() { Email = "will@will.com" }).Where(w => (w.IdUser == 1 && w.Email == "") || w.Flag == false);
 
 			/////**************** INSERTS *************////////

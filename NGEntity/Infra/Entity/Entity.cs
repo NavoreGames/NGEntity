@@ -3,6 +3,7 @@ using System.Data;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.ComponentModel;
+using PropertyChanged;
 using NGConnection.Interface;
 using NGEntity.Interface;
 using NGEntity.Domain;
@@ -11,9 +12,10 @@ using NGEntity.Models;
 namespace NGEntity
 {
 	//public abstract class Entity<TSource> where TSource : Entity<TSource>, new()
-	public abstract class Entity<TSource> where TSource : IEntity, INotifyPropertyChanged, new()
+	[AddINotifyPropertyChangedInterface]
+	public abstract class Entity<TSource> where TSource : IEntity, new()
 	{
-		public event PropertyChangedEventHandler PropertyChanged;
+		//public event PropertyChangedEventHandler PropertyChanged;
 
 		public Enum.CommandType CommandObject { get; private set; }
 		public Dictionary<string, Enum.CommandType> CommandFields { get; private set; }
@@ -40,8 +42,8 @@ namespace NGEntity
 		public IEntityCommit Insert<TConnectionAlias>() where TConnectionAlias : IConnectionAlias, new() => Insert<TConnectionAlias>((TSource)(IEntity)this);
 		public static IEntityCommit Insert<TConnectionAlias>(TSource FirstEntity, params TSource[] OtherEntities) where TConnectionAlias : IConnectionAlias, new() => Entity.Insert<TConnectionAlias>(FirstEntity, OtherEntities as IEntity[]);
 
-		public IEntityWhereCommit<TSource> Update<TConnectionAlias>() where TConnectionAlias : IConnectionAlias, new() => Update<TConnectionAlias>((TSource)(IEntity)this);
-		public static IEntityWhereCommit<TSource> Update<TConnectionAlias>(TSource entity) where TConnectionAlias : IConnectionAlias, new()
+		public IEntityWhere<TSource> Update<TConnectionAlias>() where TConnectionAlias : IConnectionAlias, new() => Update<TConnectionAlias>((TSource)(IEntity)this);
+		public static IEntityWhere<TSource> Update<TConnectionAlias>(TSource entity) where TConnectionAlias : IConnectionAlias, new()
 		{
 			if (entity != null)
 			{
@@ -54,15 +56,15 @@ namespace NGEntity
 					CommandsData commandsData = new CommandsData(Enum.CommandType.Update, new List<ICommandBase>() { update });
 					contextData.Commands.Add(commandsData.Identifier, commandsData);
 
-					return new EntityWhereCommit<TSource>(commandsData, connectionAlias);
+					return new EntityWhere<TSource>(commandsData, connectionAlias);
 				}
 			}
 
-			return new EntityWhereCommit<TSource>();
+			return new EntityWhere<TSource>();
 		}
 
-		public IEntityWhereCommit<TSource> Delete<TConnectionAlias>() where TConnectionAlias : IConnectionAlias, new() => Delete<TConnectionAlias>((TSource)(IEntity)this);
-		public static IEntityWhereCommit<TSource> Delete<TConnectionAlias>(TSource entity = default) where TConnectionAlias : IConnectionAlias, new()
+		public IEntityWhere<TSource> Delete<TConnectionAlias>() where TConnectionAlias : IConnectionAlias, new() => Delete<TConnectionAlias>((TSource)(IEntity)this);
+		public static IEntityWhere<TSource> Delete<TConnectionAlias>(TSource entity = default) where TConnectionAlias : IConnectionAlias, new()
 		{
 			TConnectionAlias connectionAlias = new TConnectionAlias();
 			ContextData contextData = Context.GetConnection(connectionAlias);
@@ -74,18 +76,18 @@ namespace NGEntity
 				CommandsData commandsData = new CommandsData(Enum.CommandType.Update, new List<ICommandBase>() { delete });
 				contextData.Commands.Add(commandsData.Identifier, commandsData);
 
-				return new EntityWhereCommit<TSource>(commandsData, connectionAlias);
+				return new EntityWhere<TSource>(commandsData, connectionAlias);
 			}
 
-			return new EntityWhereCommit<TSource>();
+			return new EntityWhere<TSource>();
 		}
 
-		public static IEntityQuery<TSource> Select<TConnectionAlias>() where TConnectionAlias : IConnectionAlias, new()
+		public static IEntityJoin<TSource> Select<TConnectionAlias>() where TConnectionAlias : IConnectionAlias, new()
 		{
 
 			return default;
 		}
-		public static IEntityQuery<TSource> Select<TConnectionAlias>(Expression<Func<TSource, object>> fields) where TConnectionAlias : IConnectionAlias, new()
+		public static IEntityJoin<TSource> Select<TConnectionAlias>(Expression<Func<TSource, object>> fields) where TConnectionAlias : IConnectionAlias, new()
 		{
 			//ICon connection = Context.GetConnection(connectionName);
 			//ICommands select = connection.Select(fields.Body);

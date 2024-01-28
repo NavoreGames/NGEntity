@@ -5,22 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fody" Version="6.6.3">
+    <PackageReference Include="Fody" Version="6.8.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="NGConnection">
-      <HintPath>..\..\dll3.5\NGConnection.dll</HintPath>
+      <HintPath>..\DLL\NGConnection.dll</HintPath>
     </Reference>
     <Reference Include="NGEnum">
-      <HintPath>..\..\dll3.5\NGEnum.dll</HintPath>
+      <HintPath>..\DLL\NGEnum.dll</HintPath>
     </Reference>
     <Reference Include="NGNotification">
-      <HintPath>..\..\dll3.5\NGNotification.dll</HintPath>
+      <HintPath>..\DLL\NGNotification.dll</HintPath>
     </Reference>
   </ItemGroup>
 

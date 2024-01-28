@@ -15,17 +15,17 @@ namespace NGEntity
 	{
 		internal Dba() {}
 
-		public virtual ICommandDml Insert(IEntity entity) => (ICommandDml)new Response(false, 400, new NGMessage(Category.Warning, "Método não implementado", "Método não implementado", this.GetType().FullName + "/Insert"), default(ICommandBase)).Data;
-		public virtual string SetInsert(Insert insert) => (string)new Response(false, 400, new NGMessage(Category.Warning, "Método não implementado", "Método não implementado", this.GetType().FullName + "/SetInsert"), "").Data;
-		public virtual ICommandDml Update(IEntity entity) => (ICommandDml)new Response(false, 400, new NGMessage(Category.Warning, "Método não implementado", "Método não implementado", this.GetType().FullName + "/Update"), default(ICommandBase)).Data;
-		public virtual string SetUpdate(Update update) => (string)new Response(false, 400, new NGMessage(Category.Warning, "Método não implementado", "Método não implementado", this.GetType().FullName + "/SetUpdate"), "").Data;
-		public virtual ICommandDml Delete(IEntity entity) => (ICommandDml)new Response(false, 400, new NGMessage(Category.Warning, "Método não implementado", "Método não implementado", this.GetType().FullName + "/Delete"), null).Data;
-		public virtual string SetDelete(Delete delete) => (string)new Response(false, 400, new NGMessage(Category.Warning, "Método não implementado", "Método não implementado", this.GetType().FullName + "/SetDelete"), "").Data;
-		public virtual ICommandWhere Where(IEntity entity) => (ICommandWhere)new Response(false, 400, new NGMessage(Category.Warning, "Método não implementado", "Método não implementado", this.GetType().FullName + "/Where"), null).Data;
-		public virtual ICommandWhere Where(string expression) => (ICommandWhere)new Response(false, 400, new NGMessage(Category.Warning, "Método não implementado", "Método não implementado", this.GetType().FullName + "/where"), null).Data;
-		public virtual ICommandWhere Where(Expression expression) => (ICommandWhere)new Response(false, 400, new NGMessage(Category.Warning, "Método não implementado", "Método não implementado", this.GetType().FullName + "/Where"), null).Data;
-		public virtual string SetWhere(Where where) => (string)new Response(false, 400, new NGMessage(Category.Warning, "Método não implementado", "Método não implementado", this.GetType().FullName + "/SetWhere"), "").Data;
-		public virtual ICommandDdl Alter(DataBase dataBase) => (ICommandDdl)new Response(false, 400, new NGMessage(Category.Warning, "Método não implementado", "Método não implementado", this.GetType().FullName + "/Alter"), default(ICommandBase)).Data;
+		public virtual ICommandDml Insert(IEntity entity) => throw new NGException("", "Method not implemented in child class", this.GetType().FullName + "/Insert");
+		public virtual string SetInsert(Insert insert) => throw new NGException("", "Method not implemented in child class", this.GetType().FullName + "/SetInsert");
+		public virtual ICommandDml Update(IEntity entity) => throw new NGException("", "Method not implemented in child class", this.GetType().FullName + "/Update");
+		public virtual string SetUpdate(Update update) => throw new NGException("", "Method not implemented in child class", this.GetType().FullName + "/SetUpdate");
+		public virtual ICommandDml Delete(IEntity entity) => throw new NGException("", "Method not implemented in child class", this.GetType().FullName + "/Delete");
+		public virtual string SetDelete(Delete delete) => throw new NGException("", "Method not implemented in child class", this.GetType().FullName + "/SetDelete");
+		public virtual ICommandWhere Where(IEntity entity) => throw new NGException("", "Method not implemented in child class", this.GetType().FullName + "/Where");
+		public virtual ICommandWhere Where(string expression) => throw new NGException("", "Method not implemented in child class", this.GetType().FullName + "/Where");
+		public virtual ICommandWhere Where(Expression expression) => throw new NGException("", "Method not implemented in child class", this.GetType().FullName + "/Where");
+		public virtual string SetWhere(Where where) => throw new NGException("", "Method not implemented in child class", this.GetType().FullName + "/SetWhere");
+		public virtual ICommandDdl Alter(DataBase dataBase) => throw new NGException("", "Method not implemented in child class", this.GetType().FullName + "/Alter");
 
 
 		protected string GetExpression(Expression expression, List<MemberInfo> members)
@@ -90,7 +90,7 @@ namespace NGEntity
 				else if (expression is TypeBinaryExpression)
 					ret = "TypeBinaryExpression";
 
-				return (string)new Response(false, 400, new NGMessage(Category.Error, $"Expression {ret} não implementada"), "").Data;
+				throw new NGException("", "Expression {ret}  not implemented");
 			}
 			#endregion
 
@@ -107,8 +107,8 @@ namespace NGEntity
 		}
 		protected static string GetExpression(ParameterExpression expression, List<MemberInfo> members)
 		{
-			if (expression is null)
-				return (string)new Response(false, 400, new NGMessage(Category.Warning, $"Expression ParameterExpression é nula"), "").Data;
+			//if (expression is null)
+			//	return (string)new Response(false, 400, new NGMessage(Category.Warning, $"Expression ParameterExpression é nula"), "").Data;
 
 			string ret = "";
 			for (int i = members.Count - 1; i >= 0; i--)
