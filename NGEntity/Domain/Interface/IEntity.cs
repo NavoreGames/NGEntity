@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Enum = NGEntity.Enums;
+using System.ComponentModel;
 
-namespace NGEntity.Interfaces
+namespace NGEntity.Interface
 {
 	public interface IEntity : IReturn
 	{

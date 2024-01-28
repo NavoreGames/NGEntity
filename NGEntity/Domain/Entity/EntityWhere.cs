@@ -32,5 +32,8 @@ namespace NGEntity
 
 			return new EntityCommit(Command, ConnectionAlias);
 		}
+
+		///////// IMPLEMENTAÇÃO DAS HERANÇAS DA INTERFACE DO WHERE  /////////////////
+		public bool Commit() => new EntityCommit(Command, ConnectionAlias).Commit();
 	}
 }
