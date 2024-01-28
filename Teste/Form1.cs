@@ -9,10 +9,11 @@ using NGConnection.Enum;
 using NGEntity;
 using NGEntity.Enum;
 using NGConnection.Interface;
+using NGEntity.Domain;
 
 namespace Teste
 {
-	public partial class Form1 : Form
+    public partial class Form1 : Form
 	{
 		public Form1()
 		{

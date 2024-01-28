@@ -1,4 +1,4 @@
-﻿using NGConnection.Interface;
+﻿using NGConnection.Interfaces;
 using NGEntity.Domain;
 
 namespace NGEntity

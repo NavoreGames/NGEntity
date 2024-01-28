@@ -1,4 +1,4 @@
-﻿namespace NGEntity.Interface
+﻿namespace NGEntity.Interfaces
 {
 	public interface IReturn
 	{

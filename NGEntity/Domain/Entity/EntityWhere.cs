@@ -2,13 +2,13 @@
 using System.Linq.Expressions;
 using NGEntity.Interface;
 using NGEntity.Domain;
-using NGConnection.Interface;
+using NGConnection.Interfaces;
 using System.Linq;
 
 namespace NGEntity
 {
 
-	public class EntityWhere<TSource> : EntityCommands, IEntityWhere<TSource>
+    public class EntityWhere<TSource> : EntityCommands, IEntityWhere<TSource>
 	{
 		internal EntityWhere() { }
 		internal EntityWhere(CommandsData command, IConnectionAlias connectionAlias) : base(command, connectionAlias) { }

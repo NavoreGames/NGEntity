@@ -1,5 +1,5 @@
 ﻿using System;
-using NGEntity.Enum;
+using NGEntity.Enums;
 
 namespace NGEntity.Attributes
 {

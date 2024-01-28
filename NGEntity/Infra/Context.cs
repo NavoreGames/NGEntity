@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using NGConnection.Enum;
-using NGConnection.Interface;
+using NGConnection.Enums;
+using NGConnection.Interfaces;
 using NGEntity.Interface;
 using NGNotification;
-using NGNotification.Enum;
+using NGNotification.Enums;
 
 namespace NGEntity
 {

@@ -1,6 +1,6 @@
 ﻿using NGEnum;
 
-namespace NGEntity.Enum
+namespace NGEntity.Enums
 {
 	public sealed class CommandType : NGEnums<CommandType>
 	{

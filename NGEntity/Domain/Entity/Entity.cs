@@ -3,15 +3,15 @@ using System.Data;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.ComponentModel;
-using NGConnection.Interface;
-using NGEntity.Interface;
+using NGConnection.Interfaces;
+using NGEntity.Interfaces;
 using NGEntity.Domain;
 using NGEntity.Models;
 
 namespace NGEntity
 {
-	//public abstract class Entity<TSource> where TSource : Entity<TSource>, new()
-	public abstract class Entity<TSource> where TSource : IEntity, INotifyPropertyChanged, new()
+    //public abstract class Entity<TSource> where TSource : Entity<TSource>, new()
+    public abstract class Entity<TSource> where TSource : IEntity, INotifyPropertyChanged, new()
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NGEntity.Interface
+namespace NGEntity.Interfaces
 {
 	public interface IEntityWhereCommit<TSource> : IEntityWhere<TSource>, IEntityCommit
 	{

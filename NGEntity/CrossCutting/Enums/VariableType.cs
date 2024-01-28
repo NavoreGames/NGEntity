@@ -1,4 +1,4 @@
-﻿namespace NGEntity.Enum
+﻿namespace NGEntity.Enums
 {
 	public enum VariableType
 	{

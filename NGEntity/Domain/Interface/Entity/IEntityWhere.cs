@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace NGEntity.Interface
+namespace NGEntity.Interfaces
 {
 	public interface IEntityWhere<TSource>
 	{
