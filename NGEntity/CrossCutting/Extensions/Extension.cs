@@ -1,5 +1,4 @@
-﻿
-namespace NGEntity.Extensions
+﻿namespace NGEntity.Extensions
 {
 	public static class Extension
 	{

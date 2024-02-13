@@ -1,13 +1,13 @@
 using NGEntity.Attributes;
-using NGEntity.Enum;
-using NGEntity.Interface;
+using NGEntity.Enums;
+using NGEntity.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace NGEntity
 {
-	public class Subtitle : Entity<Subtitle>, IEntity, INotifyPropertyChanged
+	public class Subtitle : Entity<Subtitle>, IEntity
 	{
 		[FieldsAttributes(VariableType.Int, 0, true, Key.Pk, false)]
 		public int? IdSubtitle { get; set; }

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using NGConnection.Enums;
 using NGConnection.Interfaces;
-using NGEntity.Interface;
-using NGNotification;
+using NGEntity.Models;
 using NGNotification.Enums;
+using NGNotification.Models;
 
 namespace NGEntity
 {
     public class Context
     {
+        /*
         private static Dictionary<Type, ContextData> connections;
         private static Dictionary<Type, ContextData> Connections
         {
@@ -21,8 +21,7 @@ namespace NGEntity
 
         private static Dictionary<Type, ContextData> IsConnectionsInitialize()
         {
-            if (connections == null)
-                connections = new Dictionary<Type, ContextData>();
+            connections ??= new Dictionary<Type, ContextData>();
 
             return connections;
         }
@@ -48,14 +47,13 @@ namespace NGEntity
                 return new Response(false, new NGMessage(Category.Warning, "Não existe uma conexão de nome: " + connectionName, "Configure a Conexão no contexto primeiramente usando Context.AddConnection(),  /r/n" +
                                                                                                                                 "ou use uma conexão diferente.")).Success;
 
-            return new Response(true).Success;
+            return true;
         }
 
         public static IConnection GetConnection<TConnectionAlias>() where TConnectionAlias : IConnectionAlias
         {
-            Type connectionType = typeof(TConnectionAlias);
-            if (Connections.ContainsKey(connectionType))
-                return Connections[connectionType].Connection;
+            if (Connections.TryGetValue(typeof(TConnectionAlias), out ContextData value))
+                return value.Connection;
 
             return null;
         }
@@ -64,17 +62,18 @@ namespace NGEntity
             Type connectionType = typeof(TConnectionAlias);
             if (Connections.ContainsKey(connectionType))
             {
-                return new Response(false, new NGMessage(Category.Warning, @$"Já existe uma conexão de nome: {connectionType}, Você pode ter multiplas conexões do mesmo tipo, porém eles tem que conter chaves únicas. /r/n
-																																Para criar novas chaves, extenda o enum ConnectionName e crie suas chaves.")).Success;
+                throw new NGException($"Connection with alias {connectionType} alreary exists.", $"Connection with alias {connectionType} alreary exists.");
+                //"Você pode ter multiplas conexões do mesmo tipo, porém eles tem que conter chaves únicas. Para criar novas chaves, extenda o enum ConnectionName e crie suas chaves."
             }
             Connections.Add(connectionType, new ContextData(connection, GetConnection(connection)));
 
-            return new Response(true).Success;
+            return true;
         }
         public static bool Commit()
         {
 
-            return new Response(true).Success;
+            return true;
         }
+        */
     }
 }

@@ -1,10 +1,6 @@
 ﻿using NGEntity.Attributes;
-using NGEntity.Enum;
-using NGEntity.Interface;
-
-using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using NGEntity.Enums;
+using NGEntity.Interfaces;
 
 namespace NGEntity
 {

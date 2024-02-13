@@ -1,4 +1,4 @@
-﻿using NGEntity.Enum;
+﻿using NGEntity.Enums;
 using System.Linq.Expressions;
 
 namespace NGEntity
