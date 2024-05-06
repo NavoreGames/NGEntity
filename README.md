@@ -46,7 +46,7 @@ Para inserir dados no banco usaremos os comando Insert e Inserts
 
 O comando Insert é usado com um objeto entity previamente instanciado enquanto o comando Inserts é um método statico da entidade.
 
-Como mencionado anteriormente a conexão deve ser passado no começo do comando, logo após o objeto com os métodos SetConnection, SetConnections.
+Como mencionado anteriormente a conexão deve ser passado no começo do comando, logo após o objeto, com os métodos SetConnection, SetConnections.
 ```ruby
 User User = new() { IdUser = 1, Email = "email@email.com", UserName = "teste", Flag = false };
 
@@ -55,7 +55,9 @@ Usuario.SetConnections(sqlite).Inserts(User, new Usuario(), new Usuario()).Execu
 ```
 > [!NOTE]
 > Note que no objeto previamente instanciado o comando insert não leva nenhum argumento, pois o objeto iniciado que será inserido.
+
 > Já o Insert statico necessita ser passado nos parâmetros os objetos que serão inseridos, pode ser inserido vários objetos desde que sejam do mesmo tipo
+
 >   Obs. Para inserir vários objetos de entidades diferentes existe outro comando que será mostrado posteriormente.
 > [!NOTE]
 > Note que no objeto previamente instanciado o comando insert não leva nenhum argumento, pois o objeto iniciado que será inserido.
