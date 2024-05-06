@@ -55,10 +55,11 @@ Usuario.SetConnections(sqlite).Inserts(User, new Usuario(), new Usuario()).Execu
 ```
 > [!NOTE]
 > Note que no objeto previamente instanciado o comando insert não leva nenhum argumento, pois o objeto iniciado que será inserido.
-
+>
 > Já o Insert statico necessita ser passado nos parâmetros os objetos que serão inseridos, pode ser inserido vários objetos desde que sejam do mesmo tipo
-
+>
 >   Obs. Para inserir vários objetos de entidades diferentes existe outro comando que será mostrado posteriormente.
+ 
 > [!NOTE]
 > Note que no objeto previamente instanciado o comando insert não leva nenhum argumento, pois o objeto iniciado que será inserido.
 
