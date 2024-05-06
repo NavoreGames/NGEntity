@@ -5,14 +5,14 @@ using NGEntity.Enums;
 
 namespace NGEntity.Models
 {
-	internal class CommandsData
+	internal class CommandsData_Bkp
 	{
 		internal Guid Identifier { get; private set; }
 		internal CommandType CommandType { get; private set; }
 		internal List<ICommandBase> Command { get; private set; }
 
-		internal CommandsData(CommandType commandType, List<ICommandBase> command) { Identifier = Guid.NewGuid(); CommandType = commandType; Command = command; }
+		internal CommandsData_Bkp(CommandType commandType, List<ICommandBase> command) { Identifier = Guid.NewGuid(); CommandType = commandType; Command = command; }
 		//public override string ToString() => Command.GetCommand();
-		internal CommandsData Copy() => new CommandsData(this.CommandType, this.Command);
+		internal CommandsData_Bkp Copy() => new CommandsData_Bkp(this.CommandType, this.Command);
 	}
 }

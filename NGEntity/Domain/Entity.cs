@@ -42,102 +42,69 @@ namespace NGEntity
 			//}
 		}
 
+        public IEntityCcaDml<TSource> SetConnection(IConnection connection) =>
+            new EntityCcaDml<TSource>(connection, (IEntity)this);
+        public static IEntityCcaDmlStatic<TSource> SetConnections(IConnection connection) =>
+            new EntityCcaDml<TSource>(connection);
 
-        public IEntityDml<TSource> Context(string alias) => 
-			new EntityDml<TSource>(ContextNew.GetContext(alias), (IEntity)this);
-        public static IEntityDmlStatic<TSource> Contexts(string alias) => 
-			new EntityDml<TSource>(ContextNew.GetContext(alias));
+        public void Insert() =>
+            new EntityFcaDml<TSource>(Context.GetAlias(new TSource().GetType()), (IEntity)this).Insert();
+        public static void Inserts(TSource FirstEntity, params TSource[] OtherEntities) =>
+            new EntityFcaDml<TSource>(Context.GetAlias(new TSource().GetType())).Inserts(FirstEntity, OtherEntities);
 
-		public IEntityCommit Insert() => 
-			new EntityDml<TSource>(ContextNew.GetContext(this.GetType())).Insert((TSource)(IEntity)this);
-		public static IEntityCommit Insert(TSource FirstEntity, params TSource[] OtherEntities) => 
-			new EntityDml<TSource>(ContextNew.GetContext((new TSource()).GetType())).Insert(FirstEntity, OtherEntities);
+        public void Update() =>
+            new EntityFcaDml<TSource>(Context.GetAlias(new TSource().GetType()), (IEntity)this).Update();
+        public static IEntityFcaWhere<TSource> Updates(TSource entity) =>
+          new EntityFcaDml<TSource>(Context.GetAlias(new TSource().GetType())).Updates(entity);
 
-        //public IEntityCommit Insert<TConnectionAlias>() where TConnectionAlias : IConnectionAlias, new() => Insert<TConnectionAlias>((TSource)(IEntity)this);
-        //public static IEntityCommit Insert<TConnectionAlias>(TSource FirstEntity, params TSource[] OtherEntities) where TConnectionAlias : IConnectionAlias, new() => Entity.Insert<TConnectionAlias>(FirstEntity, OtherEntities as IEntity[]);
+        public void Delete() =>
+           new EntityFcaDml<TSource>(Context.GetAlias(new TSource().GetType()), (IEntity)this).Delete();
+        public static IEntityFcaWhere<TSource> Deletes() =>
+          new EntityFcaDml<TSource>(Context.GetAlias(new TSource().GetType())).Deletes();
 
-  //      public IEntityWhere<TSource> Update<TConnectionAlias>() where TConnectionAlias : IConnectionAlias, new() => Update<TConnectionAlias>((TSource)(IEntity)this);
-		//public static IEntityWhere<TSource> Update<TConnectionAlias>(TSource entity) where TConnectionAlias : IConnectionAlias, new()
-		//{
-		//	if (entity != null)
-		//	{
-		//		//TConnectionAlias connectionAlias = new TConnectionAlias();
-		//		//ContextData contextData = Context.GetConnection(connectionAlias);
-		//		//ICommandDml update = contextData.Dba.Update(entity);
-		//		//if (update != null)
-		//		//{
-		//		//	update.Where = contextData.Dba.Where(entity);
-		//		//	CommandsData commandsData = new CommandsData(Enum.CommandType.Update, new List<ICommandBase>() { update });
-		//		//	contextData.Commands.Add(commandsData.Identifier, commandsData);
+        //public static IEntityJoin<TSource> Select<TConnectionAlias>() where TConnectionAlias : IConnectionAlias, new()
+        //{
 
-		//		//	return new EntityWhere<TSource>(commandsData, connectionAlias);
-		//		//}
-		//	}
+        //	return default;
+        //}
+        //public static IEntityJoin<TSource> Select<TConnectionAlias>(Expression<Func<TSource, object>> fields) where TConnectionAlias : IConnectionAlias, new()
+        //{
+        //	//ICon connection = Context.GetConnection(connectionName);
+        //	//ICommands select = connection.Select(fields.Body);
 
-		//	return new EntityWhere<TSource>();
-		//}
+        //	return default;
+        //}
+    }
 
-		//public IEntityWhere<TSource> Delete<TConnectionAlias>() where TConnectionAlias : IConnectionAlias, new() => Delete<TConnectionAlias>((TSource)(IEntity)this);
-		//public static IEntityWhere<TSource> Delete<TConnectionAlias>(TSource entity = default) where TConnectionAlias : IConnectionAlias, new()
-		//{
-		//	//TConnectionAlias connectionAlias = new TConnectionAlias();
-		//	//ContextData contextData = Context.GetConnection(connectionAlias);
-		//	//entity = (entity == null) ? new TSource() : entity;
-		//	//ICommandDml delete = contextData.Dba.Delete(entity);
-		//	//if (delete != null)
-		//	//{
-		//	//	delete.Where = contextData.Dba.Where(entity);
-		//	//	CommandsData commandsData = new CommandsData(Enum.CommandType.Update, new List<ICommandBase>() { delete });
-		//	//	contextData.Commands.Add(commandsData.Identifier, commandsData);
-
-		//	//	return new EntityWhere<TSource>(commandsData, connectionAlias);
-		//	//}
-
-		//	return new EntityWhere<TSource>();
-		//}
-
-		//public static IEntityJoin<TSource> Select<TConnectionAlias>() where TConnectionAlias : IConnectionAlias, new()
-		//{
-
-		//	return default;
-		//}
-		//public static IEntityJoin<TSource> Select<TConnectionAlias>(Expression<Func<TSource, object>> fields) where TConnectionAlias : IConnectionAlias, new()
-		//{
-		//	//ICon connection = Context.GetConnection(connectionName);
-		//	//ICommands select = connection.Select(fields.Body);
-
-		//	return default;
-		//}
-	}
-
-	public static class Entity
+    public static class Entity
 	{
-        public static IEntityCommand<IEntity> Contexts(string alias) => new EntityCommand<IEntity>(ContextNew.GetContext(alias));
+        //public static IEntityCcaDmlStatic<TSource> SetConnections(IConnection connection) =>
+        //    new EntityCcaDml<TSource>(connection);
 
-		public static IEntityCommit Insert(IEntity FirstEntity, params IEntity[] OtherEntities) => 
-			new EntityDml<IEntity>(ContextNew.GetContext(FirstEntity.GetType())).Insert(FirstEntity, OtherEntities);
+        //public static void Inserts(IEntity FirstEntity, params IEntity[] OtherEntities) =>
+        //    new EntityFcaDml<IEntity>(Context.GetContext(FirstEntity.GetType())).Insert(FirstEntity, OtherEntities);
 
 
-        public static IEntityCommit Alter<TConnectionAlias>(DataBase dataBase) where TConnectionAlias : IConnectionAlias, new()
-		{
-			//TConnectionAlias connectionAlias = new TConnectionAlias();
-			//ContextData contextData = Context.GetConnection(connectionAlias);
+        //      public static IEntityCommit Alter<TConnectionAlias>(DataBase dataBase) where TConnectionAlias : IConnectionAlias, new()
+        //{
+        //	//TConnectionAlias connectionAlias = new TConnectionAlias();
+        //	//ContextData contextData = Context.GetConnection(connectionAlias);
 
-			//List<ICommandBase> commands = new List<ICommandBase>();
-			//ICommandDdl alter = contextData.Dba.Alter(dataBase);
+        //	//List<ICommandBase> commands = new List<ICommandBase>();
+        //	//ICommandDdl alter = contextData.Dba.Alter(dataBase);
 
-			//if (alter != null)
-			//	commands.Add(alter);
-			//if (commands.Count > 0)
-			//{
-			//	CommandsData commandsData = new CommandsData(Enum.CommandType.Alter, commands);
-			//	contextData.Commands.Add(commandsData.Identifier, commandsData);
+        //	//if (alter != null)
+        //	//	commands.Add(alter);
+        //	//if (commands.Count > 0)
+        //	//{
+        //	//	CommandsData commandsData = new CommandsData(Enum.CommandType.Alter, commands);
+        //	//	contextData.Commands.Add(commandsData.Identifier, commandsData);
 
-			//	return new EntityCommit(commandsData, connectionAlias);
-			//}
+        //	//	return new EntityCommit(commandsData, connectionAlias);
+        //	//}
 
-			return default;
-		}
-	}
+        //	return default;
+        //}
+    }
 }
  

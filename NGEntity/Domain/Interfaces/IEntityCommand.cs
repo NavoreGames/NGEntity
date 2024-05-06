@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace NGEntity.Domain.Interfaces
 {
-    public interface IEntityCommand<TSource> : IEntityDmlStatic<TSource>
+    public interface IEntityCommand<TSource>
     {
-        IEnumerable<object> Command(string query);
-        IEnumerable<TReturn> Command<TReturn>(string query) where TReturn : IReturn;
+        //IEnumerable<object> Command(string query);
+        //IEnumerable<TReturn> Command<TReturn>(string query) where TReturn : IReturn;
+        //IEntityCommit Insert(TSource FirstEntity, params TSource[] OtherEntities);
     }
 }
