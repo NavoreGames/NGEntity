@@ -5,9 +5,9 @@ namespace NGEntity.Models
 {
     public abstract class EntityData
     {
-        private readonly string[] _connectionsAlias;
-        private readonly IConnection _connection;
-        private readonly IEntity _entity;
+        internal readonly string[] _connectionsAlias;
+        internal readonly IConnection _connection;
+        internal readonly IEntity _entity;
         internal ContextData ContextData { get; set; }
         internal IEntity Entity { get; set; }
 
@@ -24,6 +24,7 @@ namespace NGEntity.Models
         internal EntityData(string[] connectionsAlias) : this(connectionsAlias, null, null) { }
         internal EntityData(IConnection connection, IEntity entity) : this(null, entity, connection) { }
         internal EntityData(IConnection connection) : this(null, null, connection) { }
+        internal EntityData() { }
 
     }
 }

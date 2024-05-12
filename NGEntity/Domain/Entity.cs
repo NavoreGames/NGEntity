@@ -17,7 +17,7 @@ namespace NGEntity
     //public abstract class Entity<TSource> where TSource : Entity<TSource>, new()
     [AddINotifyPropertyChangedInterface]
 	public abstract class Entity<TSource> where TSource : IEntity, new()
-	{
+    {
 		//public event PropertyChangedEventHandler PropertyChanged;
 
 		public Enum.CommandType CommandObject { get; private set; }
@@ -78,12 +78,13 @@ namespace NGEntity
 
     public static class Entity
 	{
-        //public static IEntityCcaDmlStatic<TSource> SetConnections(IConnection connection) =>
-        //    new EntityCcaDml<TSource>(connection);
+        public static IEntityCcaDmlStatic SetConnections(IConnection connection) =>
+            new EntityCcaDml(connection);
 
-        //public static void Inserts(IEntity FirstEntity, params IEntity[] OtherEntities) =>
-        //    new EntityFcaDml<IEntity>(Context.GetContext(FirstEntity.GetType())).Insert(FirstEntity, OtherEntities);
+        public static void Inserts(IEntity FirstEntity, params IEntity[] OtherEntities)
+        { }
 
+        public static IEntityCcaCommit Query(string query) { return default; }
 
         //      public static IEntityCommit Alter<TConnectionAlias>(DataBase dataBase) where TConnectionAlias : IConnectionAlias, new()
         //{

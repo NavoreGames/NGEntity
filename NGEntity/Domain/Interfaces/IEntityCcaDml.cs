@@ -1,13 +1,8 @@
-﻿using NGEntity.Models;
-using System;
-using System.Linq.Expressions;
+﻿namespace NGEntity.Interfaces;
 
-namespace NGEntity.Interfaces
+public interface IEntityCcaDml<TSource>
 {
-	public interface IEntityCcaDml<TSource> 
-	{
-        IEntityCcaCommit Insert();
-        IEntityCcaCommit Update();
-        IEntityCcaCommit Delete();
-    }
+    IEntityCcaCommit Insert();
+    IEntityCcaCommit Update();
+    IEntityCcaCommit Delete();
 }

@@ -80,6 +80,29 @@ namespace Teste
             User.SetConnection(sqlite).Delete().Execute();
             Usuario.SetConnections(sqlite).Deletes().Where(w=> w.IdUser == 1).Execute();
 
+            Usuario.SetConnections(sqlite).Selects().Execute();
+            Usuario.SetConnections(sqlite).Selects().Where(w=> w.IdUser == 1).Execute();
+            Usuario.SetConnections(sqlite).Selects(s => new { s.IdUser, s.Email }).Where(w => w.IdUser == 1).Execute();
+            Usuario
+                .SetConnections(sqlite)
+                .Selects()
+                    .InnerJoin<Endereco>((user, address) => user.IdUser == address.FkUser)
+                    .InnerJoin<Endereco, Subtitle>((address, subtitle) => address.IdAddress == subtitle.IdSubtitle)
+                .Where((user, address, subtitle) => user.IdUser == 1 && address.IdAddress == 1)
+                .Execute();
+
+            //Usuario
+            //    .SetConnections(sqlite)
+            //    .Selects()
+            //        .InnerJoin<Subtitle>((j1, j2) => j1.IdUser == j2.FkLanguage && j2.IdSubtitle > 0)
+            //        .InnerJoin<Endereco>((j1, j2) => j1.IdUser == j2.FkUser)
+            //        .InnerJoin<Subtitle, Endereco>((j1, j2) => j1.FkLanguage == j2.FkUser)
+            //    .Where
+
+
+
+
+
             ///==================== INSERTS ====================////////
             ///// não verifica se a entidade e vazio ou valores padrão (não sei se devo verificar)
             Usuario.Inserts(new Usuario());
@@ -124,7 +147,6 @@ namespace Teste
             ///// pode fazer update de entidades previamente instanciadas
             ///// o princípio de não conter where ou da entidade sem alteração também se aplicam aqui
             User.Update();
-            
 
 
 

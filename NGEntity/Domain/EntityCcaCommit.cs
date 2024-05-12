@@ -6,8 +6,8 @@ namespace NGEntity
 {
     public class EntityCcaCommit : EntityData, IEntityCcaCommit
 	{
-        internal EntityCcaCommit(ContextData contextData, IEntity entity) : base(contextData, entity) { }
-        internal EntityCcaCommit(ContextData contextData) : base(contextData) { }
+        internal EntityCcaCommit(IConnection connection, IEntity entity) : base(connection, entity) { }
+        internal EntityCcaCommit(IConnection connection) : base(connection) { }
 
         public bool Execute() 
 		{
