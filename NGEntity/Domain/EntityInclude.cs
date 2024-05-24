@@ -10,11 +10,17 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NGEntity.Models;
+using NGEntity.Interfaces;
 
 namespace NGEntity.Domain;
 
-public class EntityInclude
+public class EntityInclude<TSource> : EntityData
 {
+    internal EntityInclude(CommandData commandData) : base(commandData) { }
+
+    public IEntityInclude<TSource, TProperty> Include<TProperty>(Expression<Func<TSource, TProperty>> field) { return default; }
+
     //internal static readonly MethodInfo IncludeMethodInfo
     //= typeof(EntityFrameworkQueryableExtensions)
     //    .GetTypeInfo().GetDeclaredMethods(nameof(Include))
@@ -33,7 +39,7 @@ public class EntityInclude
     //                && mi.GetParameters().Any(
     //                    pi => pi.Name == "navigationPropertyPath" && pi.ParameterType != typeof(string)));
 
-   
+
     //public static IIncludableQueryable<TEntity, TProperty> Include<TEntity, TProperty>(
     //    this IQueryable<TEntity> source,
     //    Expression<Func<TEntity, TProperty>> navigationPropertyPath)
@@ -84,7 +90,7 @@ public class EntityInclude
     //            mi => mi.GetGenericArguments().Length == 3
     //                && mi.GetParameters()[0].ParameterType.GenericTypeArguments[1].IsGenericParameter);
 
-    
+
     //public static IIncludableQueryable<TEntity, TProperty> ThenInclude<TEntity, TPreviousProperty, TProperty>(
     //    this IIncludableQueryable<TEntity, IEnumerable<TPreviousProperty>> source,
     //    Expression<Func<TPreviousProperty, TProperty>> navigationPropertyPath)

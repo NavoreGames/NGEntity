@@ -3,9 +3,9 @@ using System.Linq.Expressions;
 
 namespace NGEntity.Interfaces;
 
-public interface IEntityWhere<TSource> : IEntityCommit
+public interface IEntityWhere<TSource1> : IEntityCommit
 {
-    public IEntityCommit Where(Expression<Func<TSource, bool>> expression);
+    public IEntityCommit Where(Expression<Func<TSource1, bool>> expression);
 }
 public interface IEntityWhere<TSource1, TSource2> : IEntityCommit
 {

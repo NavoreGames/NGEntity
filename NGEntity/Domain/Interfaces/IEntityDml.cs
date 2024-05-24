@@ -5,9 +5,9 @@ namespace NGEntity.Interfaces;
 
 public interface IEntityDml<TSource>
 {
-    IEntityCommit Inserts(TSource FirstEntity, params TSource[] OtherEntities);
+    IEntityCommit Insert(TSource FirstEntity, params TSource[] OtherEntities);
     IEntityCommit Update(TSource entity);
-    IEntityWhere<TSource> Update<TProperty>(Expression<Func<TSource, TProperty>> fields);
+    IEntityWhere<TSource> Updates(TSource entity);
     IEntityCommit Delete(TSource entity);
-    IEntityWhere<TSource> Delete();
+    IEntityWhere<TSource> Deletes();
 }

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace NGEntity.Domain
 {
-    internal class EntityDml<TSource> : EntityData
+    internal class EntityDml<TSource> : EntityData, IEntityDml<TSource>
     {
         internal EntityDml() { }
 
@@ -62,7 +62,7 @@ namespace NGEntity.Domain
             //	return new EntityWhere<TSource>();
             return default;  
         }
-        public IEntityWhere<TSource> Update<TProperty>(Expression<Func<TSource, TProperty>> fields)
+        public IEntityWhere<TSource> Updates(TSource entity)
         {
             return default;
         }
@@ -84,9 +84,11 @@ namespace NGEntity.Domain
             //	return new EntityWhere<TSource>();
             return default; 
         }
-        public IEntityWhere<TSource> Delete()
+        public IEntityWhere<TSource> Deletes()
         {
             return default;
         }
+        public IEntityJoin<TSource> Selects() { return default; }
+        public IEntityWhere<TSource> Selects<TProperty>(Expression<Func<TSource, TProperty>> fields) { return default; }
     }
 }

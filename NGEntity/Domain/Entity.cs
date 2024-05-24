@@ -43,18 +43,23 @@ namespace NGEntity
 
         public IEntityCommit Insert() =>
            new EntityDml<TSource>().Insert((TSource)(IEntity)this);
-        public static IEntityCommit Inserts(TSource FirstEntity, params TSource[] OtherEntities) =>
-            new EntityDml<TSource>().Insert(FirstEntity, OtherEntities);
+        public static IEntityCommit Inserts(TSource firstEntity, params TSource[] otherEntities) =>
+            new EntityDml<TSource>().Insert(firstEntity, otherEntities);
 
         public IEntityCommit Update() =>
             new EntityDml<TSource>().Update((TSource)(IEntity)this);
-        public static IEntityWhere<TSource> Updates<TProperty>(Expression<Func<TSource, TProperty>> fields) =>
-          new EntityDml<TSource>().Update(fields);
+        public static IEntityWhere<TSource> Updates(TSource fields) =>
+          new EntityDml<TSource>().Updates(fields);
 
         public IEntityCommit Delete() =>
            new EntityDml<TSource>().Delete((TSource)(IEntity)this);
         public static IEntityWhere<TSource> Deletes() =>
-          new EntityDml<TSource>().Delete();
+          new EntityDml<TSource>().Deletes();
+
+        public static IEntityJoin<TSource> Selects() =>
+            new EntityDml<TSource>().Selects();
+        public static IEntityWhere<TSource> Selects<TProperty>(Expression<Func<TSource, TProperty>> fields) =>
+             new EntityDml<TSource>().Selects(fields);
     }
 
     public static class Entity

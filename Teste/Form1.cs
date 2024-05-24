@@ -79,55 +79,48 @@ namespace Teste
             user.Insert().Execute(LOCAL);
             user.Insert().Execute(sqlite);
 
-            //user.SetConnection(sqlite).Insert().Execute();
-            //User.SetConnections(sqlite).Inserts(user).Execute();
+            user.Update().Execute();
+            User.Updates(new() { Name = "Updade", Email = "update@update.com" }).Where(w => w.IdUser == 1).Execute();
 
-            //user.SetConnection(sqlite).Update().Execute();
-            //User.SetConnections(sqlite).Updates(new User() { Name = "willian" }).Where(w => w.IdUser == 1).Execute();
+            user.Delete().Execute();
+            User.Deletes().Where(w=> w.IdUser == 1).Execute();
 
-            //user.SetConnection(sqlite).Delete().Execute();
-            //User.SetConnections(sqlite).Deletes().Where(w=> w.IdUser == 1).Execute();
+            User.Selects().Execute();
+            User.Selects().Where(w => w.IdUser == 1).Execute();
+            User.Selects(s => new { s.IdUser, s.Email }).Where(w => w.IdUser == 1).Execute();
+            User
+                .Selects()
+                    .InnerJoin<Address>((user, address) => user.FkAddress == address.IdAddress)
+                    .InnerJoin<Address, Subtitle>((address, subtitle) => address.IdAddress == subtitle.IdSubtitle)
+                .Where((user, address, subtitle) => user.IdUser == 1 && address.IdAddress == 1)
+                .Execute();
 
-            //User.SetConnections(sqlite).Selects().Execute();
-            //User.SetConnections(sqlite).Selects().Where(w=> w.IdUser == 1).Execute();
-            //User.SetConnections(sqlite).Selects(s => new { s.IdUser, s.Email }).Where(w => w.IdUser == 1).Execute();
-            //User
-            //    .SetConnections(sqlite)
-            //    .Selects()
-            //        .InnerJoin<Address>((user, address) => user.FkAddress == address.IdAddress)
-            //        .InnerJoin<Address, Subtitle>((address, subtitle) => address.IdAddress == subtitle.IdSubtitle)
-            //    .Where((user, address, subtitle) => user.IdUser == 1 && address.IdAddress == 1)
-            //    .Execute();
+            User
+                .Selects()
+                    .InnerJoin<Subtitle>((j1, j2) => j1.IdUser == j2.FkLanguage && j2.IdSubtitle > 0)
+                    .InnerJoin<Address>((j1, j2) => j1.FkAddress == j2.IdAddress)
+                    .InnerJoin<Subtitle, Address>((j1, j2) => j1.FkLanguage == j2.IdAddress)
+                .Execute();
 
-            //Usuario
-            //    .SetConnections(sqlite)
-            //    .Selects()
-            //        .InnerJoin<Subtitle>((j1, j2) => j1.IdUser == j2.FkLanguage && j2.IdSubtitle > 0)
-            //        .InnerJoin<Endereco>((j1, j2) => j1.IdUser == j2.FkUser)
-            //        .InnerJoin<Subtitle, Endereco>((j1, j2) => j1.FkLanguage == j2.FkUser)
-            //    .Where
-
-            //User.SetConnections(sqlite).Include(x=> x.Addresses);
-
-
+            User.Selects().Include(x=> x.Addresses);
 
             ///==================== INSERTS ====================////////
-   //         ///// não verifica se a entidade e vazio ou valores padrão (não sei se devo verificar)
-   //         User.Insert(new User());
-			/////// pode inserir varias entidades de uma vez
-			//User.Insert(new User(), new User(), new User());
-			/////// pode inserir as entidades com esse tipo de inicialização, ou com construtores se a entidade tiver construtores para as propriedades
-			//User.Insert(new User() { IdUser = 1, Email = "will@will.com", Name = "willian", Flag = false });
-			/////// pode inserir entidades passando as entidades que foram instanciadas previamente
-			//User.Insert(user);
-			/////// pode inserir entidades previamente instanciadas, porém assim só dá para iserir uma por vez, pois irá inserir apenas a entidade instanciada
-			//user.Insert();
-            
-			///// ao referenciar a entidade no inicio, não pode ser inseridas entidades diferentes no parametro do insert.
-			///// ocorrerá um erro no compilador.
-			//Usuario.SetConnections(ConnectionName.Sqlite).Insert(new Subtitle());
-			////// para inserir varias entidades diferentes, use a referencia Entity
-			//Entity.Insert(new Usuario(), new Subtitle());
+            //         ///// não verifica se a entidade e vazio ou valores padrão (não sei se devo verificar)
+            //         User.Insert(new User());
+            /////// pode inserir varias entidades de uma vez
+            //User.Insert(new User(), new User(), new User());
+            /////// pode inserir as entidades com esse tipo de inicialização, ou com construtores se a entidade tiver construtores para as propriedades
+            //User.Insert(new User() { IdUser = 1, Email = "will@will.com", Name = "willian", Flag = false });
+            /////// pode inserir entidades passando as entidades que foram instanciadas previamente
+            //User.Insert(user);
+            /////// pode inserir entidades previamente instanciadas, porém assim só dá para iserir uma por vez, pois irá inserir apenas a entidade instanciada
+            //user.Insert();
+
+            ///// ao referenciar a entidade no inicio, não pode ser inseridas entidades diferentes no parametro do insert.
+            ///// ocorrerá um erro no compilador.
+            //Usuario.SetConnections(ConnectionName.Sqlite).Insert(new Subtitle());
+            ////// para inserir varias entidades diferentes, use a referencia Entity
+            //Entity.Insert(new Usuario(), new Subtitle());
             //Entity.Contexts(LOCAL).Insert(new Usuario(), new Subtitle());
 
             //Usuario.Contexts(LOCAL).Insert(User);
