@@ -1,30 +1,14 @@
 ﻿using NGConnection.Interfaces;
 using NGEntity.Interfaces;
+using System;
 
 namespace NGEntity.Models
 {
     public abstract class EntityData
     {
-        internal readonly string[] _connectionsAlias;
-        internal readonly IConnection _connection;
-        internal readonly IEntity _entity;
-        internal ContextData ContextData { get; set; }
-        internal IEntity Entity { get; set; }
+        internal CommandData CommandData { get; set; }
 
-        internal EntityData(ContextData contextData, IEntity entity) { ContextData = contextData; Entity = entity; }
-        internal EntityData(ContextData contextData) { ContextData = contextData; Entity = null; }
-
-        private EntityData(string[] connectionsAlias, IEntity entity, IConnection connection) 
-        { 
-            _connectionsAlias = connectionsAlias; 
-            _entity = entity;
-            _connection = connection;
-        }
-        internal EntityData(string[] connectionsAlias, IEntity entity) : this(connectionsAlias, entity, null) { }
-        internal EntityData(string[] connectionsAlias) : this(connectionsAlias, null, null) { }
-        internal EntityData(IConnection connection, IEntity entity) : this(null, entity, connection) { }
-        internal EntityData(IConnection connection) : this(null, null, connection) { }
         internal EntityData() { }
-
+        internal EntityData(CommandData commandData) { CommandData = commandData; }
     }
 }

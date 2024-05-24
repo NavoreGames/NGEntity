@@ -1,5 +1,4 @@
 ﻿using NGConnection.Interfaces;
-using NGEntity.Domain.Interfaces;
 using NGEntity.Interfaces;
 using NGEntity.Models;
 using System;
@@ -12,7 +11,7 @@ namespace NGEntity.Domain
 {
     public class EntityCommand<TSource> : EntityData, IEntityCommand<TSource>
     {
-        internal EntityCommand(ContextData contextData) : base(contextData) { }
+        //internal EntityCommand(ContextData contextData) : base(contextData) { }
 
         //public IEnumerable<object> Command(string query) 
         //{

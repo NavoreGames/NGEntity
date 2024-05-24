@@ -9,7 +9,6 @@ using Enum = NGEntity.Enums;
 using NGEntity.Interfaces;
 using NGEntity.Models;
 using NGEntity.Domain;
-using NGEntity.Domain.Interfaces;
 //using NGEntity.Application.Interfaces;
 
 namespace NGEntity
@@ -23,7 +22,7 @@ namespace NGEntity
 		public Enum.CommandType CommandObject { get; private set; }
 		public Dictionary<string, Enum.CommandType> CommandFields { get; private set; }
 
-		public Entity() { CommandFields = new Dictionary<string, Enum.CommandType>(); }
+		public Entity() { CommandFields = []; }
 
 		protected void OnPropertyChanged(string propertyName, object before, object after)
 		{
@@ -42,49 +41,31 @@ namespace NGEntity
 			//}
 		}
 
-        public IEntityCcaDml<TSource> SetConnection(IConnection connection) =>
-            new EntityCcaDml<TSource>(connection, (IEntity)this);
-        public static IEntityCcaDmlStatic<TSource> SetConnections(IConnection connection) =>
-            new EntityCcaDml<TSource>(connection);
+        public IEntityCommit Insert() =>
+           new EntityDml<TSource>().Insert((TSource)(IEntity)this);
+        public static IEntityCommit Inserts(TSource FirstEntity, params TSource[] OtherEntities) =>
+            new EntityDml<TSource>().Insert(FirstEntity, OtherEntities);
 
-        public void Insert() =>
-            new EntityFcaDml<TSource>(Context.GetAlias(new TSource().GetType()), (IEntity)this).Insert();
-        public static void Inserts(TSource FirstEntity, params TSource[] OtherEntities) =>
-            new EntityFcaDml<TSource>(Context.GetAlias(new TSource().GetType())).Inserts(FirstEntity, OtherEntities);
+        public IEntityCommit Update() =>
+            new EntityDml<TSource>().Update((TSource)(IEntity)this);
+        public static IEntityWhere<TSource> Updates<TProperty>(Expression<Func<TSource, TProperty>> fields) =>
+          new EntityDml<TSource>().Update(fields);
 
-        public void Update() =>
-            new EntityFcaDml<TSource>(Context.GetAlias(new TSource().GetType()), (IEntity)this).Update();
-        public static IEntityFcaWhere<TSource> Updates(TSource entity) =>
-          new EntityFcaDml<TSource>(Context.GetAlias(new TSource().GetType())).Updates(entity);
-
-        public void Delete() =>
-           new EntityFcaDml<TSource>(Context.GetAlias(new TSource().GetType()), (IEntity)this).Delete();
-        public static IEntityFcaWhere<TSource> Deletes() =>
-          new EntityFcaDml<TSource>(Context.GetAlias(new TSource().GetType())).Deletes();
-
-        //public static IEntityJoin<TSource> Select<TConnectionAlias>() where TConnectionAlias : IConnectionAlias, new()
-        //{
-
-        //	return default;
-        //}
-        //public static IEntityJoin<TSource> Select<TConnectionAlias>(Expression<Func<TSource, object>> fields) where TConnectionAlias : IConnectionAlias, new()
-        //{
-        //	//ICon connection = Context.GetConnection(connectionName);
-        //	//ICommands select = connection.Select(fields.Body);
-
-        //	return default;
-        //}
+        public IEntityCommit Delete() =>
+           new EntityDml<TSource>().Delete((TSource)(IEntity)this);
+        public static IEntityWhere<TSource> Deletes() =>
+          new EntityDml<TSource>().Delete();
     }
 
     public static class Entity
 	{
-        public static IEntityCcaDmlStatic SetConnections(IConnection connection) =>
-            new EntityCcaDml(connection);
+        //public static IEntityCcaDmlStatic SetConnections(IConnection connection) =>
+        //    new EntityCcaDml(connection);
 
-        public static void Inserts(IEntity FirstEntity, params IEntity[] OtherEntities)
-        { }
+        //public static void Inserts(IEntity FirstEntity, params IEntity[] OtherEntities)
+        //{ }
 
-        public static IEntityCcaCommit Query(string query) { return default; }
+        //public static IEntityCcaCommit Query(string query) { return default; }
 
         //      public static IEntityCommit Alter<TConnectionAlias>(DataBase dataBase) where TConnectionAlias : IConnectionAlias, new()
         //{

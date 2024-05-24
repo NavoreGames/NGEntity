@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NGEntity.Application.Interfaces
 {
-    internal interface ICommandDdl : ICommandBase
+    internal interface ICommandDdl
     {
     }
 }

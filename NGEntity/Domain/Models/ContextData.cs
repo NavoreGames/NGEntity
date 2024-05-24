@@ -16,7 +16,7 @@ namespace NGEntity.Models
             Alias = alias;
             Connection = connection;
             Types = types;
-            CommandsData = new();
+            CommandsData = [];
         }
     }
 }

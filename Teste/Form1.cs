@@ -64,32 +64,40 @@ namespace Teste
         const string SERVER = "Server";
 		private void Form1_Load(object sender, EventArgs e)
 		{
-            Usuario User = new() { IdUser = 5, Email = "will@will.com", UserName = "willian", Flag = false };
+            User user = new() { IdUser = 1, Email = "will@will.com", Name = "willian", Flag = false };
+            User user2 = new() { IdUser = 2, Email = "will1@will1.com", Name = "will", Flag = false };
+            Address address = new() { IdAddress = null, Street = "Street" };
 
-            Sqlite sqlite = new Sqlite("IpAddress", "DataBaseName", "UserName", "Password");
+            Sqlite sqlite = new ("IpAddress", "DataBaseName", "UserName", "Password");
 
-            Context.AddContext(LOCAL, sqlite, new Usuario());
-            Context.AddContext(SERVER, new Mysql("", "", "", ""), new Usuario());
+            Context.AddContext(LOCAL, sqlite);
+            Context.AddContext(SERVER, new Mysql("", "", "", ""), new User());
 
-            User.SetConnection(sqlite).Insert().Execute();
-            Usuario.SetConnections(sqlite).Inserts(User).Execute();
+            User.Inserts(user, user2);
+            user.Insert();
+            user.Insert().Execute();
+            user.Insert().Execute(LOCAL);
+            user.Insert().Execute(sqlite);
 
-            User.SetConnection(sqlite).Update().Execute();
-            Usuario.SetConnections(sqlite).Updates(new Usuario() { UserName = "willian" }).Where(w => w.IdUser == 1).Execute();
+            //user.SetConnection(sqlite).Insert().Execute();
+            //User.SetConnections(sqlite).Inserts(user).Execute();
 
-            User.SetConnection(sqlite).Delete().Execute();
-            Usuario.SetConnections(sqlite).Deletes().Where(w=> w.IdUser == 1).Execute();
+            //user.SetConnection(sqlite).Update().Execute();
+            //User.SetConnections(sqlite).Updates(new User() { Name = "willian" }).Where(w => w.IdUser == 1).Execute();
 
-            Usuario.SetConnections(sqlite).Selects().Execute();
-            Usuario.SetConnections(sqlite).Selects().Where(w=> w.IdUser == 1).Execute();
-            Usuario.SetConnections(sqlite).Selects(s => new { s.IdUser, s.Email }).Where(w => w.IdUser == 1).Execute();
-            Usuario
-                .SetConnections(sqlite)
-                .Selects()
-                    .InnerJoin<Endereco>((user, address) => user.IdUser == address.FkUser)
-                    .InnerJoin<Endereco, Subtitle>((address, subtitle) => address.IdAddress == subtitle.IdSubtitle)
-                .Where((user, address, subtitle) => user.IdUser == 1 && address.IdAddress == 1)
-                .Execute();
+            //user.SetConnection(sqlite).Delete().Execute();
+            //User.SetConnections(sqlite).Deletes().Where(w=> w.IdUser == 1).Execute();
+
+            //User.SetConnections(sqlite).Selects().Execute();
+            //User.SetConnections(sqlite).Selects().Where(w=> w.IdUser == 1).Execute();
+            //User.SetConnections(sqlite).Selects(s => new { s.IdUser, s.Email }).Where(w => w.IdUser == 1).Execute();
+            //User
+            //    .SetConnections(sqlite)
+            //    .Selects()
+            //        .InnerJoin<Address>((user, address) => user.FkAddress == address.IdAddress)
+            //        .InnerJoin<Address, Subtitle>((address, subtitle) => address.IdAddress == subtitle.IdSubtitle)
+            //    .Where((user, address, subtitle) => user.IdUser == 1 && address.IdAddress == 1)
+            //    .Execute();
 
             //Usuario
             //    .SetConnections(sqlite)
@@ -99,21 +107,21 @@ namespace Teste
             //        .InnerJoin<Subtitle, Endereco>((j1, j2) => j1.FkLanguage == j2.FkUser)
             //    .Where
 
-
+            //User.SetConnections(sqlite).Include(x=> x.Addresses);
 
 
 
             ///==================== INSERTS ====================////////
-            ///// não verifica se a entidade e vazio ou valores padrão (não sei se devo verificar)
-            Usuario.Inserts(new Usuario());
-			///// pode inserir varias entidades de uma vez
-			Usuario.Inserts(new Usuario(), new Usuario(), new Usuario());
-			///// pode inserir as entidades com esse tipo de inicialização, ou com construtores se a entidade tiver construtores para as propriedades
-			Usuario.Inserts(new Usuario() { IdUser = 1, Email = "will@will.com", UserName = "willian", Flag = false });
-			///// pode inserir entidades passando as entidades que foram instanciadas previamente
-			Usuario.Inserts(User);
-			///// pode inserir entidades previamente instanciadas, porém assim só dá para iserir uma por vez, pois irá inserir apenas a entidade instanciada
-			User.Insert();
+   //         ///// não verifica se a entidade e vazio ou valores padrão (não sei se devo verificar)
+   //         User.Insert(new User());
+			/////// pode inserir varias entidades de uma vez
+			//User.Insert(new User(), new User(), new User());
+			/////// pode inserir as entidades com esse tipo de inicialização, ou com construtores se a entidade tiver construtores para as propriedades
+			//User.Insert(new User() { IdUser = 1, Email = "will@will.com", Name = "willian", Flag = false });
+			/////// pode inserir entidades passando as entidades que foram instanciadas previamente
+			//User.Insert(user);
+			/////// pode inserir entidades previamente instanciadas, porém assim só dá para iserir uma por vez, pois irá inserir apenas a entidade instanciada
+			//user.Insert();
             
 			///// ao referenciar a entidade no inicio, não pode ser inseridas entidades diferentes no parametro do insert.
 			///// ocorrerá um erro no compilador.
@@ -125,28 +133,28 @@ namespace Teste
             //Usuario.Contexts(LOCAL).Insert(User);
             //User.Context(SERVER).Insert();
 
-            /////==================== UPDATES ====================////////
-            ///// para fazer update use o comando.
-            Usuario.Updates(new Usuario() { IdUser = 5, Email = "will@will.com", UserName = "willian", Flag = false });
-            ///// pode fazer o update apenas dos campos necessarios.
-            Usuario.Updates(new Usuario() { IdUser = 5, Email = "will@will.com" });
-            ///// o processo tentará verificar o id da sua entidade, se a sua entidade conter o comando costimizado da propriedade (exemplo abaixo)
-            /////[FieldsAttributes(VariableType.Int, 0, true, Key.Pk, true)]
-            ///// e a propriedade do id também tem que ser declarada na inicialização.
-            Usuario.Updates((Usuario)new() { IdUser = 5, Email = "will@will.com" });
-            ///// caso o processo não encontrar o id automaticamente, você tem que usar o comando Where
-            ///// o comando where pode ser declarado com uma expressão lambda eu uma expressão string
-            Usuario.Updates(new() { Email = "will@will.com" }).Where(w => w.IdUser == 2);
-            ///// caso o comando update não tenha nenhum comando where, o update não será criado, 
-            ///// consequentemente não realizando nenhum tipo de alteração no banco.
-            ///// (isso não ocorrera nenhum tipo de erro de compilação ou de execução)
-            Usuario.Updates((Usuario)new() { Email = "will@will.com" });
-            ///// o comando update também não será criado se a entidade passada não conter nenhum tipo de alteração
-            ///// (isso não ocorrera nenhum tipo de erro de compilação ou de execução)
-            Usuario.Updates((Usuario)new());
-            ///// pode fazer update de entidades previamente instanciadas
-            ///// o princípio de não conter where ou da entidade sem alteração também se aplicam aqui
-            User.Update();
+            ///////==================== UPDATES ====================////////
+            /////// para fazer update use o comando.
+            //User.Updates(new User() { IdUser = 5, Email = "will@will.com", Name = "willian", Flag = false });
+            /////// pode fazer o update apenas dos campos necessarios.
+            //User.Updates(new User() { IdUser = 5, Email = "will@will.com" });
+            /////// o processo tentará verificar o id da sua entidade, se a sua entidade conter o comando costimizado da propriedade (exemplo abaixo)
+            ///////[FieldsAttributes(VariableType.Int, 0, true, Key.Pk, true)]
+            /////// e a propriedade do id também tem que ser declarada na inicialização.
+            //User.Updates((User)new() { IdUser = 5, Email = "will@will.com" });
+            /////// caso o processo não encontrar o id automaticamente, você tem que usar o comando Where
+            /////// o comando where pode ser declarado com uma expressão lambda eu uma expressão string
+            //User.Updates(new() { Email = "will@will.com" }).Where(w => w.IdUser == 2);
+            /////// caso o comando update não tenha nenhum comando where, o update não será criado, 
+            /////// consequentemente não realizando nenhum tipo de alteração no banco.
+            /////// (isso não ocorrera nenhum tipo de erro de compilação ou de execução)
+            //User.Updates((User)new() { Email = "will@will.com" });
+            /////// o comando update também não será criado se a entidade passada não conter nenhum tipo de alteração
+            /////// (isso não ocorrera nenhum tipo de erro de compilação ou de execução)
+            //User.Updates((User)new());
+            /////// pode fazer update de entidades previamente instanciadas
+            /////// o princípio de não conter where ou da entidade sem alteração também se aplicam aqui
+            //user.Update();
 
 
 

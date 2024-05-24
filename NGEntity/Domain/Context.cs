@@ -13,41 +13,37 @@ namespace NGEntity
 {
     public static class Context
     {
-        internal static List<ContextData> ContextDataNews { get; private set; }
-        private static List<ContextData> IsContextDataInitialize()
-        {
-            if (ContextDataNews == null)
-                ContextDataNews = new();
+        private static List<CommandData> CommandsWithoutContext { get; set; }
+        private static List<ContextData> ContextsData { get; set; }
+        private static List<ContextData> IsContextDataInitialize() => ContextsData ??= [];
+        private static List<CommandData> IsCommandsWithoutContextInitialize() => CommandsWithoutContext ??= [];
 
-            return ContextDataNews;
-        }
-        internal static string[] GetAlias(Type type)
-        {
-            string[] retorno = IsContextDataInitialize().Where(w => w.Types.Contains(type)).Select(s => s.Alias).ToArray();
+        internal static string[] GetContextsAlias(Type type) => 
+            IsContextDataInitialize().Where(w => w.Types.Contains(type)).Select(s => s.Alias).ToArray();
 
-            if (retorno.Length <= 0)
-                throw new TypeNotExistInContext($"type {type} not exists in any context");
+        internal static List<ContextData> GetContext(Type type) => 
+            IsContextDataInitialize().Where(w=> w.Types.Contains(type)).ToList();
 
-            return retorno;
-        }
-        internal static ContextData GetContext(Type type)
-        {
-            if (!IsContextDataInitialize().SelectMany(s => s.Types).Any(a => a.Equals(type)))
-                throw new TypeNotExistInContext($"type {type} not exists in any context");
-
-            return IsContextDataInitialize().Where(w=> w.Types.Contains(type)).FirstOrDefault();
-        }
         internal static ContextData GetContext(string alias)
         {
-            if(!IsContextDataInitialize().Any(a => a.Alias == alias))
-                throw new ContextNotExists($"Context with alias {alias} not exists");
-
             return IsContextDataInitialize().Where(w=> w.Alias == alias).FirstOrDefault();
         }
-
+        internal static void AddCommand(Type type, CommandData commandData)
+        {
+            List<ContextData> contexts = Context.GetContext(type);
+            if(contexts == null || contexts.Count == 0)
+                Context.IsCommandsWithoutContextInitialize().Add(commandData);
+            else
+                contexts.ForEach(context => { context.CommandsData.Add(commandData); });
+        }
+        internal static void DeleteCommand(Guid commandIdentifier)
+        {
+            IsContextDataInitialize().ForEach(f => { f.CommandsData.RemoveAll(x => x.Identifier.Equals(commandIdentifier)); });
+            IsCommandsWithoutContextInitialize().RemoveAll(x => x.Identifier.Equals(commandIdentifier));
+        }
         public static void AddContext(string alias, IConnection connection, params IEntity[] entities)
         {
-            List<Type> types = new();
+            List<Type> types = [];
             foreach (var entity in entities) { types.Add(entity.GetType()); }
 
             if(IsContextDataInitialize().Any(a => a.Alias == alias))
@@ -55,77 +51,13 @@ namespace NGEntity
 
             IsContextDataInitialize().Add(new ContextData(alias, connection, types));
         }
-
-
-
-            //private static Dictionary<Type, ContextData> connections;
-            //private static Dictionary<Type, ContextData> Connections
-            //{
-            //    get => IsConnectionsInitialize();
-            //    set { connections = value; }
-            //}
-
-            //public ContextNew() { Connections = new Dictionary<Type, ContextData>(); }
-
-
-            /*
-            private static Dictionary<Type, ContextData> IsConnectionsInitialize()
-            {
-                if (connections == null)
-                    connections = new Dictionary<Type, ContextData>();
-
-                return connections;
-            }
-            private static Dba GetConnection(IConnection connection)
-            {
-                if (connection is NGConnection.Mysql)
-                    return new Mysql();
-                else if (connection is NGConnection.Sqlite)
-                    return new Sqlite();
-
-                return null;
-            }
-            internal static ContextData GetConnection(IConnectionAlias connectionName)
-            {
-                if (ContainsKey(connectionName))
-                    return Connections[connectionName.GetType()];
-
-                return null;
-            }
-            internal static bool ContainsKey(IConnectionAlias connectionName)
-            {
-                if (Connections.ContainsKey(connectionName.GetType()) == false)
-                    return new Response(false, new NGMessage(Category.Warning, "Não existe uma conexão de nome: " + connectionName, "Configure a Conexão no contexto primeiramente usando Context.AddConnection(),  /r/n" +
-                                                                                                                                    "ou use uma conexão diferente.")).Success;
-
-                return true;
-            }
-
-            public static IConnection GetConnection<TConnectionAlias>() where TConnectionAlias : IConnectionAlias
-            {
-                Type connectionType = typeof(TConnectionAlias);
-                if (Connections.ContainsKey(connectionType))
-                    return Connections[connectionType].Connection;
-
-                return null;
-            }
-            public static bool AddConnection<TConnectionAlias>(IConnection connection) where TConnectionAlias : IConnectionAlias
-            {
-                Type connectionType = typeof(TConnectionAlias);
-                if (Connections.ContainsKey(connectionType))
-                {
-                    return new Response(false, new NGMessage(Category.Warning, @$"Já existe uma conexão de nome: {connectionType}, Você pode ter multiplas conexões do mesmo tipo, porém eles tem que conter chaves únicas. /r/n
-                                                                                                                                    Para criar novas chaves, extenda o enum ConnectionName e crie suas chaves.")).Success;
-                }
-                Connections.Add(connectionType, new ContextData(connection, GetConnection(connection)));
-
-                return true;
-            }
-            public static bool Commit()
-            {
-
-                return new Response(true).Success;
-            }
-            */
-        }
+        public static bool ContextExists(string alias) => 
+            IsContextDataInitialize().Any(x => x.Alias == alias);
+        public static bool CommandExistsInContext(string alias, Guid commandIdentifier) => 
+            IsContextDataInitialize().Any(x => x.Alias == alias && x.CommandsData.Any( x=> x.Identifier.Equals(commandIdentifier)));
+        public static bool EntityExistsInContext(string alias, Type type) => 
+            IsContextDataInitialize().Any(x => x.Alias == alias && x.Types.Any(x=> x.Equals(type)));
+        public static bool ExistisCommandWithoutContext() =>
+            IsCommandsWithoutContextInitialize().Count > 0;
+    }
 }

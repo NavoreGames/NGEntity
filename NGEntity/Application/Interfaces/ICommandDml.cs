@@ -1,7 +1,7 @@
 ﻿namespace NGEntity.Application.Interfaces
 {
-    internal interface ICommandDml : ICommandBase
+    internal interface ICommandDml
     {
-        public ICommandWhere Where { get; set; }
+
     }
 }

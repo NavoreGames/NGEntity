@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NGEntity.Domain.Interfaces
+namespace NGEntity.Interfaces
 {
     public interface IEntityCommand<TSource>
     {
