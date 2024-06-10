@@ -2,9 +2,8 @@
 
 namespace NGEntity.Models
 {
-    public class DataBase
+    public class DataBase(List<Table> tables)
     {
-        public List<Table> Tables { get; private set; }
-        public DataBase(List<Table> tables){ Tables = tables; }
+        public List<Table> Tables { get; private set; } = tables;
     }
 }

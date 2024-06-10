@@ -15,7 +15,7 @@ namespace NGEntity.Models
 		{
 			TableName = tableName;
 			CommandType = commandType;
-			Columns = (columns == null) ? new List<Column>() : columns;
+			Columns = columns ??= [];
 			AlterTableName = alterTableName;
 		}
 		public Table(string tableName, CommandType commandType, List<Column> columns = null) : this(tableName, commandType, columns, ""){ }

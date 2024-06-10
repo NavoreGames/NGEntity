@@ -3,16 +3,17 @@ using NGEntity.Exceptions;
 using NGEntity.Interfaces;
 using NGEntity.Models;
 using System;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace NGEntity
 {
     public class EntityCommit : EntityData, IEntityCommit
 	{
-        internal EntityCommit(CommandData commandData) : base(commandData) { }
+        internal EntityCommit(Guid Identifier) : base(Identifier) { }
 
         public IEntity Execute(IConnection connection) 
         {
-            Context.DeleteCommand(CommandData.Identifier);
+            Context.DeleteCommand(Identifier);
 
             return default; 
         }
@@ -21,7 +22,7 @@ namespace NGEntity
             if(!Context.ContextExists(contextAlias))
                 throw new ContextNotExists($"Context with alias {contextAlias} not exists");
 
-            Context.DeleteCommand(CommandData.Identifier);
+            Context.DeleteCommand(Identifier);
 
             return default; 
         }

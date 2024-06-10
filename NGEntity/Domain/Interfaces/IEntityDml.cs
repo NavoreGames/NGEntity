@@ -5,7 +5,7 @@ namespace NGEntity.Interfaces;
 
 public interface IEntityDml<TSource>
 {
-    IEntityCommit Insert(TSource FirstEntity, params TSource[] OtherEntities);
+    IEntityCommit Insert(TSource firstEntity, params TSource[] otherEntities);
     IEntityCommit Update(TSource entity);
     IEntityWhere<TSource> Updates(TSource entity);
     IEntityCommit Delete(TSource entity);

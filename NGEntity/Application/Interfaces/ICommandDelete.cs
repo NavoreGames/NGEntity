@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace NGEntity.Application.Interfaces
 {
-    internal interface ICommandInsert
+    internal interface ICommandDelete
     {
-        void SetValues(IEntity entity);
+
     }
 }

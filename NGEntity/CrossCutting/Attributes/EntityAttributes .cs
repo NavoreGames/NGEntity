@@ -6,13 +6,11 @@ using NGEntity.Interfaces;
 namespace NGEntity.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public class Primarykey : Attribute
+public class Primarykey(string firstField, params string[] otherFields) : Attribute
 {
-	public Primarykey(string firstField, params string[] otherFields) { }
 }
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-public class Foreignkey : Attribute
+public class Foreignkey(string firstField, params string[] otherFields) : Attribute
 {
-    public Foreignkey(string firstField, params string[] otherFields) { }
 }

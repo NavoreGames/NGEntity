@@ -17,7 +17,7 @@ namespace NGEntity.Domain;
 
 public class EntityInclude<TSource> : EntityData
 {
-    internal EntityInclude(CommandData commandData) : base(commandData) { }
+    internal EntityInclude(Guid Identifier) : base(Identifier) { }
 
     public IEntityInclude<TSource, TProperty> Include<TProperty>(Expression<Func<TSource, TProperty>> field) { return default; }
 

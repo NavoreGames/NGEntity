@@ -10,6 +10,7 @@ using NGEntity;
 using NGEntity.Enums;
 using NGConnection.Interfaces;
 using CommandType = NGEntity.Enums.CommandType;
+using NGEntity.Domain;
 
 namespace Teste
 {
@@ -44,7 +45,7 @@ namespace Teste
 		private string ExecuteCoroutine(Expression<Action> callbackExpression)
 		{
 			var v3 = callbackExpression.Name;
-			var methodCall = callbackExpression.Body as MethodCallExpression;
+            var methodCall = callbackExpression.Body as MethodCallExpression;
 			if (methodCall != null)
 			{
 				string methodName = methodCall.Method.Name;
@@ -64,7 +65,12 @@ namespace Teste
         const string SERVER = "Server";
 		private void Form1_Load(object sender, EventArgs e)
 		{
+            int id = 2;
+
+            TesteEntidade teste = new() { Test = "dfsd" };
+
             User user = new() { IdUser = 1, Email = "will@will.com", Name = "willian", Flag = false };
+            user.Name = "will";
             User user2 = new() { IdUser = 2, Email = "will1@will1.com", Name = "will", Flag = false };
             Address address = new() { IdAddress = null, Street = "Street" };
 
@@ -73,17 +79,18 @@ namespace Teste
             Context.AddContext(LOCAL, sqlite);
             Context.AddContext(SERVER, new Mysql("", "", "", ""), new User());
 
-            User.Inserts(user, user2);
+            string s = User.Inserts(user).ToString();
             user.Insert();
             user.Insert().Execute();
             user.Insert().Execute(LOCAL);
             user.Insert().Execute(sqlite);
 
             user.Update().Execute();
-            User.Updates(new() { Name = "Updade", Email = "update@update.com" }).Where(w => w.IdUser == 1).Execute();
+            User.Updates(new User() { Name = "Updade", Email = "update@update.com" }).Where(w => w.IdUser == 1 && (w.Name == "Will" || w.Flag == false)).Execute();
+            //User.Updates(new User() { Name = "Updade", Email = "update@update.com" }).Where(w => w.Name.Contains("Will")).Execute();
 
             user.Delete().Execute();
-            User.Deletes().Where(w=> w.IdUser == 1).Execute();
+            User.Deletes().Where(w=> 1 == 1).Execute();
 
             User.Selects().Execute();
             User.Selects().Where(w => w.IdUser == 1).Execute();
@@ -227,6 +234,11 @@ namespace Teste
             //         Entity.Contexts(LOCAL).Command<UsuarioDto>("select Id from Table");
             //Entity.Contexts(LOCAL).Command<Usuario>("select * from Table");
             //Entity.Contexts(LOCAL).Command("select * from Table");
+        }
+
+        public bool Teste()
+        {
+            return true;
         }
     }
 }

@@ -18,15 +18,14 @@ namespace NG
 
     public class Teste
     {
-        public void test()
+        public void Test()
         {
-            using (var context = new BloggingContext())
-            {
-                // Load all blogs, all related posts, and all related comments.
-                var blogs1 = context.Set<Blog>()
-                                    .Include(b => new { b.Tags, b.Name })
-                                    .ToList();
-            }
+            using var context = new BloggingContext();
+            // Load all blogs, all related posts, and all related comments.
+            var blogs1 = context.Set<Blog>()
+                                .Include(b => new { b.Tags, b.Name })
+                                .Where(w=> w.BlogId == 1)
+                                .ToList();
         }
     }
     public class Blog

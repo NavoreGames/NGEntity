@@ -9,20 +9,30 @@ namespace NGEntity.Models
 {
 	internal class CommandData
 	{
-		internal Guid Identifier { get; private set; }
-        internal CommandType CommandType { get; private set; }
-        internal IEntity Entity { get; private set; }
-        internal ICommandDml Command { get; private set; }
+		internal Guid Identifier { get; set; }
+        internal CommandType CommandType { get; set; }
+        internal Type ConnectionType { get; set; }
+        internal ICommandDml Command { get; set; }
 
-        internal CommandData(CommandType commandType, IEntity entity, ICommandDml command) 
+        internal CommandData() { }
+        internal CommandData(CommandType commandType, ICommandDml command) 
         { 
             Identifier = Guid.NewGuid();
             CommandType = commandType;
-            Entity = entity;
             Command = command;
         }
 
-        //public override string ToString() => Command.GetCommand();
-        //internal CommandData Copy() => new CommandData(this.CommandType, this.Command);
+        public CommandData SetCommand(Type connectionType) 
+        { 
+            return new()
+            {
+                Identifier = this.Identifier,
+                CommandType = this.CommandType,
+                ConnectionType = connectionType,
+                Command = this.Command.SetCommand(connectionType)
+            };
+        }
+
+        public override string ToString() => Command.ToString();
     }
 }

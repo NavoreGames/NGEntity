@@ -2,30 +2,36 @@
 using System.Data;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.ComponentModel;
-using PropertyChanged;
-using NGConnection.Interfaces;
 using Enum = NGEntity.Enums;
 using NGEntity.Interfaces;
-using NGEntity.Models;
 using NGEntity.Domain;
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 //using NGEntity.Application.Interfaces;
+
 
 namespace NGEntity
 {
     //public abstract class Entity<TSource> where TSource : Entity<TSource>, new()
-    [AddINotifyPropertyChangedInterface]
-	public abstract class Entity<TSource> where TSource : IEntity, new()
+    //[AddINotifyPropertyChangedInterface]
+	public abstract class Entity<TSource> : ObservableObject where TSource : IEntity, new()
     {
-		//public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
+        //[DoNotNotify]
+        public Enum.CommandType CommandObject { get; private set; }
+        //[DoNotNotify]
+        public Dictionary<string, Enum.CommandType> CommandFields { get; private set; }
+  
+        public Entity() { CommandFields = []; }
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            string s = "";
+        }
 
-		public Enum.CommandType CommandObject { get; private set; }
-		public Dictionary<string, Enum.CommandType> CommandFields { get; private set; }
-
-		public Entity() { CommandFields = []; }
-
-		protected void OnPropertyChanged(string propertyName, object before, object after)
+        protected void OnPropertyChanged(string propertyName, object before, object after)
 		{
+            Console.WriteLine(propertyName);
 			CommandObject = Enum.CommandType.Update;
 			if (CommandFields.ContainsKey(propertyName))
 				CommandFields.Add(propertyName, Enum.CommandType.Update);

@@ -9,25 +9,25 @@ namespace NGEntity
 {
 	public class Subtitle : Entity<Subtitle>, IEntity
 	{
-		[FieldsAttributes(VariableType.Int, 0, true, Key.Pk, false)]
+		[ColumnProperties(true, Key.Pk, false)]
 		public int? IdSubtitle { get; set; }
-		[FieldsAttributes(VariableType.String, 100, true, Key.None)]
+		[ColumnProperties(100, true)]
 		public string Header { get; set; }
-		[FieldsAttributes(VariableType.String, 500, true, Key.None)]
+		[ColumnProperties(500, true)]
 		public string Description { get; set; }
-		[FieldsAttributes(VariableType.String, 100, true, Key.None)]
+		[ColumnProperties(100)]
 		public string Question { get; set; }
-		[FieldsAttributes(VariableType.Bool, 0, true, Key.None)]
+		[ColumnProperties(true)]
 		public bool Flag { get; set; }
-		[FieldsAttributes(VariableType.String, 50, true, Key.None)]
+		[ColumnProperties( 50, true)]
 		public string Scene { get; set; }
-		[FieldsAttributes(VariableType.String, 50, true, Key.None)]
+		[ColumnProperties(50, true)]
 		public string Parent { get; set; }
-		[FieldsAttributes(VariableType.String, 50, true, Key.None)]
+		[ColumnProperties(50, true)]
 		public string GameObject { get; set; }
-		[FieldsAttributes(VariableType.Int, 0, true, Key.None)]
+		[ColumnProperties(true)]
 		public int Type { get; set; }
-		[FieldsAttributes(VariableType.Int, 0, true, Key.None)]
+		[ColumnProperties(false, Key.Fk)]
 		public int FkLanguage { get; set; }
 
 		#region CONSTRUCTORS 

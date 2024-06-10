@@ -1,4 +1,5 @@
-﻿using NGConnection.Interfaces;
+﻿using Mysqlx.Expr;
+using NGConnection.Interfaces;
 using NGEntity.Application.Interfaces;
 using NGEntity.Application.Services;
 using NGEntity.Enums;
@@ -17,76 +18,135 @@ namespace NGEntity.Domain
     {
         internal EntityDml() { }
 
-        public IEntityCommit Insert(TSource FirstEntity, params TSource[] OtherEntities)
+        public IEntityCommit Insert(TSource firstEntity, params TSource[] otherEntities)
         {
+            if(firstEntity == null || otherEntities == null || otherEntities.Any(a=> a == null))
+                throw new ArgumentNullException("TSource");
             ////// UNE AS ENTIDADES EM UMA LISTA ///////
-            List<TSource> sources = new(OtherEntities);
-            sources.Insert(0,FirstEntity);
-            ///// CRIA O OBJETO COM AS INFORMAÇÕES DO COMANDO /////////
-            CommandData commandData = null;
-            CommandInsert commandInsert = new();
-            Type type = null;
+            List<TSource> sources = new(otherEntities);
+            sources.Insert(0,firstEntity);
+            ////// CRIAR E ADICIONAR O COMANDO CONFORME CONTEXTO ///////////
+            Guid identifier = Guid.NewGuid();
             foreach (TSource source in sources.OrderBy(o=> o.GetType()))
             {
-                if (!typeof(TSource).Equals(type))
-                {
-                    type = typeof(TSource);
-                    commandInsert.SetValues((IEntity)source);
-                    commandData = new(CommandType.Insert, (IEntity)source, commandInsert);
-                }
-                else
-                    commandInsert.SetValues((IEntity)source);
-            }
-            ////// ADICIONAR O COMANDO NO CONTEXTO ///////////
-            Context.AddCommand(type, commandData);
+                CommandInsert commandInsert = new();
+                commandInsert.SetValues((IEntity)source);
 
-            return new EntityCommit(commandData);
+                CommandData commandData = new()
+                {
+                    Identifier = identifier,
+                    CommandType = CommandType.Insert,
+                    Command = commandInsert,
+                };
+                
+                List<ContextData> contexts = Context.GetContext(source.GetType());
+                if (contexts.Count == 0)
+                    Context.AddCommand("None", commandData);
+                else
+                {
+                    contexts.ForEach(
+                        context =>
+                        {
+                            Context.AddCommand(context.Alias, commandData.SetCommand(context.Connection.GetType()));
+                        }
+                    );
+                }
+            }
+
+            return new EntityCommit(identifier);
         }
         public IEntityCommit Update(TSource entity) 
         {
-            //	if (entity != null)
-            //	{
-            //		//TConnectionAlias connectionAlias = new TConnectionAlias();
-            //		//ContextData contextData = Context.GetConnection(connectionAlias);
-            //		//ICommandDml update = contextData.Dba.Update(entity);
-            //		//if (update != null)
-            //		//{
-            //		//	update.Where = contextData.Dba.Where(entity);
-            //		//	CommandsData commandsData = new CommandsData(Enum.CommandType.Update, new List<ICommandBase>() { update });
-            //		//	contextData.Commands.Add(commandsData.Identifier, commandsData);
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
 
-            //		//	return new EntityWhere<TSource>(commandsData, connectionAlias);
-            //		//}
-            //	}
+            CommandUpdate commandUpdate = new();
+            commandUpdate.SetValues((IEntity)entity);
+            CommandData commandData = new(CommandType.Update, commandUpdate);
+            //// ADICIONAR O COMANDO NO CONTEXTO ///////////
+            List<ContextData> contexts = Context.GetContext(entity.GetType());
+            if (contexts.Count == 0)
+                Context.AddCommand("None", commandData);
+            else
+            {
+                contexts.ForEach(
+                    context =>
+                    {
+                        Context.AddCommand(context.Alias, commandData.SetCommand(context.Connection.GetType()));
+                    }
+                );
+            }
 
-            //	return new EntityWhere<TSource>();
-            return default;  
+            return new EntityCommit(commandData.Identifier);
         }
-        public IEntityWhere<TSource> Updates(TSource entity)
+        public IEntityWhere<TSource> Updates(TSource entity) 
         {
-            return default;
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            CommandUpdate commandUpdate = new();
+            commandUpdate.SetValues((IEntity)entity);
+            CommandData commandData = new(CommandType.Update, commandUpdate);
+            //// ADICIONAR O COMANDO NO CONTEXTO ///////////
+            List<ContextData> contexts = Context.GetContext(entity.GetType());
+            if (contexts.Count == 0)
+                Context.AddCommand("None", commandData);
+            else
+            {
+                contexts.ForEach(
+                    context =>
+                    {
+                        Context.AddCommand(context.Alias, commandData.SetCommand(context.Connection.GetType()));
+                    }
+                );
+            }
+
+            return new EntityWhere<TSource>(commandData.Identifier);
         }
         public IEntityCommit Delete(TSource entity)
         {
-            //	//TConnectionAlias connectionAlias = new TConnectionAlias();
-            //	//ContextData contextData = Context.GetConnection(connectionAlias);
-            //	//entity = (entity == null) ? new TSource() : entity;
-            //	//ICommandDml delete = contextData.Dba.Delete(entity);
-            //	//if (delete != null)
-            //	//{
-            //	//	delete.Where = contextData.Dba.Where(entity);
-            //	//	CommandsData commandsData = new CommandsData(Enum.CommandType.Update, new List<ICommandBase>() { delete });
-            //	//	contextData.Commands.Add(commandsData.Identifier, commandsData);
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
 
-            //	//	return new EntityWhere<TSource>(commandsData, connectionAlias);
-            //	//}
+            CommandDelete commandDelete = new();
+            commandDelete.SetValues((IEntity)entity);
+            CommandData commandData = new(CommandType.Delete, commandDelete);
+            //// ADICIONAR O COMANDO NO CONTEXTO ///////////
+            List<ContextData> contexts = Context.GetContext(entity.GetType());
+            if (contexts.Count == 0)
+                Context.AddCommand("None", commandData);
+            else
+            {
+                contexts.ForEach(
+                    context =>
+                    {
+                        Context.AddCommand(context.Alias, commandData.SetCommand(context.Connection.GetType()));
+                    }
+                );
+            }
 
-            //	return new EntityWhere<TSource>();
-            return default; 
+            return new EntityCommit(commandData.Identifier);
         }
         public IEntityWhere<TSource> Deletes()
         {
-            return default;
+            CommandDelete commandDelete = new();
+            commandDelete.SetValues((IEntity)default(TSource));
+            CommandData commandData = new(CommandType.Delete, commandDelete);
+            //// ADICIONAR O COMANDO NO CONTEXTO ///////////
+            List<ContextData> contexts = Context.GetContext(default(TSource).GetType());
+            if (contexts.Count == 0)
+                Context.AddCommand("None", commandData);
+            else
+            {
+                contexts.ForEach(
+                    context =>
+                    {
+                        Context.AddCommand(context.Alias, commandData.SetCommand(context.Connection.GetType()));
+                    }
+                );
+            }
+
+            return new EntityWhere<TSource>(commandData.Identifier);
         }
         public IEntityJoin<TSource> Selects() { return default; }
         public IEntityWhere<TSource> Selects<TProperty>(Expression<Func<TSource, TProperty>> fields) { return default; }
