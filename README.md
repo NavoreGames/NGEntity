@@ -1,7 +1,7 @@
 # NGEntity
 
 ### Definição: 
-- O pacote NGEntity é um frameworke que contém estruturas de entidades para manipulação de comandos sql.
+- O pacote NGEntity é um framework que contém estruturas de entidades para manipulação de comandos sql.
 
 ### Vantagens: 
 - Entidades para facilitar a manipulação de comandos sql para vários tipos de banco de dados.
