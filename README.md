@@ -38,9 +38,13 @@ Para usar a entidade deve-se ter uma conexão instanciada do NGConnection.
   Sqlite sqlite = new Sqlite("IpAddress", "DataBaseName", "UserName", "Password");
   Mysql mysql = new Mysql($@"Server = {IpAddress}; Database = {DataBaseName}; Uid = {UserName}; Pwd = {Password}; Connection Timeout = {TimeOut};");
 ```
-Há duas formas de usar a conexão com a entidade. Passando a conexão no inicio do comando ou usando a extrutura de contexto do pacote.
-> [!NOTE]
-> Explicaremos inicialmente o método passando a conexão no comando. O contexto será explicado posteriormente nessa documentação.
+Há duas formas de usar a conexão com a entidade. Usando a extrutura de contexto do pacote (fortemente recomentado) ou passando a conexão na execução do comando.
+
+Iniciando o contexto.
+```ruby
+  Context.AddContext("LOCAL", sqlite);
+  Context.AddContext("SERVER", new Mysql("", "", "", ""), new User());
+```
 
 Para inserir dados no banco usaremos os comando Insert e Inserts
 
