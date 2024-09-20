@@ -57,16 +57,14 @@ Iniciando o contexto:
 > Apesar de aceitar adicionar contexto sem entidades recomenda-se fortemente sempre adicionar as entidades que serão usadas pelo contexto para poder usar todos os recursos do contexto.
 >
 
-Para inserir dados no banco usaremos os comando Insert e Inserts
-
-O comando Insert é usado com um objeto entity previamente instanciado enquanto o comando Inserts é um método statico da entidade.
-
-Como mencionado anteriormente a conexão deve ser passado no começo do comando, logo após o objeto, com os métodos SetConnection, SetConnections.
+Criando Comandos Dml:
+ - Para inserir dados no banco usaremos os comando Insert e Inserts.
+   O comando Insert é usado com um objeto entity previamente instanciado enquanto o comando Inserts é um método statico da entidade.
 ```ruby
 User user = new() { IdUser = 1, Email = "email@email.com", UserName = "teste", Flag = false };
 
-user.SetConnection(sqlite).Insert().Execute();
-User.SetConnections(sqlite).Inserts(User, new Usuario(), new Usuario()).Execute();
+user.Insert().Execute();
+User.Inserts(user, new User(), new user()).Execute();
 ```
 > [!NOTE]
 > Note que no objeto previamente instanciado o comando insert não leva nenhum argumento, pois o objeto iniciado que será inserido.
