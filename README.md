@@ -58,17 +58,30 @@ Iniciando o contexto:
 >
 
 Criando Comandos Dml:
- - Para inserir dados no banco usaremos os comando Insert e Inserts.
+ - Para inserir dados no banco usaremos os comandos Insert e Inserts.
    O comando Insert é usado com um objeto entity previamente instanciado enquanto o comando Inserts é um método statico da entidade.
 ```ruby
 User user = new() { IdUser = 1, Email = "email@email.com", UserName = "teste", Flag = false };
 
-user.Insert().Execute();
-User.Inserts(user, new User(), new user()).Execute();
+user.Insert();
+User.Inserts(user, new User(), new user());
 ```
 > [!NOTE]
 > Note que no objeto previamente instanciado o comando insert não leva nenhum argumento, pois o objeto iniciado que será inserido.
->
 > Já o Insert statico necessita ser passado nos parâmetros os objetos que serão inseridos, pode ser inserido vários objetos desde que sejam do mesmo tipo
 >
 > Obs. Para inserir vários objetos de entidades diferentes existe outro comando que será mostrado posteriormente.
+
+ - Para fazer atualizações nos dados, usar os comandos Update e Updates
+   O comando Update é usado com um objeto entity previamente instanciado enquanto o comando Updates é um método statico da entidade.
+```ruby
+User user = new() { IdUser = 1, Email = "email@email.com", UserName = "teste", Flag = false };
+
+user.Update();
+User.Updates(new User() { Name = "Updade", Email = "update@update.com" }).Where(w => w.IdUser == 1 && w.Name == "Will");
+```
+> [!NOTE]
+> Note que no objeto previamente instanciado o comando insert não leva nenhum argumento, pois o objeto iniciado que será atualizado.
+> Já o Updates statico necessita ser passado nos parâmetros os objetos que serão atualizados, pode ser atualizado vários objetos desde que sejam do mesmo tipo
+>
+> Obs. Para atualizar vários objetos de entidades diferentes existe outro comando que será mostrado posteriormente.
