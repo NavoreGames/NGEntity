@@ -6,7 +6,7 @@
 ### Vantagens: 
 - Entidades para facilitar a manipulação de comandos sql para vários tipos de banco de dados.
 - Padronização dos comandos em formato de Expressões lambda e funções anônimas para os comandos.
-- Estruturas de contextos multiplos.
+- Estruturas de contexto, simples e multiplos.
 
 # Documentação
 
