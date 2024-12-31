@@ -1,15 +1,6 @@
-﻿using Microsoft.Extensions.Primitives;
-using Mysqlx.Crud;
+﻿using System.Reflection;
+using NGConnection.Attributes;
 using NGEntity.Application.Interfaces;
-using NGEntity.Attributes;
-using NGEntity.Enums;
-using NGEntity.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NGEntity.Application.Services
 {

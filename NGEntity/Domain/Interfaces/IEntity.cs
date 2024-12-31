@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Enum = NGEntity.Enums;
+﻿using NGConnection.Enums;
 
 namespace NGEntity.Interfaces
 {
     public interface IEntity : IReturn
     {
-		Enum.CommandType CommandObject { get; }
-		Dictionary<string, Enum.CommandType> CommandFields { get; }
+        DmlCommandType CommandObject { get; }
+		Dictionary<string, DmlCommandType> CommandFields { get; }
 	}
 }

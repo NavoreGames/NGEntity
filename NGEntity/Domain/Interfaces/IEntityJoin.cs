@@ -4,7 +4,8 @@ using System.Linq.Expressions;
 namespace NGEntity.Interfaces
 {
     public interface IEntityJoin<TSource1> :
-        IEntityInclude<TSource1>, IEntityWhere<TSource1>, IEntityCommit
+        //IEntityInclude<TSource1>, 
+        IEntityWhere<TSource1>, IEntityCommit
     {
         IEntityJoin<TSource1, TEntityRight> InnerJoin<TEntityRight>(
             Expression<Func<TSource1, TEntityRight, bool>> expression)

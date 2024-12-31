@@ -1,5 +1,4 @@
 ﻿using NGEntity.Attributes;
-using NGEntity.Enums;
 using NGEntity.Interfaces;
 
 namespace NGEntity

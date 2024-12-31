@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using NGConnection.Enums;
 using NGEntity.Application.Interfaces;
-using NGEntity.Enums;
-using NGEntity.Interfaces;
 
 namespace NGEntity.Models
 {
 	internal class CommandData
 	{
 		internal Guid Identifier { get; set; }
-        internal CommandType CommandType { get; set; }
+        internal DmlCommandType DmlCommandType { get; set; }
         internal Type ConnectionType { get; set; }
         internal ICommandDml Command { get; set; }
 
         internal CommandData() { }
-        internal CommandData(CommandType commandType, ICommandDml command) 
+        internal CommandData(DmlCommandType dmlCommandType, ICommandDml command) 
         { 
             Identifier = Guid.NewGuid();
-            CommandType = commandType;
+            DmlCommandType = dmlCommandType;
             Command = command;
         }
 
@@ -27,7 +23,7 @@ namespace NGEntity.Models
             return new()
             {
                 Identifier = this.Identifier,
-                CommandType = this.CommandType,
+                DmlCommandType = this.DmlCommandType,
                 ConnectionType = connectionType,
                 Command = this.Command.SetCommand(connectionType)
             };

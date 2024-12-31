@@ -1,7 +1,8 @@
-﻿using NGEntity.Attributes;
-using NGEntity.Enums;
+﻿using System.Collections.Generic;
+using NGConnection.Attributes;
+using NGConnection.Enums;
+using NGEntity.Attributes;
 using NGEntity.Interfaces;
-using System.Collections.Generic;
 
 namespace NGEntity
 {

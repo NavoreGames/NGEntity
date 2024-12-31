@@ -1,70 +1,64 @@
 ﻿using System;
-using System.Data;
-using System.Linq.Expressions;
-using System.Linq;
-using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Windows.Forms;
 using NGConnection;
 using NGConnection.Enums;
 using NGEntity;
-using NGEntity.Enums;
-using NGConnection.Interfaces;
-using CommandType = NGEntity.Enums.CommandType;
 using NGEntity.Domain;
+using NGConnection.Models;
 
 namespace Teste
 {
     public partial class Form1 : Form
 	{
-		public Form1()
+        const string LOCAL = "Local";
+        const string SERVER = "Server";
+
+        public Form1()
 		{
 			InitializeComponent();
 		}
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            //ExecuteEntitysCommands();
+            CreateDataBaseFromCode();
+        }
 
-		public object CreateDataBaseFromCode()
+        public void CreateDataBaseFromCode()
 		{
-			return true;
-		}
+            DataBase dataBase =
+                new DataBase
+                (
+                    "Teste",
+                    new List<Table>()
+                    {
+                        new Table
+                        (
+                            "User", /// Alias, é o nome que ficará a propriedade na classe
+                            "Usr001", /// Name, é o nome da tabela no banco
+                            DdlCommandType.Create, /// DdlCommandType, é a ação que será feita na tabela
+                            new List<Column>
+                            (
+                                
+                                
+                            )
+                        ),
 
-		public void CreateDataBase()
+                    }
+                );
+
+            //DataBase base = DataBase.Create("Teste", )
+
+
+        }
+		public void CreateModelsFromDataBase()
 		{
 			
 		}
-		public object ExecuteCoroutine(Expression<Func<object>> callbackExpression)
-		{
-			var methodCall = callbackExpression.Body as MethodCallExpression;
-			if (methodCall != null)
-			{
-				string methodName = methodCall.Method.Name;
-				var v1 = methodCall.Method.DeclaringType.Name;
-			}
-			
 
-			return true;
-		}
-		private string ExecuteCoroutine(Expression<Action> callbackExpression)
-		{
-			var v3 = callbackExpression.Name;
-            var methodCall = callbackExpression.Body as MethodCallExpression;
-			if (methodCall != null)
-			{
-				string methodName = methodCall.Method.Name;
-				var v1 = methodCall.Method.DeclaringType.Name;
-			}
-
-			return "";
-		}
-
-		public void ExecuteCoroutine(Action action, object[] methodParameters = null)
-		{
-			var v = action.Method.Name;
-			var v1 = action.Method.DeclaringType.Name;
-		}
-
-        const string LOCAL = "Local";
-        const string SERVER = "Server";
-		private void Form1_Load(object sender, EventArgs e)
-		{
+        private void ExecuteEntitysCommands()
+        {
             int id = 2;
 
             TesteEntidade teste = new() { Test = "dfsd" };
@@ -74,7 +68,7 @@ namespace Teste
             User user2 = new() { IdUser = 2, Email = "will1@will1.com", Name = "will", Flag = false };
             Address address = new() { IdAddress = null, Street = "Street" };
 
-            Sqlite sqlite = new ("IpAddress", "DataBaseName", "UserName", "Password");
+            Sqlite sqlite = new("IpAddress", "DataBaseName", "UserName", "Password");
 
             Context.AddContext(LOCAL, sqlite);
             Context.AddContext(SERVER, new Mysql("", "", "", ""), new User());
@@ -90,7 +84,7 @@ namespace Teste
             //User.Updates(new User() { Name = "Updade", Email = "update@update.com" }).Where(w => w.Name.Contains("Will")).Execute();
 
             user.Delete().Execute();
-            User.Deletes().Where(w=> 1 == 1).Execute();
+            User.Deletes().Where(w => 1 == 1).Execute();
 
             User.Selects().Execute();
             User.Selects().Where(w => w.IdUser == 1).Execute();
@@ -109,8 +103,8 @@ namespace Teste
                     .InnerJoin<Subtitle, Address>((j1, j2) => j1.FkLanguage == j2.IdAddress)
                 .Execute();
 
-            User.Selects().Include(x=> x.Address);
-            User.Selects().Include(x => x.Addresses);
+            //User.Selects().Include(x => x.Address);
+            //User.Selects().Include(x => x.Addresses);
 
             ///==================== INSERTS ====================////////
             //         ///// não verifica se a entidade e vazio ou valores padrão (não sei se devo verificar)
@@ -236,6 +230,36 @@ namespace Teste
             //Entity.Contexts(LOCAL).Command<Usuario>("select * from Table");
             //Entity.Contexts(LOCAL).Command("select * from Table");
         }
+
+        public object ExecuteCoroutine(Expression<Func<object>> callbackExpression)
+		{
+			var methodCall = callbackExpression.Body as MethodCallExpression;
+			if (methodCall != null)
+			{
+				string methodName = methodCall.Method.Name;
+				var v1 = methodCall.Method.DeclaringType.Name;
+			}
+			
+
+			return true;
+		}
+		private string ExecuteCoroutine(Expression<Action> callbackExpression)
+		{
+			var v3 = callbackExpression.Name;
+            var methodCall = callbackExpression.Body as MethodCallExpression;
+			if (methodCall != null)
+			{
+				string methodName = methodCall.Method.Name;
+				var v1 = methodCall.Method.DeclaringType.Name;
+			}
+
+			return "";
+		}
+		public void ExecuteCoroutine(Action action, object[] methodParameters = null)
+		{
+			var v = action.Method.Name;
+			var v1 = action.Method.DeclaringType.Name;
+		}
 
         public bool Teste()
         {

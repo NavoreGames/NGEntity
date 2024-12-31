@@ -1,19 +1,7 @@
-﻿using Microsoft.Extensions.Primitives;
-using Mysqlx.Crud;
-using NGEntity.Application.Interfaces;
-using NGEntity.Attributes;
+﻿using NGEntity.Application.Interfaces;
 using NGEntity.Domain.Models;
-using NGEntity.Enums;
-using NGEntity.Interfaces;
-using NGNotification.Enums;
-using Org.BouncyCastle.Ocsp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NGEntity.Application.Services;
 

@@ -1,5 +1,5 @@
-﻿using NGEntity.Enums;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
+using NGConnection.Enums;
 
 namespace NGEntity
 {

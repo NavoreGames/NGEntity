@@ -1,16 +1,7 @@
-﻿using Mysqlx.Expr;
-using NGConnection.Interfaces;
-using NGEntity.Application.Interfaces;
+﻿using NGConnection.Enums;
 using NGEntity.Application.Services;
-using NGEntity.Enums;
-using NGEntity.Interfaces;
 using NGEntity.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NGEntity.Domain
 {
@@ -35,7 +26,7 @@ namespace NGEntity.Domain
                 CommandData commandData = new()
                 {
                     Identifier = identifier,
-                    CommandType = CommandType.Insert,
+                    DmlCommandType = DmlCommandType.Insert,
                     Command = commandInsert,
                 };
                 
@@ -62,7 +53,7 @@ namespace NGEntity.Domain
 
             CommandUpdate commandUpdate = new();
             commandUpdate.SetValues((IEntity)entity);
-            CommandData commandData = new(CommandType.Update, commandUpdate);
+            CommandData commandData = new(DmlCommandType.Update, commandUpdate);
             //// ADICIONAR O COMANDO NO CONTEXTO ///////////
             List<ContextData> contexts = Context.GetContext(entity.GetType());
             if (contexts.Count == 0)
@@ -86,7 +77,7 @@ namespace NGEntity.Domain
 
             CommandUpdate commandUpdate = new();
             commandUpdate.SetValues((IEntity)entity);
-            CommandData commandData = new(CommandType.Update, commandUpdate);
+            CommandData commandData = new(DmlCommandType.Update, commandUpdate);
             //// ADICIONAR O COMANDO NO CONTEXTO ///////////
             List<ContextData> contexts = Context.GetContext(entity.GetType());
             if (contexts.Count == 0)
@@ -110,7 +101,7 @@ namespace NGEntity.Domain
 
             CommandDelete commandDelete = new();
             commandDelete.SetValues((IEntity)entity);
-            CommandData commandData = new(CommandType.Delete, commandDelete);
+            CommandData commandData = new(DmlCommandType.Delete, commandDelete);
             //// ADICIONAR O COMANDO NO CONTEXTO ///////////
             List<ContextData> contexts = Context.GetContext(entity.GetType());
             if (contexts.Count == 0)
@@ -131,7 +122,7 @@ namespace NGEntity.Domain
         {
             CommandDelete commandDelete = new();
             commandDelete.SetValues((IEntity)default(TSource));
-            CommandData commandData = new(CommandType.Delete, commandDelete);
+            CommandData commandData = new(DmlCommandType.Delete, commandDelete);
             //// ADICIONAR O COMANDO NO CONTEXTO ///////////
             List<ContextData> contexts = Context.GetContext(default(TSource).GetType());
             if (contexts.Count == 0)

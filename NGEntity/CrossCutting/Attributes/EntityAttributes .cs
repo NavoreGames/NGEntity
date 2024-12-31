@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-using NGEntity.Enums;
-using NGEntity.Interfaces;
-
-namespace NGEntity.Attributes;
+﻿namespace NGEntity.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public class Primarykey(string firstField, params string[] otherFields) : Attribute
