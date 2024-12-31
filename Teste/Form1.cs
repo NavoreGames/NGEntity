@@ -109,7 +109,8 @@ namespace Teste
                     .InnerJoin<Subtitle, Address>((j1, j2) => j1.FkLanguage == j2.IdAddress)
                 .Execute();
 
-            User.Selects().Include(x=> x.Addresses);
+            User.Selects().Include(x=> x.Address);
+            User.Selects().Include(x => x.Addresses);
 
             ///==================== INSERTS ====================////////
             //         ///// não verifica se a entidade e vazio ou valores padrão (não sei se devo verificar)

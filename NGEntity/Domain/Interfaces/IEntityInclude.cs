@@ -9,7 +9,8 @@ namespace NGEntity.Interfaces
 {
     public interface IEntityInclude<TSource>
     {
-        public IEntityInclude<TSource, TProperty> Include<TProperty>(Expression<Func<TSource, TProperty>> field);
+        public IEntityInclude<TSource, TProperty> Include<TProperty>(Expression<Func<TSource, TProperty>> field) where TProperty : IEntity;
+        public IEntityInclude<TSource, TProperty> Include<TProperty>(Expression<Func<TSource, IEnumerable<TProperty>>> field) where TProperty : IEntity;
     }
     public interface IEntityInclude<TSource, TPreviousProperty> : IEntityInclude<TSource>
     {

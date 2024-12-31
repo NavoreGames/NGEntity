@@ -1,12 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.Primitives;
-using NGEntity.Attributes;
+﻿using NGEntity.Attributes;
 using NGEntity.Enums;
 using NGEntity.Interfaces;
 using System.Collections.Generic;
 
 namespace NGEntity
 {
+	[TableProperties("Usr001")]
+	[Primarykey("IdUser")]
 	public partial class User : Entity<User>, IEntity
 	{
         string lastNane;
@@ -26,7 +26,9 @@ namespace NGEntity
         [ColumnProperties(false, Key.Fk)]
         public int? FkAddress { get; set; }
 
-		public IEnumerable<Address> Addresses { get; set; }
+		[Foreignkey("FkAddress")]
+        public Address Address { get; set; }
+        public IEnumerable<Address> Addresses { get; set; }
 
 		public User() { }
 		public User(int? idUser) { IdUser = idUser; }

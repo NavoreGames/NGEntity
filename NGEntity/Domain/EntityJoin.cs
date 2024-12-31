@@ -7,6 +7,8 @@ using NGConnection.Models;
 using System.Data.Common;
 using NGEntity.Domain;
 using Mysqlx.Expr;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace NGEntity;
 
@@ -31,7 +33,7 @@ public class EntityJoin<TSource1> : EntityJoin, IEntityJoin<TSource1>
 
     public IEntityCommit Where(Expression<Func<TSource1, bool>> expression) =>
         new EntityWhere<TSource1>(Identifier).Where(expression);
-    public IEntityInclude<TSource1, TProperty> Include<TProperty>(Expression<Func<TSource1, TProperty>> field) =>
+    public IEntityInclude<TSource1, TProperty> Include<TProperty>(Expression<Func<TSource1, TProperty>> field) where TProperty : IEnumerable<IEntity> =>
         new EntityInclude<TSource1>(Identifier).Include(field);
 }
 public class EntityJoin<TSource1, TSource2> :

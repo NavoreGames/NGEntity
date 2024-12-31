@@ -1,6 +1,4 @@
-﻿using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
-using Microsoft.Extensions.Primitives;
+﻿using Microsoft.Extensions.Primitives;
 using Mysqlx.Crud;
 using NGEntity.Application.Interfaces;
 using NGEntity.Attributes;
