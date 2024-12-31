@@ -1,12 +1,12 @@
 # NGEntity
 
 ### Definição: 
-- O pacote NGEntity é um frameworke que contém estruturas de entidades para manipulação de comandos sql.
+- O pacote NGEntity é um framework que contém estruturas de entidades para manipulação de comandos sql.
 
 ### Vantagens: 
 - Entidades para facilitar a manipulação de comandos sql para vários tipos de banco de dados.
 - Padronização dos comandos em formato de Expressões lambda e funções anônimas para os comandos.
-- Estruturas de contextos multiplos.
+- Estruturas de contexto, simples e multiplos.
 
 # Documentação
 
@@ -38,24 +38,50 @@ Para usar a entidade deve-se ter uma conexão instanciada do NGConnection.
   Sqlite sqlite = new Sqlite("IpAddress", "DataBaseName", "UserName", "Password");
   Mysql mysql = new Mysql($@"Server = {IpAddress}; Database = {DataBaseName}; Uid = {UserName}; Pwd = {Password}; Connection Timeout = {TimeOut};");
 ```
-Há duas formas de usar a conexão com a entidade. Passando a conexão no inicio do comando ou usando a extrutura de contexto do pacote.
+Há duas formas de usar a conexão com a entidade. Usando a extrutura de contexto do pacote (fortemente recomendado) ou passando a conexão na execução do comando.
+primeiramente explicaremos como usar a estrutura de contexto, posteriormente nessa documentação explicaremos o uso sem contexto.
+
+Iniciando o contexto:
+ - Para iniciar o contexto use o método AddContext do objeto estatico Context.
+   O método sempre pede o parâmetro alias que pode ser qualquer nome desde que seja único, retornando um erro ao tentar inserir um alias já existente.
+   O segundo parâmetro é um IConection, que é o objeto que carrega a sua conexão.
+   O último parâmetro é uma lista das entidades, as entidade são objetos que herdam do IEntity, que farão parte daquele contexto, apesar de ser um parâmetro opcional recomenda-se o uso.
+ - No primeiro exemplo abaixo foi adicionado uma conexão mysql com o nome SERVER e adicionado a entidade User fazendo parte do contexto.
+ - No segundo exemplo foi adicionado a conexão LOCAL porém não foi adicionado entidades para o contexto.
+```ruby
+  Context.AddContext("SERVER", mysql, new User());
+  Context.AddContext("LOCAL", new Sqlite("IpAddress", "DataBaseName", "UserName", "Password"));
+  
+```
 > [!NOTE]
-> Explicaremos inicialmente o método passando a conexão no comando. O contexto será explicado posteriormente nessa documentação.
+> Apesar de aceitar adicionar contexto sem entidades recomenda-se fortemente sempre adicionar as entidades que serão usadas pelo contexto para poder usar todos os recursos do contexto.
+>
 
-Para inserir dados no banco usaremos os comando Insert e Inserts
-
-O comando Insert é usado com um objeto entity previamente instanciado enquanto o comando Inserts é um método statico da entidade.
-
-Como mencionado anteriormente a conexão deve ser passado no começo do comando, logo após o objeto, com os métodos SetConnection, SetConnections.
+Criando Comandos Dml:
+ - Para inserir dados no banco usaremos os comandos Insert e Inserts.
+   O comando Insert é usado com um objeto entity previamente instanciado enquanto o comando Inserts é um método statico da entidade.
 ```ruby
 User user = new() { IdUser = 1, Email = "email@email.com", UserName = "teste", Flag = false };
 
-user.SetConnection(sqlite).Insert().Execute();
-User.SetConnections(sqlite).Inserts(User, new Usuario(), new Usuario()).Execute();
+user.Insert();
+User.Inserts(user, new User(), new user());
 ```
 > [!NOTE]
 > Note que no objeto previamente instanciado o comando insert não leva nenhum argumento, pois o objeto iniciado que será inserido.
->
 > Já o Insert statico necessita ser passado nos parâmetros os objetos que serão inseridos, pode ser inserido vários objetos desde que sejam do mesmo tipo
 >
 > Obs. Para inserir vários objetos de entidades diferentes existe outro comando que será mostrado posteriormente.
+
+ - Para fazer atualizações nos dados, usar os comandos Update e Updates
+   O comando Update é usado com um objeto entity previamente instanciado enquanto o comando Updates é um método statico da entidade.
+```ruby
+User user = new() { IdUser = 1, Email = "email@email.com", UserName = "teste", Flag = false };
+
+user.Update();
+User.Updates(new User() { Name = "Updade", Email = "update@update.com" }).Where(w => w.IdUser == 1 && w.Name == "Will");
+```
+> [!NOTE]
+> Note que no objeto previamente instanciado o comando insert não leva nenhum argumento, pois o objeto iniciado que será atualizado.
+> Já o Updates statico necessita ser passado nos parâmetros os objetos que serão atualizados, pode ser atualizado vários objetos desde que sejam do mesmo tipo
+>
+> Obs. Para atualizar vários objetos de entidades diferentes existe outro comando que será mostrado posteriormente.
