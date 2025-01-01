@@ -1,11 +1,4 @@
-﻿using NGEntity.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NGEntity.Interfaces
+﻿namespace NGEntity.Interfaces
 {
     public interface IEntityCommand<TSource>
     {

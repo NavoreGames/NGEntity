@@ -1,9 +1,6 @@
 ﻿using NGConnection.Interfaces;
 using NGEntity.Exceptions;
-using NGEntity.Interfaces;
 using NGEntity.Models;
-using System;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace NGEntity
 {

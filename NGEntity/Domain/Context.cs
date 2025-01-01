@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using NGConnection.Enums;
-using NGConnection.Interfaces;
+﻿using NGConnection.Interfaces;
 using NGEntity.Models;
-using NGEntity.Interfaces;
-using NGNotification;
-using NGNotification.Enums;
-using System.Linq;
 using NGEntity.Exceptions;
 
 namespace NGEntity

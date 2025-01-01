@@ -27,28 +27,33 @@ namespace Teste
 
         public void CreateDataBaseFromCode()
 		{
-            DataBase dataBase =
-                new DataBase
-                (
-                    "Teste",
-                    new List<Table>()
-                    {
-                        new Table
-                        (
-                            "User", /// Alias, é o nome que ficará a propriedade na classe
-                            "Usr001", /// Name, é o nome da tabela no banco
-                            DdlCommandType.Create, /// DdlCommandType, é a ação que será feita na tabela
-                            new List<Column>
-                            (
-                                
-                                
-                            )
-                        ),
+            //DataBase dataBase =
+            //    new DataBase
+            //    (
+            //        "Teste",
+            //        new List<Table>()
+            //        {
+            //            new Table
+            //            (
+            //                "User", /// Alias, é o nome que ficará a propriedade na classe
+            //                "Usr001", /// Name, é o nome da tabela no banco
+            //                DdlCommandType.Create, /// DdlCommandType, é a ação que será feita na tabela
+            //                new List<Column>
+            //                (
 
-                    }
-                );
 
-            //DataBase base = DataBase.Create("Teste", )
+            //                )
+            //            ),
+
+            //        }
+            //    );
+
+            NGEntity.DataBase
+                .Create("DataBaseTest")
+                    .AddTable("Usr001", "User")
+                        .AddColumn("UsrId", "UserId", Key.Pk, VariableType.Bigint, true)
+                    .AddTable("Adr002", "Adress")
+                    .Execute();
 
 
         }
