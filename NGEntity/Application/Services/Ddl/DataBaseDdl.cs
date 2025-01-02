@@ -19,9 +19,9 @@ internal class DataBaseDdl : DataBaseData, IDataBaseDdl
     //    return default;
     //}
     //public IDbaCommit DropDataBase(string name)
-    {
+    //{
 
 
-        return default;
-    }
+    //    return default;
+    //}
 }
