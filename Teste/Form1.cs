@@ -48,14 +48,14 @@ namespace Teste
             //        }
             //    );
 
-            NGEntity.DataBase
-                .Create("DataBaseTest")
-                    .AddTable("Usr001", "User")
+            Dba
+                .CreateDataBase("DataBaseTest")
+                    .CreateTable("Usr001", "User")
                         .AddColumn("UsrId", "UserId", Key.Pk, VariableType.Bigint, true)
-                    .AddTable("Adr002", "Adress")
+                    .CreateTable("Adr002", "Adress")
                     .Execute();
 
-
+                
         }
 		public void CreateModelsFromDataBase()
 		{

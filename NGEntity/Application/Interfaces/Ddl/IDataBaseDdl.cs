@@ -5,7 +5,7 @@ namespace NGEntity.Interfaces;
 
 public interface IDataBaseDdl
 {
-    ITableCommand Create(string name);
-    ITableCommand Alter(string name);
-    IDataBaseCommit Drop(string name);
+    ITableCreate CreateDataBase(string name);
+    //ITableAlter AlterDataBase(string name);
+    //IDbaCommit DropDataBase(string name);
 }

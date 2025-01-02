@@ -3,6 +3,7 @@ using NGEntity.Domain;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.ComponentModel;
 using NGConnection.Enums;
+using NGConnection.Models;
 //using NGEntity.Application.Interfaces;
 
 
@@ -65,6 +66,14 @@ namespace NGEntity
 
     public static class Entity
 	{
+        public static bool CreateEntitiesFromCode(DataBase dataBase)
+        {
+            return default;
+        }
+        public static bool CreateEntitiesFromDataBase()
+        {
+            return default;
+        }
         //public static IEntityCcaDmlStatic SetConnections(IConnection connection) =>
         //    new EntityCcaDml(connection);
 

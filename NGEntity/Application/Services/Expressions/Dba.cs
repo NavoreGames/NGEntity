@@ -1,6 +1,6 @@
 ﻿namespace NGEntity
 {
-    internal class Dba
+    internal class NGDba
 	{
 		/*
 		internal Dba() {}

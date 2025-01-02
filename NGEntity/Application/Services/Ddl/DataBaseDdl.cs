@@ -6,19 +6,19 @@ internal class DataBaseDdl : DataBaseData, IDataBaseDdl
 {
     internal DataBaseDdl() { }
 
-    public ITableCommand Create(string name)
+    public ITableCreate CreateDataBase(string name)
     {
         //DataBase dataBase
 
         return default;
     }
-    public ITableCommand Alter(string name)
-    {
-        //DataBase dataBase
+    //public ITableAlter AlterDataBase(string name)
+    //{
+    //    //DataBase dataBase
 
-        return default;
-    }
-    public IDataBaseCommit Drop(string name)
+    //    return default;
+    //}
+    //public IDbaCommit DropDataBase(string name)
     {
 
 

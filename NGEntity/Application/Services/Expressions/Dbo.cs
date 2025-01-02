@@ -1,6 +1,6 @@
 ﻿namespace NGEntity
 {
-    internal abstract class Dbo : Dba
+    internal abstract class NGDbo : NGDba
 	{
 		/*
 		public override ICommandDml Insert(IEntity entity)
