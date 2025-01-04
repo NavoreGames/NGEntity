@@ -1,16 +1,20 @@
-﻿using NGEntity.Models;
+﻿using NGConnection;
+using NGConnection.Enums;
+using NGConnection.Models;
 
 namespace NGEntity;
 
-internal class DataBaseDdl : DataBaseData, IDataBaseDdl
+internal class DataBaseDdl : DbaData, IDataBaseDdl
 {
     internal DataBaseDdl() { }
 
     public ITableCreate CreateDataBase(string name)
     {
-        //DataBase dataBase
+        CommandDataBaseTemp commandDataBase = new CommandDataBaseTemp(new DataBase(name));
+        CommandDataTemp commandData = new CommandDataTemp(DdlCommandType.Create, commandDataBase);
+        Context.AddCommand(commandData);
 
-        return default;
+        return new TableCreate(commandData.Identifier);
     }
     //public ITableAlter AlterDataBase(string name)
     //{

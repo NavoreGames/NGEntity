@@ -1,8 +1,9 @@
-﻿using NGConnection.Interfaces;
+﻿using NGConnection;
+using NGConnection.Interfaces;
 
 namespace NGEntity;
 
-public class DbaCommit : DataBaseData, IDbaCommit
+public class DbaCommit : DbaData, IDbaCommit
 {
     internal DbaCommit(Guid Identifier) : base(Identifier) { }
 
@@ -18,6 +19,7 @@ public class DbaCommit : DataBaseData, IDbaCommit
     }
     public bool Execute()
     {
+        var v = Context.GetCommandData(Identifier);
 
         return default;
     }

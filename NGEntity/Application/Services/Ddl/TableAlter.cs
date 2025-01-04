@@ -4,7 +4,7 @@ using NGEntity.Models;
 
 namespace NGEntity;
 
-public class TableAlter : DataBaseData, ITableAlter
+public class TableAlter : DbaData, ITableAlter
 {
     internal TableAlter(Guid Identifier) : base(Identifier) { }
 

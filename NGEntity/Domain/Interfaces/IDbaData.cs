@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NGEntity.Interfaces
 {
-    public interface IDataBaseData
+    public interface IDbaData
     {
        string ToString(IConnection connection) { return default; }
        string ToString(string connectionAlias) { return default; }

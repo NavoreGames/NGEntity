@@ -15,9 +15,9 @@ namespace NGEntity
     {
         //public event PropertyChangedEventHandler PropertyChanged;
         //[DoNotNotify]
-        public DmlCommandType CommandObject { get; private set; }
+        public CommandType CommandObject { get; private set; }
         //[DoNotNotify]
-        public Dictionary<string, DmlCommandType> CommandFields { get; private set; }
+        public Dictionary<string, CommandType> CommandFields { get; private set; }
   
         public Entity() { CommandFields = []; }
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)
@@ -28,20 +28,20 @@ namespace NGEntity
         protected void OnPropertyChanged(string propertyName, object before, object after)
 		{
             Console.WriteLine(propertyName);
-			CommandObject = DmlCommandType.Update;
-			if (CommandFields.ContainsKey(propertyName))
-				CommandFields.Add(propertyName, DmlCommandType.Update);
-			else
-				CommandFields[propertyName] = DmlCommandType.Update;
+            CommandObject = DmlCommandType.Update;
+            if (CommandFields.ContainsKey(propertyName))
+                CommandFields.Add(propertyName, DmlCommandType.Update);
+            else
+                CommandFields[propertyName] = DmlCommandType.Update;
 
 
-			// do something with before/after
-			//var propertyChanged = PropertyChanged;
-			//if (propertyChanged != null)
-			//{
-			//	propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			//}
-		}
+            // do something with before/after
+            //var propertyChanged = PropertyChanged;
+            //if (propertyChanged != null)
+            //{
+            //	propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            //}
+        }
 
         public IEntityCommit Insert() =>
            new EntityDml<TSource>().Insert((TSource)(IEntity)this);
