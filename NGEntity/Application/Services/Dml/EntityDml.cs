@@ -1,9 +1,4 @@
-﻿using NGConnection.Enums;
-using NGEntity.Application.Services;
-using NGEntity.Models;
-using System.Linq.Expressions;
-
-namespace NGEntity.Domain
+﻿namespace NGEntity
 {
     internal class EntityDml<TSource> : EntityData, IEntityDml<TSource>
     {
@@ -11,51 +6,52 @@ namespace NGEntity.Domain
 
         public IEntityCommit Insert(TSource firstEntity, params TSource[] otherEntities)
         {
-            //if(firstEntity == null || otherEntities == null || otherEntities.Any(a=> a == null))
-            //    throw new ArgumentNullException("TSource");
-            //////// UNE AS ENTIDADES EM UMA LISTA ///////
-            //List<TSource> sources = new(otherEntities);
-            //sources.Insert(0,firstEntity);
-            //////// CRIAR E ADICIONAR O COMANDO CONFORME CONTEXTO ///////////
-            //Guid identifier = Guid.NewGuid();
-            //foreach (TSource source in sources.OrderBy(o=> o.GetType()))
-            //{
-            //    CommandInsert commandInsert = new();
-            //    commandInsert.SetValues((IEntity)source);
+            if (firstEntity == null || (otherEntities != null && otherEntities.Any(a => a == null)))
+                throw new ArgumentNullException(firstEntity.GetType().ToString());
+            ////// UNE AS ENTIDADES EM UMA LISTA ///////
+            List<TSource> sources = new(otherEntities);
+            ////// CRIAR E ADICIONAR O COMANDO CONFORME CONTEXTO ///////////
+            Guid identifier = Guid.NewGuid();
+            foreach (TSource source in sources.OrderBy(o => o.GetType()))
+            {
+                Insert Insert = new Insert();
+                Insert.SetValues((IEntity)source);
+                CommandData commandData = 
+                    new CommandData
+                    (
+                        identifier, 
+                        DmlCommandType.Insert, 
+                        Insert
+                    );
+                Context.AddCommand(commandData);
 
-            //    CommandData commandData = new()
-            //    {
-            //        Identifier = identifier,
-            //        DmlCommandType = DmlCommandType.Insert,
-            //        Command = commandInsert,
-            //    };
+                //List<ContextData> contexts = Context.GetContext(source.GetType());
+                //if (contexts.Count == 0)
+                //    Context.AddCommand("None", commandData);
+                //else
+                //{
+                //    contexts.ForEach(
+                //        context =>
+                //        {
+                //            Context.AddCommand(context.Alias, commandData.SetCommand(context.Connection.GetType()));
+                //        }
+                //    );
+                //}
+            }
 
-            //    List<ContextData> contexts = Context.GetContext(source.GetType());
-            //    if (contexts.Count == 0)
-            //        Context.AddCommand("None", commandData);
-            //    else
-            //    {
-            //        contexts.ForEach(
-            //            context =>
-            //            {
-            //                Context.AddCommand(context.Alias, commandData.SetCommand(context.Connection.GetType()));
-            //            }
-            //        );
-            //    }
-            //}
-
-            //return new EntityCommit(identifier);
-
-            return default;
+            return new EntityCommit(identifier);
         }
         public IEntityCommit Update(TSource entity) 
         {
-            //if (entity == null)
-            //    throw new ArgumentNullException(nameof(entity));
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
 
-            //CommandUpdate commandUpdate = new();
-            //commandUpdate.SetValues((IEntity)entity);
-            //CommandData commandData = new(DmlCommandType.Update, commandUpdate);
+            Update update = new Update();
+            update.SetValues((IEntity)entity);
+            CommandData commandData = new(DmlCommandType.Update, update);
+
+            Context.AddCommand(commandData);
+
             ////// ADICIONAR O COMANDO NO CONTEXTO ///////////
             //List<ContextData> contexts = Context.GetContext(entity.GetType());
             //if (contexts.Count == 0)
@@ -70,9 +66,7 @@ namespace NGEntity.Domain
             //    );
             //}
 
-            //return new EntityCommit(commandData.Identifier);
-
-            return default;
+            return new EntityCommit(commandData.Identifier);
         }
         public IEntityWhere<TSource> Updates(TSource entity) 
         {

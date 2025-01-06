@@ -4,7 +4,6 @@ using NGConnection.Interfaces;
 using NGConnection.Models;
 using NGEntity.Models;
 using System.Xml.Linq;
-
 namespace NGEntity;
 
 public class ColumnAdd : TableCreate, IColumnAdd
@@ -13,14 +12,14 @@ public class ColumnAdd : TableCreate, IColumnAdd
 
     public IColumnAdd AddColumn(string name, string alias, Key key, VariableType type, int length, bool notNull, bool autoincrement)
     {
-        CommandTableTemp commandTable =
-            (CommandTableTemp)Context.
+        Table table =
+            (Table)Context.
                 GetCommandData(Identifier)
-                    .Where(w => w.Command is CommandTableTemp)?
+                    .Where(w => w.Command is Table)?
                     .LastOrDefault()?
                .Command;
-        CommandColumnTemp commandColumn = new CommandColumnTemp(new Column(commandTable.Table.Name, name, alias, key, type, length, notNull, autoincrement));
-        CommandDataTemp commandData = new CommandDataTemp(Identifier, DdlActionType.Add, commandColumn);
+        Column column = new Column(table, name, alias, key, type, length, notNull, autoincrement);
+        CommandData commandData = new CommandData(Identifier, DdlActionType.Add, column);
         Context.AddCommand(commandData);
 
         return new ColumnAdd(Identifier);

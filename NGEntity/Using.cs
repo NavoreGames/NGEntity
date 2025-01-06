@@ -1,6 +1,10 @@
 ﻿global using System;
 global using System.Collections.Generic;
 global using System.Linq;
+global using System.Linq.Expressions;
 global using NGEntity.Interfaces;
 global using NGEntity.Models;
 global using NGEntity.Exceptions;
+global using NGConnection;
+global using NGConnection.Enums;
+global using NGConnection.Models;

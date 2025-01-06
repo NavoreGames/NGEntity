@@ -19,13 +19,13 @@ public static class Context
     {
         return IsContextsDataInitialize().Where(w=> w.Alias == alias).FirstOrDefault();
     }
-    internal static List<CommandDataTemp> GetCommandData(Guid identifier) =>
+    internal static List<CommandData> GetCommandData(Guid identifier) =>
        IsContextsDataInitialize().SelectMany(w => w.CommandsData.Where(w=> w.Identifier.Equals(identifier))).ToList();
-    internal static void AddCommand(CommandDataTemp commandData)
+    internal static void AddCommand(CommandData commandData)
     {
         IsContextsDataInitialize().FirstOrDefault(w => w.Alias == ALIAS_UNKNOWN)?.CommandsData.Add(commandData);
     }
-    internal static void AddCommand(Type type, CommandDataTemp commandData)
+    internal static void AddCommand(Type type, CommandData commandData)
     {
         List<ContextData> contexts = Context.GetContext(type);
         if (contexts == null || contexts.Count == 0)
@@ -33,7 +33,7 @@ public static class Context
         else
             contexts.ForEach(context => { context.CommandsData.Add(commandData); });
     }
-    internal static void AddCommand(string connectionAlias, CommandDataTemp commandData)
+    internal static void AddCommand(string connectionAlias, CommandData commandData)
     {
         Context.IsContextsDataInitialize().FirstOrDefault(f => f.Alias == connectionAlias)?.CommandsData.Add(commandData);
     }

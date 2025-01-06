@@ -16,14 +16,14 @@ public class TableCreate : DbaData, ITableCreate
 
     public IColumnAdd CreateTable(string name, string alias)
     {
-        CommandDataBaseTemp commandDataBase = 
-            (CommandDataBaseTemp)Context.
+        DataBase dataBase = 
+            (DataBase)Context.
                 GetCommandData(Identifier)
-                    .Where(w => w.Command is CommandDataBaseTemp)?
+                    .Where(w => w.Command is DataBase)?
                     .FirstOrDefault()?
                .Command;
-        CommandTableTemp commandTable = new CommandTableTemp(new Table(commandDataBase.DataBase.Name, name, alias));
-        CommandDataTemp commandData = new CommandDataTemp(Identifier, DdlCommandType.Create, commandTable);
+        Table table = new Table(dataBase, name, alias);
+        CommandData commandData = new CommandData(Identifier, DdlCommandType.Create, table);
         Context.AddCommand(commandData);
 
         return new ColumnAdd(Identifier);

@@ -1,8 +1,4 @@
-﻿using NGConnection;
-using NGConnection.Enums;
-using NGConnection.Models;
-
-namespace NGEntity;
+﻿namespace NGEntity;
 
 internal class DataBaseDdl : DbaData, IDataBaseDdl
 {
@@ -10,8 +6,8 @@ internal class DataBaseDdl : DbaData, IDataBaseDdl
 
     public ITableCreate CreateDataBase(string name)
     {
-        CommandDataBaseTemp commandDataBase = new CommandDataBaseTemp(new DataBase(name));
-        CommandDataTemp commandData = new CommandDataTemp(DdlCommandType.Create, commandDataBase);
+        DataBase dataBase = new DataBase(name);
+        CommandData commandData = new CommandData(DdlCommandType.Create, dataBase);
         Context.AddCommand(commandData);
 
         return new TableCreate(commandData.Identifier);
