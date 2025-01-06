@@ -14,12 +14,17 @@ public class DbaCommit : DbaData, IDbaCommit
     }
     public bool Execute(string contextAlias)
     {
+        if (!Context.ContextExists(contextAlias))
+            throw new ContextNotExists($"Context with alias {contextAlias} not exists");
+
+        ContextData contextData = Context.GetContext(contextAlias);
+        //contextData.Connection
 
         return default;
     }
     public bool Execute()
     {
-        var v = Context.GetCommandData(Identifier);
+        var v = Context.GetCommands(Identifier);
 
         return default;
     }

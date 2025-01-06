@@ -1,11 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using NGConnection.Interfaces;
-using NGEntity.Application.Services;
-using NGEntity.Exceptions;
-using NGEntity.Interfaces;
-using NGEntity.Models;
+﻿using NGConnection.Interfaces;
 
 namespace NGEntity;
 

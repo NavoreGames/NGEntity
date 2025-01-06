@@ -16,16 +16,9 @@ namespace NGEntity
             Guid identifier = Guid.NewGuid();
             foreach (TSource source in sources.OrderBy(o => o.GetType()))
             {
-                Insert Insert = new Insert();
+                Insert Insert = new Insert(identifier);
                 Insert.SetValues((IEntity)source);
-                CommandData commandData = 
-                    new CommandData
-                    (
-                        identifier, 
-                        DmlCommandType.Insert, 
-                        Insert
-                    );
-                Context.AddCommand(commandData);
+                Context.AddCommand(Insert);
 
                 //List<ContextData> contexts = Context.GetContext(source.GetType());
                 //if (contexts.Count == 0)
@@ -50,9 +43,8 @@ namespace NGEntity
 
             Update update = new Update();
             update.SetValues((IEntity)entity);
-            CommandData commandData = new(DmlCommandType.Update, update);
 
-            Context.AddCommand(commandData);
+            Context.AddCommand(update);
 
             ////// ADICIONAR O COMANDO NO CONTEXTO ///////////
             //List<ContextData> contexts = Context.GetContext(entity.GetType());
@@ -68,7 +60,7 @@ namespace NGEntity
             //    );
             //}
 
-            return new EntityCommit(commandData.Identifier);
+            return new EntityCommit(update.Identifier);
         }
         public IEntityWhere<TSource> Updates(TSource entity)  
         {
@@ -77,9 +69,8 @@ namespace NGEntity
 
             Update update = new Update();
             update.SetValues((IEntity)entity);
-            CommandData commandData = new(DmlCommandType.Update, update);
 
-            Context.AddCommand(commandData);
+            Context.AddCommand(update);
 
             ////// ADICIONAR O COMANDO NO CONTEXTO ///////////
             //List<ContextData> contexts = Context.GetContext(entity.GetType());
@@ -95,7 +86,7 @@ namespace NGEntity
             //    );
             //}
 
-            return new EntityWhere<TSource>(commandData.Identifier);
+            return new EntityWhere<TSource>(update.Identifier);
         }
         public IEntityCommit Delete(TSource entity)
         {
@@ -104,9 +95,8 @@ namespace NGEntity
 
             Delete delete = new();
             delete.SetValues((IEntity)entity);
-            CommandData commandData = new(DmlCommandType.Delete, delete);
 
-            Context.AddCommand(commandData);
+            Context.AddCommand(delete);
 
             ////// ADICIONAR O COMANDO NO CONTEXTO ///////////
             //List<ContextData> contexts = Context.GetContext(entity.GetType());
@@ -122,15 +112,14 @@ namespace NGEntity
             //    );
             //}
 
-            return new EntityCommit(commandData.Identifier);
+            return new EntityCommit(delete.Identifier);
         }
         public IEntityWhere<TSource> Deletes()
         {
             Delete delete = new();
             delete.SetValues((IEntity)default(TSource));
-            CommandData commandData = new(DmlCommandType.Delete, delete);
 
-            Context.AddCommand(commandData);
+            Context.AddCommand(delete);
 
             ////// ADICIONAR O COMANDO NO CONTEXTO ///////////
             //List<ContextData> contexts = Context.GetContext(default(TSource).GetType());
@@ -146,7 +135,7 @@ namespace NGEntity
             //    );
             //}
 
-            return new EntityWhere<TSource>(commandData.Identifier);
+            return new EntityWhere<TSource>(delete.Identifier);
 
             return default;
         }

@@ -1,21 +1,18 @@
 ﻿using NGConnection.Interfaces;
-using NGConnection.Models;
+namespace NGEntity.Models;
 
-namespace NGEntity.Models
+internal class ContextData
 {
-    internal class ContextData
-    {
-        public string Alias { get; private set; }
-        public IConnection Connection { get; private set; }
-        public List<Type> Types { get; private set; }
-        public List<CommandData> CommandsData { get; internal set; }
+    public string Alias { get; private set; }
+    public IConnection Connection { get; private set; }
+    public List<Type> Types { get; private set; }
+    public List<ICommand> Commands { get; internal set; }
 
-        internal ContextData(string alias, IConnection connection, List<Type> types)
-        {
-            Alias = alias;
-            Connection = connection;
-            Types = types;
-            CommandsData = [];
-        }
+    internal ContextData(string alias, IConnection connection, List<Type> types)
+    {
+        Alias = alias;
+        Connection = connection;
+        Types = types;
+        Commands = [];
     }
 }

@@ -11,7 +11,7 @@ public abstract class DbaData
     internal DbaData(Guid identifier) { Identifier = identifier; }
 
     public override string ToString() =>
-        String.Join(';', Context.GetCommandData(Identifier).Select(s=> s.Command.ToString()).Where(w=> w != null && w != ""));
+        String.Join(';', Context.GetCommands(Identifier).ToString());
     public string ToString(IConnection connection) { return default; }
     public string ToString(string connectionAlias) { return default; }
 

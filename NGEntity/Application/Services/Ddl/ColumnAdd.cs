@@ -14,13 +14,12 @@ public class ColumnAdd : TableCreate, IColumnAdd
     {
         Table table =
             (Table)Context.
-                GetCommandData(Identifier)
-                    .Where(w => w.Command is Table)?
-                    .LastOrDefault()?
-               .Command;
-        Column column = new Column(table, name, alias, key, type, length, notNull, autoincrement);
-        CommandData commandData = new CommandData(Identifier, DdlActionType.Add, column);
-        Context.AddCommand(commandData);
+                GetCommands(Identifier)
+                    .Where(w => w is Table)?
+                    .LastOrDefault();
+
+        Column column = new Column(Identifier, DdlActionType.Add, table, name, alias, key, type, length, notNull, autoincrement);
+        Context.AddCommand(column);
 
         return new ColumnAdd(Identifier);
     }

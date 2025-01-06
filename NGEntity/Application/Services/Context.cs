@@ -19,27 +19,27 @@ public static class Context
     {
         return IsContextsDataInitialize().Where(w=> w.Alias == alias).FirstOrDefault();
     }
-    internal static List<CommandData> GetCommandData(Guid identifier) =>
-       IsContextsDataInitialize().SelectMany(w => w.CommandsData.Where(w=> w.Identifier.Equals(identifier))).ToList();
-    internal static void AddCommand(CommandData commandData)
+    internal static List<ICommand> GetCommands(Guid identifier) =>
+       IsContextsDataInitialize().SelectMany(w => w.Commands.Where(w=> w.Identifier.Equals(identifier))).ToList();
+    internal static void AddCommand(ICommand command)
     {
-        IsContextsDataInitialize().FirstOrDefault(w => w.Alias == ALIAS_UNKNOWN)?.CommandsData.Add(commandData);
+        IsContextsDataInitialize().FirstOrDefault(w => w.Alias == ALIAS_UNKNOWN)?.Commands.Add(command);
     }
-    internal static void AddCommand(Type type, CommandData commandData)
+    internal static void AddCommand(Type type, ICommand command)
     {
         List<ContextData> contexts = Context.GetContext(type);
         if (contexts == null || contexts.Count == 0)
-            IsContextsDataInitialize().FirstOrDefault(w => w.Alias == ALIAS_UNKNOWN)?.CommandsData.Add(commandData);
+            IsContextsDataInitialize().FirstOrDefault(w => w.Alias == ALIAS_UNKNOWN)?.Commands.Add(command);
         else
-            contexts.ForEach(context => { context.CommandsData.Add(commandData); });
+            contexts.ForEach(context => { context.Commands.Add(command); });
     }
-    internal static void AddCommand(string connectionAlias, CommandData commandData)
+    internal static void AddCommand(string connectionAlias, ICommand command)
     {
-        Context.IsContextsDataInitialize().FirstOrDefault(f => f.Alias == connectionAlias)?.CommandsData.Add(commandData);
+        Context.IsContextsDataInitialize().FirstOrDefault(f => f.Alias == connectionAlias)?.Commands.Add(command);
     }
     internal static void DeleteCommand(Guid commandIdentifier)
     {
-        IsContextsDataInitialize().ForEach(f => { f.CommandsData.RemoveAll(x => x.Identifier.Equals(commandIdentifier)); });
+        IsContextsDataInitialize().ForEach(f => { f.Commands.RemoveAll(x => x.Identifier.Equals(commandIdentifier)); });
     }
 
     public static void AddContext(string alias, IConnection connection, params IEntity[] entities)
