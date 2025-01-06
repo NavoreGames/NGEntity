@@ -24,8 +24,8 @@ public class EntityWhere<TSource1> :
 
     public IEntityCommit Where(Expression<Func<TSource1, bool>> expression)
     {
-        CommandWhere commandWhere = new();
-        commandWhere.SetExpression(expression);
+        Where Where = new();
+        Where.SetValues(expression);
 
         return new EntityCommit(Identifier);
     }

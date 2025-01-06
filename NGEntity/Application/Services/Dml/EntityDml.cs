@@ -1,4 +1,6 @@
-﻿namespace NGEntity
+﻿using NGEntity.Interfaces;
+
+namespace NGEntity
 {
     internal class EntityDml<TSource> : EntityData, IEntityDml<TSource>
     {
@@ -68,14 +70,17 @@
 
             return new EntityCommit(commandData.Identifier);
         }
-        public IEntityWhere<TSource> Updates(TSource entity) 
+        public IEntityWhere<TSource> Updates(TSource entity)  
         {
-            //if (entity == null)
-            //    throw new ArgumentNullException(nameof(entity));
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
 
-            //CommandUpdate commandUpdate = new();
-            //commandUpdate.SetValues((IEntity)entity);
-            //CommandData commandData = new(DmlCommandType.Update, commandUpdate);
+            Update update = new Update();
+            update.SetValues((IEntity)entity);
+            CommandData commandData = new(DmlCommandType.Update, update);
+
+            Context.AddCommand(commandData);
+
             ////// ADICIONAR O COMANDO NO CONTEXTO ///////////
             //List<ContextData> contexts = Context.GetContext(entity.GetType());
             //if (contexts.Count == 0)
@@ -90,18 +95,19 @@
             //    );
             //}
 
-            //return new EntityWhere<TSource>(commandData.Identifier);
-
-            return default;
+            return new EntityWhere<TSource>(commandData.Identifier);
         }
         public IEntityCommit Delete(TSource entity)
         {
-            //if (entity == null)
-            //    throw new ArgumentNullException(nameof(entity));
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
 
-            //CommandDelete commandDelete = new();
-            //commandDelete.SetValues((IEntity)entity);
-            //CommandData commandData = new(DmlCommandType.Delete, commandDelete);
+            Delete delete = new();
+            delete.SetValues((IEntity)entity);
+            CommandData commandData = new(DmlCommandType.Delete, delete);
+
+            Context.AddCommand(commandData);
+
             ////// ADICIONAR O COMANDO NO CONTEXTO ///////////
             //List<ContextData> contexts = Context.GetContext(entity.GetType());
             //if (contexts.Count == 0)
@@ -116,15 +122,16 @@
             //    );
             //}
 
-            //return new EntityCommit(commandData.Identifier);
-
-            return default;
+            return new EntityCommit(commandData.Identifier);
         }
         public IEntityWhere<TSource> Deletes()
         {
-            //CommandDelete commandDelete = new();
-            //commandDelete.SetValues((IEntity)default(TSource));
-            //CommandData commandData = new(DmlCommandType.Delete, commandDelete);
+            Delete delete = new();
+            delete.SetValues((IEntity)default(TSource));
+            CommandData commandData = new(DmlCommandType.Delete, delete);
+
+            Context.AddCommand(commandData);
+
             ////// ADICIONAR O COMANDO NO CONTEXTO ///////////
             //List<ContextData> contexts = Context.GetContext(default(TSource).GetType());
             //if (contexts.Count == 0)
@@ -139,7 +146,7 @@
             //    );
             //}
 
-            //return new EntityWhere<TSource>(commandData.Identifier);
+            return new EntityWhere<TSource>(commandData.Identifier);
 
             return default;
         }

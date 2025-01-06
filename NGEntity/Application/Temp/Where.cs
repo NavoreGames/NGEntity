@@ -1,15 +1,17 @@
-﻿using NGEntity.Application.Interfaces;
-using NGEntity.Domain.Models;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
+using NGConnection.Models;
 
-namespace NGEntity.Application.Services;
+namespace NGConnection;
 
-internal class CommandWhere : ICommandWhere
+public class WhereTemp : Where
 {
-    public ExpressionData Expression { get; set; }
 
-    public void SetExpression(Expression expression){ Expression = GetExpression(expression, null); }
+    public override void SetValues(object source)
+    {
+        Expression = GetExpression((Expression)source, null);
+    }
+
     private ExpressionData GetExpression(Expression expression, MemberInfo memberInfo)
     {
         try
