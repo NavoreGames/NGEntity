@@ -3,9 +3,9 @@ using NGConnection.Interfaces;
 
 namespace NGEntity;
 
-public class DbaCommit : DbaData, IDbaCommit
+public class CommandCommit : CommandData, ICommandCommit
 {
-    internal DbaCommit(Guid Identifier) : base(Identifier) { }
+    internal CommandCommit(Guid Identifier) : base(Identifier) { }
 
     public bool Execute(IConnection connection)
     {

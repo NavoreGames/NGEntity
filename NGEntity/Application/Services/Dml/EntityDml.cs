@@ -2,11 +2,11 @@
 
 namespace NGEntity
 {
-    internal class EntityDml<TSource> : EntityData, IEntityDml<TSource>
+    internal class EntityDml<TSource> : CommandData, IEntityDml<TSource>
     {
         internal EntityDml() { }
 
-        public IEntityCommit Insert(TSource firstEntity, params TSource[] otherEntities)
+        public ICommandCommit Insert(TSource firstEntity, params TSource[] otherEntities)
         {
             if (firstEntity == null || (otherEntities != null && otherEntities.Any(a => a == null)))
                 throw new ArgumentNullException(firstEntity.GetType().ToString());
@@ -34,9 +34,9 @@ namespace NGEntity
                 //}
             }
 
-            return new EntityCommit(identifier);
+            return new CommandCommit(identifier);
         }
-        public IEntityCommit Update(TSource entity) 
+        public ICommandCommit Update(TSource entity) 
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -60,7 +60,7 @@ namespace NGEntity
             //    );
             //}
 
-            return new EntityCommit(update.Identifier);
+            return new CommandCommit(update.Identifier);
         }
         public IEntityWhere<TSource> Updates(TSource entity)  
         {
@@ -88,7 +88,7 @@ namespace NGEntity
 
             return new EntityWhere<TSource>(update.Identifier);
         }
-        public IEntityCommit Delete(TSource entity)
+        public ICommandCommit Delete(TSource entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -112,7 +112,7 @@ namespace NGEntity
             //    );
             //}
 
-            return new EntityCommit(delete.Identifier);
+            return new CommandCommit(delete.Identifier);
         }
         public IEntityWhere<TSource> Deletes()
         {
@@ -136,8 +136,6 @@ namespace NGEntity
             //}
 
             return new EntityWhere<TSource>(delete.Identifier);
-
-            return default;
         }
         public IEntityJoin<TSource> Selects() { return default; }
         public IEntityWhere<TSource> Selects<TProperty>(Expression<Func<TSource, TProperty>> fields) { return default; }

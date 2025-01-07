@@ -2,7 +2,7 @@
 
 namespace NGEntity;
 
-public class EntityCommand<TSource> : EntityData, IEntityCommand<TSource>
+public class EntityCommand<TSource> : CommandData, IEntityCommand<TSource>
 {
     //internal EntityCommand(ContextData contextData) : base(contextData) { }
 

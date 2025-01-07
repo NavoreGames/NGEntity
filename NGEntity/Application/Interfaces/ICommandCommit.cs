@@ -2,7 +2,7 @@
 
 namespace NGEntity.Interfaces
 {
-	public interface IDbaCommit : IDbaData
+	public interface ICommandCommit
     {
         bool Execute(IConnection connection);
         bool Execute(string connectionAlias);

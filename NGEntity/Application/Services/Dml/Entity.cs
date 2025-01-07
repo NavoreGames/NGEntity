@@ -43,17 +43,17 @@ namespace NGEntity
             //}
         }
 
-        public IEntityCommit Insert() =>
+        public ICommandCommit Insert() =>
            new EntityDml<TSource>().Insert((TSource)(IEntity)this);
-        public static IEntityCommit Inserts(TSource firstEntity, params TSource[] otherEntities) =>
+        public static ICommandCommit Inserts(TSource firstEntity, params TSource[] otherEntities) =>
             new EntityDml<TSource>().Insert(firstEntity, otherEntities);
 
-        public IEntityCommit Update() =>
+        public ICommandCommit Update() =>
             new EntityDml<TSource>().Update((TSource)(IEntity)this);
         public static IEntityWhere<TSource> Updates(TSource fields) =>
           new EntityDml<TSource>().Updates(fields);
 
-        public IEntityCommit Delete() =>
+        public ICommandCommit Delete() =>
            new EntityDml<TSource>().Delete((TSource)(IEntity)this);
         public static IEntityWhere<TSource> Deletes() =>
           new EntityDml<TSource>().Deletes();
@@ -82,7 +82,7 @@ namespace NGEntity
 
         //public static IEntityCcaCommit Query(string query) { return default; }
 
-        //      public static IEntityCommit Alter<TConnectionAlias>(DataBase dataBase) where TConnectionAlias : IConnectionAlias, new()
+        //      public static ICommandCommit Alter<TConnectionAlias>(DataBase dataBase) where TConnectionAlias : IConnectionAlias, new()
         //{
         //	//TConnectionAlias connectionAlias = new TConnectionAlias();
         //	//ContextData contextData = Context.GetConnection(connectionAlias);

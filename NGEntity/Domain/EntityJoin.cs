@@ -12,13 +12,13 @@ using System.Collections.Generic;
 
 namespace NGEntity;
 
-public abstract class EntityJoin : EntityData
+public abstract class EntityJoin : CommandData
 {
     internal EntityJoin(Guid Identifier) : base(Identifier) { }
 
-    public IEntity Execute(IConnection connection) => new EntityCommit(Identifier).Execute(connection);
-    public IEntity Execute(string contextAlias) => new EntityCommit(Identifier).Execute(contextAlias);
-    public IEntity Execute() => new EntityCommit(Identifier).Execute();
+    public bool Execute(IConnection connection) => new CommandCommit(Identifier).Execute(connection);
+    public bool Execute(string contextAlias) => new CommandCommit(Identifier).Execute(contextAlias);
+    public bool Execute() => new CommandCommit(Identifier).Execute();
 }
 public class EntityJoin<TSource1> : EntityJoin, IEntityJoin<TSource1>
 {
@@ -31,7 +31,7 @@ public class EntityJoin<TSource1> : EntityJoin, IEntityJoin<TSource1>
         return default;
     }
 
-    public IEntityCommit Where(Expression<Func<TSource1, bool>> expression) =>
+    public ICommandCommit Where(Expression<Func<TSource1, bool>> expression) =>
         new EntityWhere<TSource1>(Identifier).Where(expression);
     public IEntityInclude<TSource1, TProperty> Include<TProperty>(Expression<Func<TSource1, TProperty>> field) where TProperty : IEnumerable<IEntity> =>
         new EntityInclude<TSource1>(Identifier).Include(field);
@@ -50,7 +50,7 @@ public class EntityJoin<TSource1, TSource2> :
             where TEntityRight : IEntity
     { return default; }
 
-    public IEntityCommit Where(Expression<Func<TSource1, TSource2, bool>> expression) =>
+    public ICommandCommit Where(Expression<Func<TSource1, TSource2, bool>> expression) =>
        new EntityWhere<TSource1, TSource2>(Identifier).Where(expression);
 }
 public class EntityJoin<TSource1, TSource2, TSource3> :
@@ -66,7 +66,7 @@ public class EntityJoin<TSource1, TSource2, TSource3> :
         Expression<Func<TEntityLeft, TEntityRight, bool>> expression)
             where TEntityRight : IEntity
     { return default; }
-    public IEntityCommit Where(Expression<Func<TSource1, TSource2, TSource3, bool>> expression) =>
+    public ICommandCommit Where(Expression<Func<TSource1, TSource2, TSource3, bool>> expression) =>
        new EntityWhere<TSource1, TSource2, TSource3>(Identifier).Where(expression);
 }
 public class EntityJoin<TSource1, TSource2, TSource3, TSource4> :
@@ -82,7 +82,7 @@ public class EntityJoin<TSource1, TSource2, TSource3, TSource4> :
        Expression<Func<TEntityLeft, TEntityRight, bool>> expression)
            where TEntityRight : IEntity
     { return default; }
-    public IEntityCommit Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, bool>> expression) =>
+    public ICommandCommit Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, bool>> expression) =>
        new EntityWhere<TSource1, TSource2, TSource3, TSource4>(Identifier).Where(expression);
 }
 public class EntityJoin<TSource1, TSource2, TSource3, TSource4, TSource5> :
@@ -97,7 +97,7 @@ public class EntityJoin<TSource1, TSource2, TSource3, TSource4, TSource5> :
        Expression<Func<TEntityLeft, TEntityRight, bool>> expression)
            where TEntityRight : IEntity
     { return default; }
-    public IEntityCommit Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, bool>> expression) =>
+    public ICommandCommit Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, bool>> expression) =>
        new EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5>(Identifier).Where(expression);
 }
 public class EntityJoin<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6> :
@@ -112,7 +112,7 @@ public class EntityJoin<TSource1, TSource2, TSource3, TSource4, TSource5, TSourc
        Expression<Func<TEntityLeft, TEntityRight, bool>> expression)
            where TEntityRight : IEntity
     { return default; }
-    public IEntityCommit Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, bool>> expression) =>
+    public ICommandCommit Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, bool>> expression) =>
        new EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6>(Identifier).Where(expression);
 }
 public class EntityJoin<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, TSource7> :
@@ -127,6 +127,6 @@ public class EntityJoin<TSource1, TSource2, TSource3, TSource4, TSource5, TSourc
        Expression<Func<TEntityLeft, TEntityRight, bool>> expression)
            where TEntityRight : IEntity
     { return default; }
-    public IEntityCommit Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, TSource7, bool>> expression) =>
+    public ICommandCommit Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, TSource7, bool>> expression) =>
        new EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, TSource7>(Identifier).Where(expression);
 }

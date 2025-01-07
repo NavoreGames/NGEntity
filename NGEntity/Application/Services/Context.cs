@@ -5,7 +5,9 @@ namespace NGEntity;
 
 public static class Context
 {
-    const string ALIAS_UNKNOWN = "Unknown";
+    private const string ALIAS_UNKNOWN = "Unknown";
+
+    public static bool PrintCommandsInConsole { get; set; } = false;
     private static List<ContextData> ContextsData { get; set; }
     private static List<ContextData> IsContextsDataInitialize() => ContextsData ??= [new(ALIAS_UNKNOWN, null, [])];
 

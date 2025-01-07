@@ -1,6 +1,6 @@
 ﻿namespace NGEntity;
 
-internal class DataBaseDdl : DbaData, IDataBaseDdl
+internal class DataBaseDdl : CommandData, IDataBaseDdl
 {
     internal DataBaseDdl() { }
 

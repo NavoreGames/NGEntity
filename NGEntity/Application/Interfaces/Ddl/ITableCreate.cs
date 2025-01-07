@@ -4,7 +4,7 @@ using NGConnection.Models;
 
 namespace NGEntity.Interfaces
 {
-    public interface ITableCreate : IDbaCommit
+    public interface ITableCreate : ICommandCommit
     {
         IColumnAdd CreateTable(string name, string alias);
         IColumnAdd CreateTable(string name);

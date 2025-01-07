@@ -15,7 +15,7 @@ using NGEntity.Interfaces;
 
 namespace NGEntity.Domain;
 
-public class EntityInclude<TSource> : EntityData
+public class EntityInclude<TSource> : CommandData
 {
     internal EntityInclude(Guid Identifier) : base(Identifier) { }
 
