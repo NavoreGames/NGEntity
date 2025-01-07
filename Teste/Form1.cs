@@ -53,7 +53,7 @@ namespace Teste
                     .CreateTable("Usr001", "User")
                         .AddColumn("UsrId", "UserId", Key.Pk, VariableType.Bigint, true)
                     .CreateTable("Adr002", "Adress")
-                    .Execute();
+                    .SaveChanges();
 
                 
         }
@@ -80,33 +80,33 @@ namespace Teste
 
             string s = User.Inserts(user).ToString();
             user.Insert();
-            user.Insert().Execute();
-            user.Insert().Execute(LOCAL);
-            user.Insert().Execute(sqlite);
+            user.Insert().SaveChanges();
+            user.Insert().SaveChanges(LOCAL);
+            user.Insert().SaveChanges(sqlite);
 
-            user.Update().Execute();
-            User.Updates(new User() { Name = "Updade", Email = "update@update.com" }).Where(w => w.IdUser == 1 && (w.Name == "Will" || w.Flag == false)).Execute();
+            user.Update().SaveChanges();
+            User.Updates(new User() { Name = "Updade", Email = "update@update.com" }).Where(w => w.IdUser == 1 && (w.Name == "Will" || w.Flag == false)).SaveChanges();
             //User.Updates(new User() { Name = "Updade", Email = "update@update.com" }).Where(w => w.Name.Contains("Will")).Execute();
 
-            user.Delete().Execute();
-            User.Deletes().Where(w => 1 == 1).Execute();
+            user.Delete().SaveChanges();
+            User.Deletes().Where(w => 1 == 1).SaveChanges();
 
-            User.Selects().Execute();
-            User.Selects().Where(w => w.IdUser == 1).Execute();
-            User.Selects(s => new { s.IdUser, s.Email }).Where(w => w.IdUser == 1).Execute();
+            User.Selects().SaveChanges();
+            User.Selects().Where(w => w.IdUser == 1).SaveChanges();
+            User.Selects(s => new { s.IdUser, s.Email }).Where(w => w.IdUser == 1).SaveChanges();
             User
                 .Selects()
                     .InnerJoin<Address>((user, address) => user.FkAddress == address.IdAddress)
                     .InnerJoin<Address, Subtitle>((address, subtitle) => address.IdAddress == subtitle.IdSubtitle)
                 .Where((user, address, subtitle) => user.IdUser == 1 && address.IdAddress == 1)
-                .Execute();
+                .SaveChanges();
 
             User
                 .Selects()
                     .InnerJoin<Subtitle>((j1, j2) => j1.IdUser == j2.FkLanguage && j2.IdSubtitle > 0)
                     .InnerJoin<Address>((j1, j2) => j1.FkAddress == j2.IdAddress)
                     .InnerJoin<Subtitle, Address>((j1, j2) => j1.FkLanguage == j2.IdAddress)
-                .Execute();
+                .SaveChanges();
 
             //User.Selects().Include(x => x.Address);
             //User.Selects().Include(x => x.Addresses);

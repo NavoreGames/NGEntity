@@ -7,12 +7,12 @@ public class CommandCommit : CommandData, ICommandCommit
 {
     internal CommandCommit(Guid Identifier) : base(Identifier) { }
 
-    public bool Execute(IConnection connection)
+    public bool SaveChanges(IConnection connection)
     {
 
         return default;
     }
-    public bool Execute(string contextAlias)
+    public bool SaveChanges(string contextAlias)
     {
         if (!Context.ContextExists(contextAlias))
             throw new ContextNotExists($"Context with alias {contextAlias} not exists");
@@ -22,7 +22,7 @@ public class CommandCommit : CommandData, ICommandCommit
 
         return default;
     }
-    public bool Execute()
+    public bool SaveChanges()
     {
         var v = Context.GetCommands(Identifier);
 
