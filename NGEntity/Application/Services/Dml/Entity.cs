@@ -2,8 +2,6 @@
 using NGEntity.Domain;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.ComponentModel;
-using NGConnection.Enums;
-using NGConnection.Models;
 //using NGEntity.Application.Interfaces;
 
 

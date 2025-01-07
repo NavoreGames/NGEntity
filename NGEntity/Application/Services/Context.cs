@@ -1,4 +1,5 @@
-﻿using NGConnection.Interfaces;
+﻿using Mysqlx.Expr;
+using NGConnection.Interfaces;
 using NGConnection.Models;
 
 namespace NGEntity;
@@ -42,6 +43,63 @@ public static class Context
     internal static void DeleteCommand(Guid commandIdentifier)
     {
         IsContextsDataInitialize().ForEach(f => { f.Commands.RemoveAll(x => x.Identifier.Equals(commandIdentifier)); });
+    }
+
+    internal static string GetQuery(Guid commandIdentifier, IConnection connection)
+    {
+        return "";
+    }
+    internal static string GetQuery(Guid commandIdentifier, string contextAlias)
+    {
+        return "";
+    }
+    internal static string GetQuery(Guid commandIdentifier)
+    {
+        return "";
+    }
+
+    internal static bool SaveChanges(Guid Identifier, IConnection connection)
+    {
+
+        return default;
+    }
+    internal static bool SaveChanges(Guid Identifier, string contextAlias)
+    {
+        if (!Context.ContextExists(contextAlias))
+            throw new ContextNotExists($"Context with alias {contextAlias} not exists");
+
+        ContextData contextData = Context.GetContext(contextAlias);
+        //contextData.Connection
+
+        return default;
+    }
+    internal static bool SaveChanges(Guid Identifier)
+    {
+        var v = Context.GetCommands(Identifier);
+
+        return default;
+    }
+
+    public static bool SaveChanges(IConnection connection)
+    {
+
+        return default;
+    }
+    public static bool SaveChanges(string contextAlias)
+    {
+        if (!Context.ContextExists(contextAlias))
+            throw new ContextNotExists($"Context with alias {contextAlias} not exists");
+
+        ContextData contextData = Context.GetContext(contextAlias);
+        //contextData.Connection
+
+        return default;
+    }
+    public static bool SaveChanges()
+    {
+        //var v = Context.GetCommands(Identifier);
+
+        return default;
     }
 
     public static void AddContext(string alias, IConnection connection, params IEntity[] entities)

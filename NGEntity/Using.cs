@@ -6,5 +6,6 @@ global using NGEntity.Interfaces;
 global using NGEntity.Models;
 global using NGEntity.Exceptions;
 global using NGConnection;
+global using NGConnection.Interfaces;
 global using NGConnection.Enums;
 global using NGConnection.Models;

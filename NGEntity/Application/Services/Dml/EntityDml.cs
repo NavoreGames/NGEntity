@@ -1,6 +1,4 @@
-﻿using NGEntity.Interfaces;
-
-namespace NGEntity
+﻿namespace NGEntity
 {
     internal class EntityDml<TSource> : CommandData, IEntityDml<TSource>
     {
