@@ -21,8 +21,8 @@ namespace Teste
 		}
         private void Form1_Load(object sender, EventArgs e)
         {
-            //ExecuteEntitysCommands();
-            CreateDataBaseFromCode();
+            ExecuteEntitysCommands();
+            //CreateDataBaseFromCode();
         }
 
         public void CreateDataBaseFromCode()
@@ -30,7 +30,7 @@ namespace Teste
             Sqlite sqlite = new("IpAddress", "DataBaseName", "UserName", "Password");
 
             Context.AddContext(LOCAL, sqlite);
-            Context.AddContext(SERVER, new Mysql("", "", "", ""), new User());
+            //Context.AddContext(SERVER, new Mysql("", "", "", ""), new User());
 
             //Context.AddContext(SERVER, new Http("", "", "", ""));
 
@@ -39,8 +39,8 @@ namespace Teste
                     .CreateTable("Usr001", "User")
                     //    .AddColumn("UsrId", "UserId", Key.Pk, VariableType.Bigint, true)
                     //.CreateTable("Adr002", "Adress")
-                    .ToString(sqlite);
-                    //.Execute();
+                    //.ToString(sqlite);
+                    .Execute();
 
                 
         }

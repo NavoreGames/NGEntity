@@ -16,20 +16,7 @@
             {
                 Insert Insert = new Insert(identifier);
                 Insert.SetValues((IEntity)source);
-                Context.AddCommand(Insert);
-
-                //List<ContextData> contexts = Context.GetContext(source.GetType());
-                //if (contexts.Count == 0)
-                //    Context.AddCommand("None", commandData);
-                //else
-                //{
-                //    contexts.ForEach(
-                //        context =>
-                //        {
-                //            Context.AddCommand(context.Alias, commandData.SetCommand(context.Connection.GetType()));
-                //        }
-                //    );
-                //}
+                Context.AddCommand(source.GetType(), Insert);
             }
 
             return new CommandCommit(identifier);
@@ -42,21 +29,7 @@
             Update update = new Update();
             update.SetValues((IEntity)entity);
 
-            Context.AddCommand(update);
-
-            ////// ADICIONAR O COMANDO NO CONTEXTO ///////////
-            //List<ContextData> contexts = Context.GetContext(entity.GetType());
-            //if (contexts.Count == 0)
-            //    Context.AddCommand("None", commandData);
-            //else
-            //{
-            //    contexts.ForEach(
-            //        context =>
-            //        {
-            //            Context.AddCommand(context.Alias, commandData.SetCommand(context.Connection.GetType()));
-            //        }
-            //    );
-            //}
+            Context.AddCommand(entity.GetType(), update);
 
             return new CommandCommit(update.Identifier);
         }
@@ -68,21 +41,7 @@
             Update update = new Update();
             update.SetValues((IEntity)entity);
 
-            Context.AddCommand(update);
-
-            ////// ADICIONAR O COMANDO NO CONTEXTO ///////////
-            //List<ContextData> contexts = Context.GetContext(entity.GetType());
-            //if (contexts.Count == 0)
-            //    Context.AddCommand("None", commandData);
-            //else
-            //{
-            //    contexts.ForEach(
-            //        context =>
-            //        {
-            //            Context.AddCommand(context.Alias, commandData.SetCommand(context.Connection.GetType()));
-            //        }
-            //    );
-            //}
+            Context.AddCommand(entity.GetType(), update);
 
             return new EntityWhere<TSource>(update.Identifier);
         }
@@ -94,21 +53,7 @@
             Delete delete = new();
             delete.SetValues((IEntity)entity);
 
-            Context.AddCommand(delete);
-
-            ////// ADICIONAR O COMANDO NO CONTEXTO ///////////
-            //List<ContextData> contexts = Context.GetContext(entity.GetType());
-            //if (contexts.Count == 0)
-            //    Context.AddCommand("None", commandData);
-            //else
-            //{
-            //    contexts.ForEach(
-            //        context =>
-            //        {
-            //            Context.AddCommand(context.Alias, commandData.SetCommand(context.Connection.GetType()));
-            //        }
-            //    );
-            //}
+            Context.AddCommand(entity.GetType(), delete);
 
             return new CommandCommit(delete.Identifier);
         }
@@ -117,21 +62,7 @@
             Delete delete = new();
             delete.SetValues((IEntity)default(TSource));
 
-            Context.AddCommand(delete);
-
-            ////// ADICIONAR O COMANDO NO CONTEXTO ///////////
-            //List<ContextData> contexts = Context.GetContext(default(TSource).GetType());
-            //if (contexts.Count == 0)
-            //    Context.AddCommand("None", commandData);
-            //else
-            //{
-            //    contexts.ForEach(
-            //        context =>
-            //        {
-            //            Context.AddCommand(context.Alias, commandData.SetCommand(context.Connection.GetType()));
-            //        }
-            //    );
-            //}
+            Context.AddCommand(default(TSource).GetType(), delete);
 
             return new EntityWhere<TSource>(delete.Identifier);
         }

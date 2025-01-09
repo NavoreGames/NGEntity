@@ -162,27 +162,27 @@ public static class Context
         return true;
     }
 
-    public static bool SaveChanges(IConnection connection)
-    {
+    //public static bool SaveChanges(IConnection connection)
+    //{
 
-        return default;
-    }
-    public static bool SaveChanges(string contextAlias)
-    {
-        if (!ContextExists(contextAlias))
-            throw new ContextNotExists($"Context with alias {contextAlias} not exists");
+    //    return default;
+    //}
+    //public static bool SaveChanges(string contextAlias)
+    //{
+    //    if (!ContextExists(contextAlias))
+    //        throw new ContextNotExists($"Context with alias {contextAlias} not exists");
 
-        ContextData contextData = Context.GetContext(contextAlias);
-        //contextData.Connection
+    //    ContextData contextData = Context.GetContext(contextAlias);
+    //    //contextData.Connection
 
-        return default;
-    }
-    public static bool SaveChanges()
-    {
-        //var v = Context.GetCommands(Identifier);
+    //    return default;
+    //}
+    //public static bool SaveChanges()
+    //{
+    //    //var v = Context.GetCommands(Identifier);
 
-        return default;
-    }
+    //    return default;
+    //}
 
     public static void AddContext(string alias, IConnection connection, params IEntity[] entities)
     {
