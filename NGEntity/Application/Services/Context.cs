@@ -63,8 +63,8 @@ public static class Context
             throw new CommandNotExists($"Command not exists");
 
         ContextData contextData = GetContext(ALIAS_UNKNOWN);
-        if (!ConnectionIsValidDataBases(contextData.Connection))
-            throw new InvalidConnection($"{contextData.Connection.GetType()} is an invalid connection.");
+        if (!ConnectionIsValidDataBases(connection))
+            throw new InvalidConnection($"{connection.GetType()} is an invalid connection.");
 
         //// COMO A CONEXÃO FOI PASSADA NO PARÂMETRO, ELA IRÁ SOBREESCREVER AS OUTRAS
         //// ENTÃO OS COMANDOS IRAM SER TRANSFERIDOS TODOS PARA O DESCONHECIDO E SETADO A CONEXÃO LÁ
@@ -205,8 +205,4 @@ public static class Context
         IsContextsDataInitialize().Any(x => x.Commands.Any(x => x.Identifier.Equals(commandIdentifier)));
     private static bool ConnectionIsValidDataBases(IConnection connection) =>
         connection is IConnectionDataBases;
-
-
-    //public static bool EntityExistsInContext(string alias, Type type) => 
-    //    IsContextsDataInitialize().Any(x => x.Alias == alias && x.Types.Any(x=> x.Equals(type)));
 }

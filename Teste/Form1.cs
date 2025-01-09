@@ -30,16 +30,16 @@ namespace Teste
             Sqlite sqlite = new("IpAddress", "DataBaseName", "UserName", "Password");
 
             Context.AddContext(LOCAL, sqlite);
-            //Context.AddContext(SERVER, new Mysql("", "", "", ""), new User());
+            Context.AddContext(SERVER, new Mysql("", "", "", ""), new User());
 
             //Context.AddContext(SERVER, new Http("", "", "", ""));
 
             var v = Dba
                 .CreateDataBase("DataBaseTest")
-                    //.CreateTable("Usr001", "User")
+                    .CreateTable("Usr001", "User")
                     //    .AddColumn("UsrId", "UserId", Key.Pk, VariableType.Bigint, true)
                     //.CreateTable("Adr002", "Adress")
-                    .ToString();
+                    .ToString(sqlite);
                     //.Execute();
 
                 
