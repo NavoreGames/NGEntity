@@ -8,9 +8,9 @@ public class TableAlter : CommandData, ITableAlter
 {
     internal TableAlter(Guid Identifier) : base(Identifier) { }
 
-    public bool SaveChanges(IConnection connection) => new CommandCommit(Identifier).SaveChanges(connection);
-    public bool SaveChanges(string contextAlias) => new CommandCommit(Identifier).SaveChanges(contextAlias);
-    public bool SaveChanges() => new CommandCommit(Identifier).SaveChanges();
+    public bool Execute(IConnection connection) => new CommandCommit(Identifier).Execute(connection);
+    public bool Execute(string contextAlias) => new CommandCommit(Identifier).Execute(contextAlias);
+    public bool Execute() => new CommandCommit(Identifier).Execute();
 
     public IColumnAdd CreateTable(string name, string alias)
     {

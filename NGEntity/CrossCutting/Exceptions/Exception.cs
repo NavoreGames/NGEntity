@@ -8,11 +8,20 @@ namespace NGEntity.Exceptions
         public ContextAlreadyExists(string header, string message) : base(header, message, "") { }
         public ContextAlreadyExists(string message) : base("", message) { }
     }
-
     public class ContextNotExists : NGException
     {
         public ContextNotExists(string header, string message) : base(header, message, "") { }
         public ContextNotExists(string message) : base("", message) { }
+    }
+    public class ContextAreMany : NGException
+    {
+        public ContextAreMany(string header, string message) : base(header, message, "") { }
+        public ContextAreMany(string message) : base("", message) { }
+    }
+    public class CommandNotExists : NGException
+    {
+        public CommandNotExists(string header, string message) : base(header, message, "") { }
+        public CommandNotExists(string message) : base("", message) { }
     }
     public class TypeNotExistInContext : NGException
     {

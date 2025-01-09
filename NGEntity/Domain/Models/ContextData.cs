@@ -4,7 +4,7 @@ namespace NGEntity.Models;
 internal class ContextData
 {
     public string Alias { get; private set; }
-    public IConnection Connection { get; private set; }
+    public IConnection Connection { get; internal set; }
     public List<Type> Types { get; private set; }
     public List<ICommand> Commands { get; internal set; }
 
