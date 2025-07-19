@@ -1,8 +1,8 @@
 ﻿namespace NGEntity;
 
-public class CommandCommit : CommandData, ICommandCommit
+public class CommandExecuteReader : CommandData, ICommandExecute
 {
-    internal CommandCommit(Guid Identifier) : base(Identifier) { }
+    internal CommandExecuteReader(Guid Identifier) : base(Identifier) { }
 
     public bool Execute(IConnection connection) => Context.SaveChanges(Identifier, connection);
     public bool Execute(string contextAlias) => Context.SaveChanges(Identifier, contextAlias);

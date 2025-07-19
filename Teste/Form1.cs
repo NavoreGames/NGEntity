@@ -7,26 +7,69 @@ using NGConnection.Enums;
 using NGEntity;
 using NGEntity.Domain;
 using NGConnection.Models;
+using System.Runtime.CompilerServices;
+using NGEntity.Interfaces;
+using System.DirectoryServices.ActiveDirectory;
 
 namespace Teste
 {
     public partial class Form1 : Form
-	{
+    {
         const string LOCAL = "Local";
         const string SERVER = "Server";
 
+        const string IpAddress = "0.0.0.0";
+        const string DataBaseName = "YourDataBase";
+        const string UserName = "UserName";
+        const string Password = "********";
+        const string TimeOut = "30";
+
+        Sqlite sqlite = new Sqlite("C:\\Users\\willg\\Meu Drive", "DataBaseTeste", "u758086818_NGTroia", "#Navore2019");
+        Mysql mysql = new Mysql(IpAddress, DataBaseName, UserName, Password);
+
+
         public Form1()
-		{
-			InitializeComponent();
-		}
+        {
+            InitializeComponent();
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
-            ExecuteEntitysCommands();
-            //CreateDataBaseFromCode();
+            try
+            {
+                Teste();
+                //ExecuteInsert();
+                //ExecuteEntitysCommands();
+                //CreateDataBaseFromCode();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void Teste()
+        {
+            ContextNew contextNew = new ContextNew();
+            //ContextNew contextNew1 = new ContextNew();
+            contextNew.AddContext(LOCAL, sqlite, new User());
+            //contextNew.AddContext(SERVER, mysql, new User());
+
+            User user = new() { IdUser = 1, Email = "will@will.com", Name = "willian", Flag = false };
+            User User1 = new() { IdUser = 1, Email = "w@w.com", Name = "will", Flag = false };
+
+            //var v = Address.Inserts(new Address()).ToString(sqlite);
+            var v1 = user.Insert().ToString();
+
+            //string erro;
+            //User user = null;
+            //if (user.Existe() is (false, var mensagem))
+            //    erro = mensagem;
         }
 
         public void CreateDataBaseFromCode()
-		{
+        {
             Sqlite sqlite = new("IpAddress", "DataBaseName", "UserName", "Password");
 
             Context.AddContext(LOCAL, sqlite);
@@ -42,12 +85,32 @@ namespace Teste
                     //.ToString(sqlite);
                     .Execute();
 
-                
+
         }
-		public void CreateModelsFromDataBase()
-		{
-			
-		}
+        public void CreateModelsFromDataBase()
+        {
+
+        }
+        private void ExecuteInsert()
+        {
+            //Context.AddContext(LOCAL, sqlite, new User());
+            //Context.AddContext(SERVER, new Mysql("", "", "", ""),new User());
+            Context.PrintCommandsInConsole = true;
+            Context.BeginTransaction();
+
+            User user = new() { IdUser = 1, Email = "will@will.com", Name = "willian", Flag = false };
+            User User1 = new() { IdUser = 1, Email = "w@w.com", Name = "will", Flag = false };
+            //var v1 = User.Inserts(user, User1).ToString();
+            //var v2 = user.Insert().ToString(SERVER);
+            //var v3 = user.Insert().ToString(sqlite);
+
+            var v = user.Insert().ToString();
+            //user.Insert().Execute(LOCAL);
+            //user.Insert().Execute(sqlite);
+
+            Context.RollbackTransaction();
+            //Context.CommitTransaction();
+        }
 
         private void ExecuteEntitysCommands()
         {
@@ -66,13 +129,13 @@ namespace Teste
             Context.AddContext(SERVER, new Mysql("", "", "", ""), new User());
 
             string s = User.Inserts(user).ToString();
-            user.Insert();
-            user.Insert().Execute();
-            user.Insert().Execute(LOCAL);
-            user.Insert().Execute(sqlite);
+            //user.Insert();
+            //user.Insert().Execute();
+            //user.Insert().Execute(LOCAL);
+            //user.Insert().Execute(sqlite);
 
-            user.Update().Execute();
-            User.Updates(new User() { Name = "Updade", Email = "update@update.com" }).Where(w => w.IdUser == 1 && (w.Name == "Will" || w.Flag == false)).Execute();
+            //user.Update().Execute();
+            s = User.Updates(new User() { Name = "Updade", Email = "update@update.com" }).Where(w => w.IdUser == 1 && (w.Name == "Will" || w.Flag == false)).ToString();
             //User.Updates(new User() { Name = "Updade", Email = "update@update.com" }).Where(w => w.Name.Contains("Will")).Execute();
 
             user.Delete().Execute();
@@ -224,38 +287,51 @@ namespace Teste
         }
 
         public object ExecuteCoroutine(Expression<Func<object>> callbackExpression)
-		{
-			var methodCall = callbackExpression.Body as MethodCallExpression;
-			if (methodCall != null)
-			{
-				string methodName = methodCall.Method.Name;
-				var v1 = methodCall.Method.DeclaringType.Name;
-			}
-			
-
-			return true;
-		}
-		private string ExecuteCoroutine(Expression<Action> callbackExpression)
-		{
-			var v3 = callbackExpression.Name;
-            var methodCall = callbackExpression.Body as MethodCallExpression;
-			if (methodCall != null)
-			{
-				string methodName = methodCall.Method.Name;
-				var v1 = methodCall.Method.DeclaringType.Name;
-			}
-
-			return "";
-		}
-		public void ExecuteCoroutine(Action action, object[] methodParameters = null)
-		{
-			var v = action.Method.Name;
-			var v1 = action.Method.DeclaringType.Name;
-		}
-
-        public bool Teste()
         {
+            var methodCall = callbackExpression.Body as MethodCallExpression;
+            if (methodCall != null)
+            {
+                string methodName = methodCall.Method.Name;
+                var v1 = methodCall.Method.DeclaringType.Name;
+            }
+
+
             return true;
         }
+        private string ExecuteCoroutine(Expression<Action> callbackExpression)
+        {
+            var v3 = callbackExpression.Name;
+            var methodCall = callbackExpression.Body as MethodCallExpression;
+            if (methodCall != null)
+            {
+                string methodName = methodCall.Method.Name;
+                var v1 = methodCall.Method.DeclaringType.Name;
+            }
+
+            return "";
+        }
+        public void ExecuteCoroutine(Action action, object[] methodParameters = null)
+        {
+            var v = action.Method.Name;
+            var v1 = action.Method.DeclaringType.Name;
+        }
+    }
+
+    public static class Extension
+    {
+        public static (bool resultado, string mensagem) Existe<T>(this T objeto) where T : IEntity
+        {
+            if(objeto == null)
+                return (false, Erro.EntidadeNaoEncontrada<T>());
+
+            return (true, "");
+        }
+    }
+    public class Erro
+    {
+        public static string EntidadeNaoEncontrada<T>() where T : IEntity =>
+            $"{nameof(T)} não encontrado";
+        public static string EntidadeNaoEncontrada<T, P>(Expression<Func<T, P>> propriedade, string valor) where T : IEntity =>
+            $"{nameof(T)} de {propriedade} {valor} não encontrado";
     }
 }

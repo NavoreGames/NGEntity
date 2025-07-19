@@ -5,13 +5,12 @@ namespace NGEntity.Exceptions
 {
     public class ContextAlreadyExists : NGException
     {
-        public ContextAlreadyExists(string header, string message) : base(header, message, "") { }
-        public ContextAlreadyExists(string message) : base("", message) { }
+        public ContextAlreadyExists(string alias) : base("Context already exists", $"Context with alias {alias} already exists") { }
+        public ContextAlreadyExists() : base("Context already exists", "One context already be created") { }
     }
     public class ContextNotExists : NGException
     {
-        public ContextNotExists(string header, string message) : base(header, message, "") { }
-        public ContextNotExists(string message) : base("", message) { }
+        public ContextNotExists(string alias) : base("Context not exists", $"Context with alias {alias} not exists") { }
     }
     public class ContextAreMany : NGException
     {
@@ -22,7 +21,17 @@ namespace NGEntity.Exceptions
     {
         public CommandNotExists(string header, string message) : base(header, message, "") { }
         public CommandNotExists(string message) : base("", message) { }
+        public CommandNotExists(Guid identifier) : base("Command not exists", $"Command {identifier} not exists or not found") { }
+        
     }
+    public class CommandNotGenerated : NGException
+    {
+        public CommandNotGenerated() : 
+            base("cannot generate the command", 
+                 "context not initialized or entity not registered in no context",
+                 "initialize the context and register the entity or use the overload passing the connection") { }
+    }
+
     public class TypeNotExistInContext : NGException
     {
         public TypeNotExistInContext(string header, string message) : base(header, message, "") { }
@@ -32,5 +41,11 @@ namespace NGEntity.Exceptions
     {
         public TypeInToManyContext(string header, string message) : base(header, message, "") { }
         public TypeInToManyContext(string message) : base("", message) { }
+    }
+    public class ContextNotInitialize : NGException
+    {
+        public ContextNotInitialize(string header, string message) : base(header, message, "") { }
+        public ContextNotInitialize(string message) : base("", message) { }
+        public ContextNotInitialize() : base("", "") { }
     }
 }

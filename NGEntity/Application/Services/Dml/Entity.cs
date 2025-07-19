@@ -2,6 +2,7 @@
 using NGEntity.Domain;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.ComponentModel;
+using NGConnection.Domain.Models;
 //using NGEntity.Application.Interfaces;
 
 
@@ -9,49 +10,74 @@ namespace NGEntity
 {
     //public abstract class Entity<TSource> where TSource : Entity<TSource>, new()
     //[AddINotifyPropertyChangedInterface]
-	public abstract class Entity<TSource> : ObservableObject where TSource : IEntity, new()
+    public abstract class Entity<TSource> : ObservableObject, IEntity
+        where TSource : IEntity, new()
     {
-        //public event PropertyChangedEventHandler PropertyChanged;
-        //[DoNotNotify]
-        public CommandType CommandObject { get; private set; }
-        //[DoNotNotify]
-        public Dictionary<string, CommandType> CommandFields { get; private set; }
-  
-        public Entity() { CommandFields = []; }
-        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        //      //public event PropertyChangedEventHandler PropertyChanged;
+        //      //[DoNotNotify]
+        //      public CommandType CommandObject { get; private set; }
+        //      //[DoNotNotify]
+        //      public Dictionary<string, CommandType> CommandFields { get; private set; }
+        //      public Entity() { CommandFields = []; }
+
+        //      protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        //      {
+        //          string s = "";
+        //      }
+        //      protected void OnPropertyChanged(string propertyName, object before, object after)
+        //{
+        //          Console.WriteLine(propertyName);
+        //          CommandObject = DmlCommandType.Update;
+        //          if (CommandFields.ContainsKey(propertyName))
+        //              CommandFields.Add(propertyName, DmlCommandType.Update);
+        //          else
+        //              CommandFields[propertyName] = DmlCommandType.Update;
+
+
+        //          // do something with before/after
+        //          //var propertyChanged = PropertyChanged;
+        //          //if (propertyChanged != null)
+        //          //{
+        //          //	propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        //          //}
+        //      }
+
+        protected static TTarget MapOne<TTarget>(
+            Expression<Func<TTarget, object>> targeRelation, Expression<Func<TSource, object>> sourceRelation)
+                where TTarget : IEntity, new()
         {
-            string s = "";
+            return default;
+        }
+        protected static TTarget MapOne<TTarget>(
+            params (Expression<Func<TTarget, object>> targeRelation, Expression<Func<TSource, object>> sourceRelation)[] relations)
+                where TTarget : IEntity, new()
+        {
+            return default;
+        }
+        protected static IEnumerable<TTarget> MapMany<TTarget>(
+             Expression<Func<TTarget, object>> targeRelation, Expression<Func<TSource, object>> sourceRelation)
+                where TTarget : IEntity, new()
+        {
+            return default;
+        }
+        protected static IEnumerable<TTarget> MapMany<TTarget>(
+            params (Expression<Func<TTarget, object>> targeRelation, Expression<Func<TSource, object>> sourceRelation)[] relations)
+                where TTarget : IEntity, new()
+        {
+            return default;
         }
 
-        protected void OnPropertyChanged(string propertyName, object before, object after)
-		{
-            Console.WriteLine(propertyName);
-            CommandObject = DmlCommandType.Update;
-            if (CommandFields.ContainsKey(propertyName))
-                CommandFields.Add(propertyName, DmlCommandType.Update);
-            else
-                CommandFields[propertyName] = DmlCommandType.Update;
-
-
-            // do something with before/after
-            //var propertyChanged = PropertyChanged;
-            //if (propertyChanged != null)
-            //{
-            //	propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            //}
-        }
-
-        public ICommandCommit Insert() =>
-           new EntityDml<TSource>().Insert((TSource)(IEntity)this);
-        public static ICommandCommit Inserts(TSource firstEntity, params TSource[] otherEntities) =>
+        public ICommandExecute Insert() =>
+            new EntityDml<TSource>().Insert((TSource)(IEntity)this);
+        public static ICommandExecute Inserts(TSource firstEntity, params TSource[] otherEntities) =>
             new EntityDml<TSource>().Insert(firstEntity, otherEntities);
 
-        public ICommandCommit Update() =>
+        public ICommandExecute Update() =>
             new EntityDml<TSource>().Update((TSource)(IEntity)this);
         public static IEntityWhere<TSource> Updates(TSource fields) =>
           new EntityDml<TSource>().Updates(fields);
 
-        public ICommandCommit Delete() =>
+        public ICommandExecute Delete() =>
            new EntityDml<TSource>().Delete((TSource)(IEntity)this);
         public static IEntityWhere<TSource> Deletes() =>
           new EntityDml<TSource>().Deletes();

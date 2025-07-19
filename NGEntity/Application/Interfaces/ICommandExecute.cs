@@ -3,14 +3,13 @@ using NGConnection.Interfaces;
 
 namespace NGEntity.Interfaces
 {
-	public interface ICommandCommit
+	public interface ICommandExecute
     {
         string ToString(IConnection connection);
-        string ToString(string connectionAlias);
+        string ToString(string contextAlias);
         string ToString();
 
         bool Execute(IConnection connection);
-        bool Execute(string connectionAlias);
         bool Execute();
     }
 }

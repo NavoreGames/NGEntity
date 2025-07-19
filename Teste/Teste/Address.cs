@@ -1,10 +1,9 @@
-﻿using NGEntity.Attributes;
+﻿using NGConnection.Attributes;
 using NGEntity.Interfaces;
 
 namespace NGEntity
 {
-	[Primarykey("IdAddress")]
-	public class Address : Entity<Address>, IEntity
+	public class Address : Entity<Address>
 	{
 		public int? IdAddress { get; set; }
 		public string Street { get; set; }

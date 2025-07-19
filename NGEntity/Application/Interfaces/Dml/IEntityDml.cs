@@ -3,11 +3,12 @@ using System;
 
 namespace NGEntity.Interfaces;
 
-public interface IEntityDml<TSource>
+public interface IEntityDml<TSource> 
+    where TSource : IEntity
 {
-    ICommandCommit Insert(TSource firstEntity, params TSource[] otherEntities);
-    ICommandCommit Update(TSource entity);
+    ICommandExecute Insert(TSource firstEntity, params TSource[] otherEntities);
+    ICommandExecute Update(TSource entity);
     IEntityWhere<TSource> Updates(TSource entity);
-    ICommandCommit Delete(TSource entity);
+    ICommandExecute Delete(TSource entity);
     IEntityWhere<TSource> Deletes();
 }

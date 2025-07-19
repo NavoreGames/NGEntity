@@ -1,27 +1,28 @@
 ﻿namespace NGEntity
 {
     internal class EntityDml<TSource> : CommandData, IEntityDml<TSource>
+        where TSource : IEntity
     {
         internal EntityDml() { }
 
-        public ICommandCommit Insert(TSource firstEntity, params TSource[] otherEntities)
+        public ICommandExecute Insert(TSource firstEntity, params TSource[] otherEntities)
         {
             if (firstEntity == null || (otherEntities != null && otherEntities.Any(a => a == null)))
                 throw new ArgumentNullException(firstEntity.GetType().ToString());
             ////// UNE AS ENTIDADES EM UMA LISTA ///////
             List<TSource> sources = new(otherEntities);
+            sources.Insert(0, firstEntity);
             ////// CRIAR E ADICIONAR O COMANDO CONFORME CONTEXTO ///////////
             Guid identifier = Guid.NewGuid();
             foreach (TSource source in sources.OrderBy(o => o.GetType()))
             {
-                Insert Insert = new Insert(identifier);
-                Insert.SetValues((IEntity)source);
-                Context.AddCommand(source.GetType(), Insert);
+                Insert insert = new(identifier, source);
+                CommandHandle.RaiseOnCreateCommand(insert);
             }
 
-            return new CommandCommit(identifier);
+            return new CommandExecuteQuery(identifier);
         }
-        public ICommandCommit Update(TSource entity) 
+        public ICommandExecute Update(TSource entity) 
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -31,7 +32,7 @@
 
             Context.AddCommand(entity.GetType(), update);
 
-            return new CommandCommit(update.Identifier);
+            return new CommandExecuteQuery(update.Identifier);
         }
         public IEntityWhere<TSource> Updates(TSource entity)  
         {
@@ -45,7 +46,7 @@
 
             return new EntityWhere<TSource>(update.Identifier);
         }
-        public ICommandCommit Delete(TSource entity)
+        public ICommandExecute Delete(TSource entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -55,7 +56,7 @@
 
             Context.AddCommand(entity.GetType(), delete);
 
-            return new CommandCommit(delete.Identifier);
+            return new CommandExecuteQuery(delete.Identifier);
         }
         public IEntityWhere<TSource> Deletes()
         {

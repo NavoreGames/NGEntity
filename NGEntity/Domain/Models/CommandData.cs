@@ -9,7 +9,7 @@ public abstract class CommandData
     internal CommandData() { }
     internal CommandData(Guid identifier) { Identifier = identifier; }
 
-    public override string ToString() => Context.GetQuery(Identifier);
-    public string ToString(IConnection connection) => Context.GetQuery(Identifier, connection);
-    public string ToString(string connectionAlias) => Context.GetQuery(Identifier, connectionAlias);
+    public override string ToString() => CommandHandle.RaiseOnGetCommand(Identifier, null,null);
+    public string ToString(IConnection connection) => CommandHandle.RaiseOnGetCommand(Identifier, null, connection);
+    public string ToString(string contextAlias) => CommandHandle.RaiseOnGetCommand(Identifier, contextAlias, null);
 }

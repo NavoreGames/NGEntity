@@ -6,21 +6,27 @@ public abstract class EntityWhere : CommandData
 {
     internal EntityWhere(Guid Identifier) : base(Identifier) { }
 
-    public bool Execute(IConnection connection) => new CommandCommit(Identifier).Execute(connection);
-    public bool Execute(string contextAlias) => new CommandCommit(Identifier).Execute(contextAlias);
-    public bool Execute() => new CommandCommit(Identifier).Execute();
+    public bool Execute(IConnection connection) => new CommandExecuteQuery(Identifier).Execute(connection);
+    public bool Execute() => new CommandExecuteQuery(Identifier).Execute();
 }
 public class EntityWhere<TSource1> :
     EntityWhere, IEntityWhere<TSource1>
 {
     internal EntityWhere(Guid Identifier) : base(Identifier) { }
 
-    public ICommandCommit Where(Expression<Func<TSource1, bool>> expression)
+    public ICommandExecute Where(Expression<Func<TSource1, bool>> expression)
     {
-        Where Where = new();
-        Where.SetValues(expression);
+        Context
+            .GetCommands(Identifier)
+            .ForEach(command =>
+            {
+                if(command is Update update)
+                    update.Where.SetValues(expression);
+                else if (command is Delete delete)
+                    delete.Where.SetValues(expression);
+            });
 
-        return new CommandCommit(Identifier);
+        return new CommandExecuteQuery(Identifier);
     }
 }
 public class EntityWhere<TSource1, TSource2> : 
@@ -28,7 +34,7 @@ public class EntityWhere<TSource1, TSource2> :
 {
     internal EntityWhere(Guid Identifier) : base(Identifier) { }
 
-    public ICommandCommit Where(Expression<Func<TSource1, TSource2, bool>> expression)
+    public ICommandExecute Where(Expression<Func<TSource1, TSource2, bool>> expression)
     {
         //if (Command != null)
         //{
@@ -36,7 +42,7 @@ public class EntityWhere<TSource1, TSource2> :
         //	Command.Command.ToList().ForEach(f => { ((ICommandDml)f).Where = contextData.Dba.Where(expression); });
         //}
 
-        return new CommandCommit(Identifier);
+        return new CommandExecuteQuery(Identifier);
     }
 }
 public class EntityWhere<TSource1, TSource2, TSource3> : 
@@ -44,7 +50,7 @@ public class EntityWhere<TSource1, TSource2, TSource3> :
 {
     internal EntityWhere(Guid Identifier) : base(Identifier) { }
 
-    public ICommandCommit Where(Expression<Func<TSource1, TSource2, TSource3, bool>> expression)
+    public ICommandExecute Where(Expression<Func<TSource1, TSource2, TSource3, bool>> expression)
     {
         //if (Command != null)
         //{
@@ -52,7 +58,7 @@ public class EntityWhere<TSource1, TSource2, TSource3> :
         //	Command.Command.ToList().ForEach(f => { ((ICommandDml)f).Where = contextData.Dba.Where(expression); });
         //}
 
-        return new CommandCommit(Identifier);
+        return new CommandExecuteQuery(Identifier);
     }
 }
 public class EntityWhere<TSource1, TSource2, TSource3, TSource4> : 
@@ -60,7 +66,7 @@ public class EntityWhere<TSource1, TSource2, TSource3, TSource4> :
 {
     internal EntityWhere(Guid Identifier) : base(Identifier) { }
 
-    public ICommandCommit Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, bool>> expression)
+    public ICommandExecute Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, bool>> expression)
     {
         //if (Command != null)
         //{
@@ -68,7 +74,7 @@ public class EntityWhere<TSource1, TSource2, TSource3, TSource4> :
         //	Command.Command.ToList().ForEach(f => { ((ICommandDml)f).Where = contextData.Dba.Where(expression); });
         //}
 
-        return new CommandCommit(Identifier);
+        return new CommandExecuteQuery(Identifier);
     }
 }
 public class EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5> : 
@@ -76,7 +82,7 @@ public class EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5> :
 {
     internal EntityWhere(Guid Identifier) : base(Identifier) { }
 
-    public ICommandCommit Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, bool>> expression)
+    public ICommandExecute Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, bool>> expression)
     {
         //if (Command != null)
         //{
@@ -84,7 +90,7 @@ public class EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5> :
         //	Command.Command.ToList().ForEach(f => { ((ICommandDml)f).Where = contextData.Dba.Where(expression); });
         //}
 
-        return new CommandCommit(Identifier);
+        return new CommandExecuteQuery(Identifier);
     }
 }
 public class EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6> : 
@@ -92,7 +98,7 @@ public class EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5, TSour
 {
     internal EntityWhere(Guid Identifier) : base(Identifier) { }
 
-    public ICommandCommit Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, bool>> expression)
+    public ICommandExecute Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, bool>> expression)
     {
         //if (Command != null)
         //{
@@ -100,7 +106,7 @@ public class EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5, TSour
         //	Command.Command.ToList().ForEach(f => { ((ICommandDml)f).Where = contextData.Dba.Where(expression); });
         //}
 
-        return new CommandCommit(Identifier);
+        return new CommandExecuteQuery(Identifier);
     }
 }
 public class EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, TSource7> : 
@@ -108,7 +114,7 @@ public class EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5, TSour
 {
     internal EntityWhere(Guid Identifier) : base(Identifier) { }
 
-    public ICommandCommit Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, TSource7, bool>> expression)
+    public ICommandExecute Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, TSource7, bool>> expression)
     {
         //if (Command != null)
         //{
@@ -116,7 +122,7 @@ public class EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5, TSour
         //	Command.Command.ToList().ForEach(f => { ((ICommandDml)f).Where = contextData.Dba.Where(expression); });
         //}
 
-        return new CommandCommit(Identifier);
+        return new CommandExecuteQuery(Identifier);
     }
 }
 public class EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, TSource7, TSource8> : 
@@ -124,7 +130,7 @@ public class EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5, TSour
 {
     internal EntityWhere(Guid Identifier) : base(Identifier) { }
 
-    public ICommandCommit Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, TSource7, TSource8, bool>> expression)
+    public ICommandExecute Where(Expression<Func<TSource1, TSource2, TSource3, TSource4, TSource5, TSource6, TSource7, TSource8, bool>> expression)
     {
         //if (Command != null)
         //{
@@ -132,6 +138,6 @@ public class EntityWhere<TSource1, TSource2, TSource3, TSource4, TSource5, TSour
         //	Command.Command.ToList().ForEach(f => { ((ICommandDml)f).Where = contextData.Dba.Where(expression); });
         //}
 
-        return new CommandCommit(Identifier);
+        return new CommandExecuteQuery(Identifier);
     }
 }
