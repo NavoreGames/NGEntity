@@ -13,7 +13,7 @@ namespace NGEntity
     internal static class ContextHandle
     {
         private static ContextNew Context { get; set; }
-        private static readonly Dictionary<Guid, ICommand> commands = [];
+        private static readonly List<ICommand> commands = [];
 
         internal static void OnCreateContext(ContextNew context)
         {
@@ -36,7 +36,7 @@ namespace NGEntity
                     Context.AddCommand(connectionAlias, command);
             }
             else
-                commands.TryAdd(command.Identifier, command);
+                commands.Add(command);
         }
 
         private static string OnGetCommand(Guid identifier, string contextAlias, IConnection connection)
@@ -50,21 +50,21 @@ namespace NGEntity
         }
         private static string OnGetCommand(Guid identifier, string contextAlias)
         {
-            if (commands.TryGetValue(identifier, out ICommand command))
-                return Context.GetQuery(command, contextAlias);
+            if (commands.Any(a=> a.Identifier == identifier))
+                return Context.GetQuery(commands.Where(w => w.Identifier == identifier), contextAlias);
 
             return Context.GetQuery(identifier, contextAlias);
         }
         private static string OnGetCommand(Guid identifier, IConnection connection)
         {
-            if(commands.TryGetValue(identifier, out ICommand value))
-                return Context.GetQuery(value, connection);
+            if (commands.Any(a => a.Identifier == identifier))
+                return Context.GetQuery(commands.Where(w => w.Identifier == identifier), connection);
 
             return Context.GetQuery(identifier, connection);
         }
         private static string OnGetCommand(Guid identifier)
         {
-            if (commands.ContainsKey(identifier))
+            if (commands.Any(a => a.Identifier == identifier))
                 throw new CommandNotGenerated();
 
             return Context.GetQuery(identifier);
@@ -81,21 +81,21 @@ namespace NGEntity
         }
         private static bool OnExecuteCommand(Guid identifier, string contextAlias)
         {
-            if (commands.TryGetValue(identifier, out ICommand command))
-                return Context.ExecuteNonQuery(command, contextAlias);
+            if (commands.Any(a => a.Identifier == identifier))
+                return Context.ExecuteNonQuery(commands.Where(w => w.Identifier == identifier), contextAlias);
 
             return Context.ExecuteNonQuery(identifier, contextAlias);
         }
         private static bool OnExecuteCommand(Guid identifier, IConnection connection)
         {
-            if (commands.TryGetValue(identifier, out ICommand value))
-                return Context.ExecuteNonQuery(value, connection);
+            if (commands.Any(a => a.Identifier == identifier))
+                return Context.ExecuteNonQuery(commands.Where(w => w.Identifier == identifier), connection);
 
             return Context.ExecuteNonQuery(identifier, connection);
         }
         private static bool OnExecuteCommand(Guid identifier)
         {
-            if (commands.ContainsKey(identifier))
+            if (commands.Any(a => a.Identifier == identifier))
                 throw new CommandNotGenerated();
 
             return Context.ExecuteNonQuery(identifier);

@@ -57,10 +57,11 @@ namespace Teste
             //contextNew.AddContext(SERVER, mysql, new User());
 
             User user = new() { IdUser = 1, Email = "will@will.com", Name = "willian", Flag = false };
-            User User1 = new() { IdUser = 1, Email = "w@w.com", Name = "will", Flag = false };
+            User user1 = new() { IdUser = 1, Email = "w@w.com", Name = "will", Flag = false };
 
             //var v = Address.Inserts(new Address()).ToString(sqlite);
-            var v1 = user.Insert().ToString();
+            //var v1 = user.Insert().ToString();
+            var v2 = User.Inserts(user, user1).ToString();
 
             //string erro;
             //User user = null;
